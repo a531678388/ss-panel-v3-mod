@@ -31,11 +31,6 @@
                                             </div>
                                             <div class="card-inner">
                                                 <form action="javascript:void(0);"  method="POST">
-                                                    <p class="text-center">
-                                                        <span class="avatar avatar-inline avatar-lg">
-                                                            <img alt="Login" src="/theme/material/images/users/avatar-001.jpg">
-                                                        </span>
-                                                    </p>
 
                                                     <div class="form-group form-group-label">
                                                         <div class="row">
@@ -86,7 +81,7 @@
                                                             <div class="col-md-10 col-md-push-1">
                                                                 <div class="checkbox checkbox-adv">
                                                                     <label for="remember_me">
-                                                                        <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox">记住我
+                                                                        <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox" checked>记住我
                                                                         <span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span class="checkbox-circle-icon icon">done</span>
                                                                     </label>
                                                                 </div>
@@ -108,8 +103,8 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>正在载入，如果长时间未显示请刷新页面或检查代理网络</p>
-                                                <div id="telegram-login-box"></div>
+                                                <p>正在载入，如果长时间未显示登录插件请刷新页面或检查代理网络</p>
+                                                <div class="text-center" id="telegram-login-box"></div>
                                             </div>
                                         </div>
                                     </div>
