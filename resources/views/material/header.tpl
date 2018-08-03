@@ -64,6 +64,9 @@
 						<a  href="/use_policy.html"><i class="icon icon-lg">text_format</i>&nbsp;AUP</a>
 					</li>
 					<li>
+						<a  href="/client.html" target="_blank"><i class="icon icon-lg">library_books</i>&nbsp;软件中心</a>
+					</li>
+					<li>
 						<a  href="https://docs.lhie1.com/black-hole" target="_blank"><i class="icon icon-lg">library_books</i>&nbsp;文档中心</a>
 					</li>
 					<li>
@@ -77,12 +80,6 @@
 						<a  href="/user/logout"><i class="icon icon-lg">call_missed_outgoing</i>&nbsp;退出</a>
 					</li>
 					{else}
-					<li>
-						<a  href="/auth/login"><i class="icon icon-lg">vpn_key</i>&nbsp;登录</a>
-					</li>
-					<li>
-						<a  href="/auth/register"><i class="icon icon-lg">create</i>&nbsp;注册</a>
-					</li>
 					<li>
 						<a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;忘记密码</a>
 					</li>

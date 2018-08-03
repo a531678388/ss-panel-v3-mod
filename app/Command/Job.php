@@ -128,12 +128,12 @@ class Job
             }
         }
 
-        NodeInfoLog::where("log_time", "<", time()-86400*3)->delete();
-        NodeOnlineLog::where("log_time", "<", time()-86400*3)->delete();
-        TrafficLog::where("log_time", "<", time()-86400*3)->delete();
-        DetectLog::where("datetime", "<", time()-86400*3)->delete();
-        Speedtest::where("datetime", "<", time()-86400*3)->delete();
-        EmailVerify::where("expire_in", "<", time()-86400*3)->delete();
+        NodeInfoLog::where("log_time", "<", time()-86400)->delete();
+        NodeOnlineLog::where("log_time", "<", time()-86400)->delete();
+        TrafficLog::where("log_time", "<", time()-86400)->delete();
+        DetectLog::where("datetime", "<", time()-86400)->delete();
+        Speedtest::where("datetime", "<", time()-86400)->delete();
+        EmailVerify::where("expire_in", "<", time()-86400)->delete();
         system("rm ".BASE_PATH."/storage/*.png", $ret);
 
         //auto reset

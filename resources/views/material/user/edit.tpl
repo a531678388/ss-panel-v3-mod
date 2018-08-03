@@ -201,7 +201,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">Telegram 绑定</p>
-										<p>Telegram 添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
+										<p>绑定 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，拍下下面这张二维码发给它。</p>
 										<div class="form-group form-group-label">
 											<div class="text-center">
 												<div id="telegram-qr"></div>

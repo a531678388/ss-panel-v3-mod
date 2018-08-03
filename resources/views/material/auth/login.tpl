@@ -52,7 +52,7 @@
                                                     <div class="form-group form-group-label">
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-push-1">
-                                                                <label class="floating-label" for="code">两步验证码(没有就别填)</label>
+                                                                <label class="floating-label" for="code">Google Authenticator（未绑定请留空）</label>
                                                                 <input class="form-control" id="code" type="text" placeholder="没有就别填">
                                                             </div>
                                                         </div>
@@ -103,7 +103,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>正在载入，如果长时间未显示登录插件请刷新页面或检查代理网络</p>
+                                                <p>如果长时间未显示登录插件请刷新页面或检查代理网络</p>
                                                 <div class="text-center" id="telegram-login-box"></div>
                                             </div>
                                         </div>
@@ -117,7 +117,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的验证码给它。</p>
+                                                <p>绑定 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的验证码给它。</p>
                                                 <div class="form-group form-group-label">
                                                     <div class="text-center">
                                                         <h1><code id="code_number">{$login_number}</code></h1>
@@ -135,7 +135,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>添加机器人账号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的二维码发给它。</p>
+                                                <p>绑定机器人帐号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的二维码发给它。</p>
                                                 <div class="form-group form-group-label">
                                                     <div class="text-center">
                                                         <div id="telegram-qr"></div>
@@ -153,7 +153,7 @@
 
                         <div class="clearfix">
                             <p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/password/reset">忘记密码</a></p>
-                            <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach" href="/auth/register">注册个帐号</a></p>
+                            <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach" href="/auth/register">注册帐号</a></p>
                         </div>
 
 
@@ -296,8 +296,8 @@ $(document).ready(function () {
 
                 } else {
                     if(data.ret == -1){
-                        jQuery('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试。');
-                        jQuery('#code_number').replaceWith('<code id="code_number">此数字已经过期，请刷新页面后重试。</code>');
+                        jQuery('#telegram-qr').replaceWith('此二维码已经过期，请刷新页面后重试');
+                        jQuery('#code_number').replaceWith('此验证码已经过期，请刷新页面后重试');
                     }
                 }
             },
