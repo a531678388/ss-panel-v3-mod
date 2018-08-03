@@ -101,11 +101,12 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">Telegram 快捷登录</h1>
+                                                    <h1 class="card-heading"
+                                                        style=" text-align:center;font-weight:bold;">Telegram 快捷登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>如果你看不到下面的登录插件，请检查你与 Telegram 的网络连接。</p>
+                                                <p>正在载入 Telegram，如果长时间未显示请刷新页面或检查代理</p>
                                                 <div id="telegram-login-box"></div>
                                             </div>
                                         </div>
@@ -115,7 +116,8 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">验证码登录</h1>
+                                                    <h1 class="card-heading"
+                                                        style=" text-align:center;font-weight:bold;">验证码登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
@@ -133,7 +135,8 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">二维码登录</h1>
+                                                    <h1 class="card-heading"
+                                                        style=" text-align:center;font-weight:bold;">二维码登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
