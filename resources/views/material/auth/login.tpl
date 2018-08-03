@@ -103,7 +103,6 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>如果长时间未显示登录插件请刷新页面或检查代理网络</p>
                                                 <div class="text-center" id="telegram-login-box"></div>
                                             </div>
                                         </div>
