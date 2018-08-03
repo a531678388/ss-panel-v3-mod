@@ -2,60 +2,63 @@
 
 
 <main class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
-                <section class="content-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-lg-push-4 col-sm-6 col-sm-push-3">
+                    <section class="content-inner">
 
-                    <nav class="tab-nav margin-top-no">
-                        <ul class="nav nav-justified">
-                            <li class="active">
-                                <a class="waves-attach" data-toggle="tab" href="#passwd_login">普通登录</a>
-                            </li>
-                            {if $config['enable_telegram'] == 'true'}
-                                <li>
-                                    <a class="waves-attach" data-toggle="tab" href="#number_login">快捷登录</a>
+                        <nav class="tab-nav margin-top-no">
+                            <ul class="nav nav-justified">
+                                <li class="active">
+                                    <a class="waves-attach" data-toggle="tab" href="#passwd_login">账号密码登录</a>
                                 </li>
-                            {/if}
-                        </ul>
-                    </nav>
-                    <div class="card-inner">
-                        <div class="tab-content">
-                            <div class="tab-pane fade active in" id="passwd_login">
-                                <div class="card">
-                                    <div class="card-main">
-                                        <div class="card-header">
-                                            <div class="card-inner">
-                                                <h1 class="card-heading" style=" text-align:center;font-weight:bold;">
-                                                    登录到用户中心</h1>
+                                {if $config['enable_telegram'] == 'true'}
+                                <li>
+                                    <a class="waves-attach" data-toggle="tab" href="#telegram_login">Telegram 登录</a>
+                                </li>
+                                {/if}
+                            </ul>
+                        </nav>
+                        <div class="card-inner">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="passwd_login">
+                                    <div class="card">
+                                        <div class="card-main">
+                                            <div class="card-header">
+                                                <div class="card-inner">
+                                                    <h1 class="card-heading">登录到用户中心</h1>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="card-inner">
-                                            <form action="javascript:void(0);" method="POST">
+                                            <div class="card-inner">
+                                                <form action="javascript:void(0);"  method="POST">
+                                                    <p class="text-center">
+                                                        <span class="avatar avatar-inline avatar-lg">
+                                                            <img alt="Login" src="/theme/material/images/users/avatar-001.jpg">
+                                                        </span>
+                                                    </p>
 
-
-                                                <div class="form-group form-group-label">
-                                                    <div class="row">
-                                                        <div class="col-md-10 col-md-push-1">
-                                                            <label class="floating-label" for="email">邮箱</label>
-                                                            <input class="form-control" id="email" type="text" name="Email">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-label">
-                                                    <div class="row">
-                                                        <div class="col-md-10 col-md-push-1">
-                                                            <label class="floating-label" for="passwd">密码</label>
-                                                            <input class="form-control" id="passwd" type="password" name="Password">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group form-group-label">
+                                                    <div class="form-group form-group-label">
                                                         <div class="row">
                                                             <div class="col-md-10 col-md-push-1">
-                                                                <label class="floating-label" for="code">Google Authenticator（未绑定请留空）</label>
-                                                                <input class="form-control" id="code" type="text" placeholder="未绑定请留空">
+                                                                <label class="floating-label" for="email">邮箱</label>
+                                                                <input class="form-control" id="email" type="text" name="Email">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group form-group-label">
+                                                        <div class="row">
+                                                            <div class="col-md-10 col-md-push-1">
+                                                                <label class="floating-label" for="passwd">密码</label>
+                                                                <input class="form-control" id="passwd" type="password" name="Password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group form-group-label">
+                                                        <div class="row">
+                                                            <div class="col-md-10 col-md-push-1">
+                                                                <label class="floating-label" for="code">两步验证码(没有就别填)</label>
+                                                                <input class="form-control" id="code" type="text" placeholder="没有就别填">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -83,7 +86,7 @@
                                                             <div class="col-md-10 col-md-push-1">
                                                                 <div class="checkbox checkbox-adv">
                                                                     <label for="remember_me">
-                                                                        <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox" checked>记住我
+                                                                        <input class="access-hide" value="week" id="remember_me" name="remember_me" type="checkbox">记住我
                                                                         <span class="checkbox-circle"></span><span class="checkbox-circle-check"></span><span class="checkbox-circle-icon icon">done</span>
                                                                     </label>
                                                                 </div>
@@ -155,7 +158,7 @@
 
                         <div class="clearfix">
                             <p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/password/reset">忘记密码</a></p>
-                            <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach" href="/auth/register">注册帐号</a></p>
+                            <p class="margin-no-top pull-right"><a class="btn btn-flat btn-brand waves-attach" href="/auth/register">注册个帐号</a></p>
                         </div>
 
 
