@@ -116,7 +116,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>绑定 Telegram 机器人 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的验证码给它。</p>
+                                                <p>绑定 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的验证码给它</p>
                                                 <div class="form-group form-group-label">
                                                     <div class="text-center">
                                                         <h1><code id="code_number">{$login_number}</code></h1>
@@ -134,7 +134,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>绑定机器人帐号 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的二维码发给它。</p>
+                                                <p>绑定 <a href="https://t.me/{$telegram_bot}">@{$telegram_bot}</a>，发送下面的二维码发给它</p>
                                                 <div class="form-group form-group-label">
                                                     <div class="text-center">
                                                         <div id="telegram-qr"></div>
