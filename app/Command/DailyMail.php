@@ -33,9 +33,9 @@ class DailyMail
             
             if ($user->sendDailyMail==1) {
                 echo "Send daily mail to user: ".$user->id;
-                $subject = Config::get('appName')."-每日流量报告以及公告";
+                $subject = Config::get('appName')." - 流量报告及公告";
                 $to = $user->email;
-                $text = "下面是系统中目前的公告:<br><br>".$text1."<br><br>晚安！";
+                $text = "<br><br>公告:<br><br>".$text1."<br><br>晚安！";
                 
                 
                 try {
@@ -49,7 +49,7 @@ class DailyMail
                 $text="";
             }
         }
-        
+
         $sts = new Analytics();
         
         Telegram::Send("各位老爷少奶奶，我来为大家报告一下系统今天的运行状况哈~".

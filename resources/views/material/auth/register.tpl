@@ -1,7 +1,5 @@
 
-
 {include file='header.tpl'}
-
 
 <main class="content">
 		<div class="container">
@@ -12,15 +10,20 @@
 							<div class="card-main">
 								<div class="card-header">
 									<div class="card-inner">
-										<h1 class="card-heading">和我签订契约，成为魔法少女吧。</h1>
+									<!-- 这里可以取消掉注释换logo图。
+									<h1 class="card-heading"><img src="/images/register.jpg" height=100% width=100% /></h1>
+									-->
+									<h1 class="card-heading">
+										<div class="text" style=" text-align:center;">
+											欢迎来到
+										</div>
+										<div class="text" style=" text-align:center;font-weight: bold;">
+											{$config["appName"]}
+										</div>
+									</h1>
 									</div>
 								</div>
 								<div class="card-inner">
-									<p class="text-center">
-										<span class="avatar avatar-inline avatar-lg">
-											<img alt="Login" src="/theme/material/images/users/avatar-001.jpg">
-										</span>
-									</p>
 									
 										<div class="form-group form-group-label">
 											<div class="row">
@@ -35,7 +38,10 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="email">邮箱</label>
-													<input class="form-control" id="email" type="text">
+													<input class="form-control" id="email" type="text"><br>
+													{if $enable_email_verify == 'true'}
+													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">获取验证码</button>
+													{/if}
 												</div>
 											</div>
 										</div>
@@ -44,9 +50,8 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email_code">邮箱验证码</label>
+													<label class="floating-label" for="email_code">验证码</label>
 													<input class="form-control" id="email_code" type="text">
-													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">获取验证码</button>
 												</div>
 											</div>
 										</div>
@@ -67,6 +72,7 @@
 													<label class="floating-label" for="repasswd">重复密码</label>
 													<input class="form-control" id="repasswd" type="password">
 												</div>
+
 											</div>
 										</div>
 										
@@ -76,11 +82,10 @@
 												<div class="col-md-10 col-md-push-1">
 													<label class="floating-label" for="imtype">选择您的联络方式</label>
 													<select class="form-control" id="imtype">
-														<option></option>
 														<option value="1">微信</option>
 														<option value="2">QQ</option>
 														<option value="3">Google+</option>
-														<option value="4">Telegram</option>
+														<option value="4" selected="selected">Telegram</option>
 													</select>
 												</div>
 											</div>
@@ -102,12 +107,24 @@
 											<div class="form-group form-group-label">
 												<div class="row">
 													<div class="col-md-10 col-md-push-1">
-														<label class="floating-label" for="code">邀请码</label>
+														<label class="floating-label" for="code">邀请码（必填）</label>
 														<input class="form-control" id="code" type="text" value="{$code}">
 													</div>
 												</div>
 											</div>
 										{/if}
+										
+										<div class="form-group form-group-label">
+											<div class="row">
+												<div class="col-md-10 col-md-push-1">
+													<div class="checkbox switch">
+														<label for="surge_user">
+															<input class="access-hide" id="surge_user" name="surge_user" type="checkbox"><span class="switch-toggle"></span>Surge / Surfboard 用户
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
 										
 										{if $geetest_html != null}
 											<div class="form-group form-group-label">
@@ -130,7 +147,7 @@
 										<div class="form-group">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<p>注册即代表同意<a href="/tos">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
+													<p>注册即代表同意<a href="/tos.html">服务条款</a>，以及保证所录入信息的真实性，如有不实信息会导致账号被删除。</p>
 												</div>
 											</div>
 										</div>
@@ -139,7 +156,7 @@
 							</div>
 						</div>
 						<div class="clearfix">
-							<p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/auth/login">已经注册？请登录</a></p>
+							<p class="margin-no-top pull-left"><a class="btn btn-flat btn-brand waves-attach" href="/auth/login">已注册？请登录</a></p>
 						</div>
 						
 						
@@ -158,7 +175,7 @@
 										{include file='reg_tos.tpl'}
 									</div>
 									<div class="modal-footer">
-										<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button" id="cancel">我不服</button><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg" type="button">资慈</button></p>
+										<p class="text-right"><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" type="button" id="cancel">不同意</button><button class="btn btn-flat btn-brand-accent waves-attach waves-effect" data-dismiss="modal" id="reg" type="button">同意</button></p>
 										
 									</div>
 								</div>
@@ -177,20 +194,40 @@
 
 <script>
     $(document).ready(function(){
-        function register(){
-			
-			document.getElementById("tos").disabled = true; 
+         var affid = {$aff};
+
+          function register(){
+            
+          if(!(typeof affid === 'number' && affid%1 === 0)) {
+              $("#result").modal();
+              $("#msg").html("aff不合法");
+
+            return false;
+          }
+
+		 document.getElementById("tos").disabled = true; 
+		 
+		 	if(document.getElementById('surge_user').checked)
+			{
+				var surge_user=1;
+			}
+			else
+			{
+				var surge_user=0;
+			}
 			
             $.ajax({
                 type:"POST",
                 url:"/auth/register",
                 dataType:"json",
                 data:{
+                    aff: affid,
                     email: $("#email").val(),
                     name: $("#name").val(),
                     passwd: $("#passwd").val(),
                     repasswd: $("#repasswd").val(),
 					wechat: $("#wechat").val(),
+					surge_user: surge_user,
 					imtype: $("#imtype").val(){if $enable_invite_code == 'true'},
 					code: $("#code").val(){/if}{if $enable_email_verify == 'true'},
 					emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
@@ -346,9 +383,3 @@ function time(o) {
 </script>
 
 {/if}
-
-
-
-
-
-	

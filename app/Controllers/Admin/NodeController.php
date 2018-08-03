@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Models\Node;
 use App\Utils\Radius;
-use App\Utils\Telegram;
 use App\Utils\Tools;
 use App\Controllers\AdminController;
 
@@ -17,7 +16,7 @@ class NodeController extends AdminController
     {
         $table_config['total_column'] = Array("op" => "操作", "id" => "ID", "name" => "节点名称",
                             "type" => "显示与隐藏", "sort" => "类型",
-                            "server" => "节点地址", "node_ip" => "节点IP",
+                            "server" => "节点地址", "node_ip" => "节点IP", "dns_type" => "DNS 类型", "dns_value" => "DNS 记录",
                             "info" => "节点信息",
                             "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
                             "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
@@ -48,6 +47,8 @@ class NodeController extends AdminController
         $node->traffic_rate = $request->getParam('rate');
         $node->info = $request->getParam('info');
         $node->type = $request->getParam('type');
+        $node->dns_type = $request->getParam('dns_type');
+        $node->dns_value = $request->getParam('dns_value');
         $node->node_group = $request->getParam('group');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
@@ -74,8 +75,6 @@ class NodeController extends AdminController
             $rs['msg'] = "添加失败";
             return $response->getBody()->write(json_encode($rs));
         }
-
-        Telegram::Send("新节点添加~".$request->getParam('name'));
 
         $rs['ret'] = 1;
         $rs['msg'] = "节点添加成功";
@@ -106,6 +105,8 @@ class NodeController extends AdminController
         $node->traffic_rate = $request->getParam('rate');
         $node->info = $request->getParam('info');
         $node->node_speedlimit = $request->getParam('node_speedlimit');
+        $node->dns_type = $request->getParam('dns_type');
+        $node->dns_value = $request->getParam('dns_value');
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
 
@@ -151,8 +152,6 @@ class NodeController extends AdminController
             return $response->getBody()->write(json_encode($rs));
         }
 
-        Telegram::Send("节点信息被修改~".$request->getParam('name'));
-
         $rs['ret'] = 1;
         $rs['msg'] = "修改成功";
         return $response->getBody()->write(json_encode($rs));
@@ -175,8 +174,6 @@ class NodeController extends AdminController
             return $response->getBody()->write(json_encode($rs));
         }
 
-        Telegram::Send("节点被删除~".$name);
-
         $rs['ret'] = 1;
         $rs['msg'] = "删除成功";
         return $response->getBody()->write(json_encode($rs));
@@ -189,7 +186,7 @@ class NodeController extends AdminController
 
         $total_column = Array("op" => "操作", "id" => "ID", "name" => "节点名称",
                               "type" => "显示与隐藏", "sort" => "类型",
-                              "server" => "节点地址", "node_ip" => "节点IP",
+                              "server" => "节点地址", "node_ip" => "节点IP","dns_type" => "DNS 类型", "dns_value" => "DNS 记录",
                               "info" => "节点信息",
                               "status" => "状态", "traffic_rate" => "流量比率", "node_group" => "节点群组",
                               "node_class" => "节点等级", "node_speedlimit" => "节点限速/Mbps",
@@ -225,40 +222,40 @@ class NodeController extends AdminController
             $sort = '';
             switch($data['sort']) {
                 case 0:
-                  $sort = 'Shadowsocks';
-                  break;
+                    $sort = 'Shadowsocks';
+                    break;
                 case 1:
-                  $sort = 'VPN/Radius基础';
-                  break;
+                    $sort = 'VPN/Radius基础';
+                    break;
                 case 2:
-                  $sort = 'SSH';
-                  break;
+                    $sort = 'SSH';
+                    break;
                 case 3:
-                  $sort = 'PAC';
-                  break;
+                    $sort = 'PAC';
+                    break;
                 case 4:
-                  $sort = 'APN文件外链';
-                  break;
+                    $sort = 'APN文件外链';
+                    break;
                 case 5:
-                  $sort = 'Anyconnect';
-                  break;
+                    $sort = 'Anyconnect';
+                    break;
                 case 6:
-                  $sort = 'APN';
-                  break;
+                    $sort = 'APN';
+                    break;
                 case 7:
-                  $sort = 'PAC PLUS(Socks 代理生成 PAC文件)';
-                  break;
+                    $sort = 'PAC PLUS(Socks 代理生成 PAC文件)';
+                    break;
                 case 8:
-                  $sort = 'PAC PLUS PLUS(HTTPS 代理生成 PAC文件)';
-                  break;
+                    $sort = 'PAC PLUS PLUS(HTTPS 代理生成 PAC文件)';
+                    break;
                 case 9:
-                  $sort = 'Shadowsocks - 单端口多用户';
-                  break;
+                    $sort = 'Shadowsocks - 单端口多用户';
+                    break;
                 case 10:
-                  $sort = 'Shadowsocks - 中转';
-                  break;
+                    $sort = 'Shadowsocks - 中转';
+                    break;
                 default:
-                  $sort = '系统保留';
+                    $sort = '系统保留';
             }
             return $sort;
         });
@@ -277,6 +274,33 @@ class NodeController extends AdminController
 
         $datatables->edit('mu_only', function ($data) {
             return $data['mu_only'] == 1 ? '启用' : '关闭';
+        });
+
+        $datatables->edit('dns_type', function ($data) {
+            switch($data['dns_type']){
+                case "1":
+                    $dns_type = "静态 A 记录";
+                    break;
+                case "2":
+                    $dns_type = "动态 CNAME 记录";
+                    break;
+                case "3":
+                    $dns_type = "动态 A 记录";
+                    break;
+                default:
+                    $dns_type = "非使用节点";
+                    break;
+            }
+            return $dns_type;
+        });
+
+        $datatables->edit('dns_value',function ($data){
+            if($data['dns_value']==''){
+                $dns_value = "无";
+            }else{
+                $dns_value = $data['dns_value'];
+            }
+            return $dns_value;
         });
 
         $datatables->edit('node_heartbeat', function ($data) {

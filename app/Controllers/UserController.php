@@ -13,11 +13,13 @@ use App\Models\Shop;
 use App\Models\Coupon;
 use App\Models\Bought;
 use App\Models\Ticket;
+use App\Models\EmailVerify;
 use App\Services\Config;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Utils\Radius;
 use App\Utils\Wecenter;
+use App\Utils\Check;
 use App\Models\RadiusBan;
 use App\Models\DetectLog;
 use App\Models\DetectRule;
@@ -77,12 +79,24 @@ class UserController extends BaseController
 
         $Ann = Ann::orderBy('date', 'desc')->first();
 
+        $surge_url = urlencode(Config::get('apiUrl').'/link/'.$ios_token.'?is_ss=1');
 
-        return $this->view()->assign("ssr_sub_token", $ssr_sub_token)->assign("router_token", $router_token)
-                ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
-                ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
-                ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
-                ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
+        $shadowrocket_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
+        $shadowrocket_url_123 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=123');
+        $shadowrocket_url_30000 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=30000');
+
+        return $this->view()
+        ->assign("surge_url", $surge_url)
+        ->assign("shadowrocket_url_0", $shadowrocket_url_0)
+        ->assign("shadowrocket_url_123", $shadowrocket_url_123)
+        ->assign("shadowrocket_url_30000", $shadowrocket_url_30000)
+                
+        ->assign("ssr_sub_token", $ssr_sub_token)
+        ->assign("router_token", $router_token)
+        ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
+        ->assign('ann', $Ann)->assign('geetest_html', $GtSdk)->assign("ios_token", $ios_token)
+        ->assign('enable_duoshuo', Config::get('enable_duoshuo'))->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
+        ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl');
     }
 
 
@@ -91,7 +105,10 @@ class UserController extends BaseController
     {
         $Speedtest=Speedtest::where("datetime", ">", time()-Config::get('Speedtest_duration')*3600)->orderBy('datetime', 'desc')->get();
 
-        return $this->view()->assign('speedtest', $Speedtest)->assign('hour', Config::get('Speedtest_duration'))->display('user/lookingglass.tpl');
+        return $this->view()
+        ->assign('speedtest', $Speedtest)
+        ->assign('hour', Config::get('Speedtest_duration'))
+        ->display('user/lookingglass.tpl');
     }
 
 
@@ -105,7 +122,10 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+        return $this->view()
+        ->assign('codes', $codes)
+        ->assign('pmw', Pay::getHTML($this->user))
+        ->display('user/code.tpl');
     }
 
 
@@ -128,8 +148,16 @@ class UserController extends BaseController
             }
         )->where("isused", 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/donate');
-        return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
+        return $this->view()
+        ->assign('codes', $codes)
+        ->assign('total_in', Code::where('isused', 1)
+            ->where('type', -1)
+            ->sum('number'))
+        ->assign('total_out', Code::where('isused', 1)
+            ->where('type', -2)->sum('number'))
+        ->display('user/donate.tpl');
     }
+
 
 
     public function code_check($request, $response, $args)
@@ -156,6 +184,7 @@ class UserController extends BaseController
     public function codepost($request, $response, $args)
     {
         $code = $request->getParam('code');
+        $code = trim($code);
         $user = $this->user;
 
 
@@ -305,7 +334,7 @@ class UserController extends BaseController
 
 
         $res['ret'] = 1;
-        $res['msg'] = "设置成功，新端口是".$user->port;
+        $res['msg'] = $user->port;
         return $response->getBody()->write(json_encode($res));
     }
 
@@ -327,7 +356,11 @@ class UserController extends BaseController
         $id = $args['id'];
         $point_node=Node::find($id);
         $prefix=explode(" - ", $point_node->name);
-        return $this->view()->assign('point_node', $point_node)->assign('prefix', $prefix[0])->assign('id', $id)->display('user/nodeajax.tpl');
+        return $this->view()
+        ->assign('point_node', $point_node)
+        ->assign('prefix', $prefix[0])
+        ->assign('id', $id)
+        ->display('user/nodeajax.tpl');
     }
 
 
@@ -360,6 +393,7 @@ class UserController extends BaseController
         $node_heartbeat=array();
         $node_bandwidth=array();
         $node_muport=array();
+        $node_latestload=array();
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
@@ -415,7 +449,7 @@ class UserController extends BaseController
                     }
 
                     if ($node->node_bandwidth_limit==0) {
-                        $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth/1024/1024/1024)." GB / 不限";
+                        $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth/1024/1024/1024)." GB / ∞";
                     } else {
                         $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth/1024/1024/1024)." GB / ".(int)($node->node_bandwidth_limit/1024/1024/1024)." GB - ".$node->bandwidthlimit_resetday." 日重置";
                     }
@@ -436,6 +470,12 @@ class UserController extends BaseController
                     }
                 }
 
+                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
+                    $node_latestload[$temp[0]]=((float)explode(" ", $node_loadtemp)[0])*100;
+                } else {
+                    $node_latestload[$temp[0]]=null;
+                }
+
 
 
 
@@ -446,7 +486,22 @@ class UserController extends BaseController
         $node_prefix=(object)$node_prefix;
         $node_order=(object)$node_order;
         $tools = new Tools();
-        return $this->view()->assign('relay_rules', $relay_rules)->assign('tools', $tools)->assign('node_method', $node_method)->assign('node_muport', $node_muport)->assign('node_bandwidth', $node_bandwidth)->assign('node_heartbeat', $node_heartbeat)->assign('node_prefix', $node_prefix)->assign('node_prealive', $node_prealive)->assign('node_order', $node_order)->assign('user', $user)->assign('node_alive', $node_alive)->display('user/node.tpl');
+        return $this->view()
+        ->assign('relay_rules', $relay_rules)
+        ->assign('node_class', $node_class)
+        ->assign('node_isv6', $node_isv6)
+        ->assign('tools', $tools)
+        ->assign('node_method', $node_method)
+        ->assign('node_muport', $node_muport)
+        ->assign('node_bandwidth', $node_bandwidth)
+        ->assign('node_heartbeat', $node_heartbeat)
+        ->assign('node_prefix', $node_prefix)
+        ->assign('node_prealive', $node_prealive)
+        ->assign('node_order', $node_order)
+        ->assign('user', $user)
+        ->assign('node_alive', $node_alive)
+        ->assign('node_latestload', $node_latestload)
+        ->display('user/node.tpl');
     }
 
 
@@ -467,7 +522,11 @@ class UserController extends BaseController
 
             case 0:
                 if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
+                    return $this->view()
+                    ->assign('node', $node)
+                    ->assign('user', $user)
+                    ->assign('mu', $mu)
+                    ->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
                 }
             break;
 
@@ -477,7 +536,9 @@ class UserController extends BaseController
                     $email=Radius::GetUserName($email);
                     $json_show="VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfovpn.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfovpn.tpl');
                 }
             break;
 
@@ -487,7 +548,9 @@ class UserController extends BaseController
                     $email=Radius::GetUserName($email);
                     $json_show="SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfossh.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfossh.tpl');
                 }
 
             break;
@@ -499,9 +562,11 @@ class UserController extends BaseController
                     $email=Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
                     $token = LinkController::GenerateCode(3, $exp[0], $exp[1], 0, $this->user->id);
-                    $json_show="PAC 信息<br>地址：".Config::get('baseUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show="PAC 信息<br>地址：".Config::get('apiUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopac.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfopac.tpl');
                 }
 
             break;
@@ -512,7 +577,9 @@ class UserController extends BaseController
                     $email=Radius::GetUserName($email);
                     $json_show="APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapn.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfoapn.tpl');
                 }
 
             break;
@@ -524,7 +591,9 @@ class UserController extends BaseController
 
                     $json_show="Anyconnect 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoanyconnect.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfoanyconnect.tpl');
                 }
 
 
@@ -540,9 +609,11 @@ class UserController extends BaseController
                     $token_cnunc = LinkController::GenerateApnCode("3gnet", $exp[0], $exp[1], $this->user->id);
                     $token_ctnet = LinkController::GenerateApnCode("ctnet", $exp[0], $exp[1], $this->user->id);
 
-                    $json_show="APN 文件<br>移动地址：".Config::get('baseUrl')."/link/".$token_cmcc."<br>联通地址：".Config::get('baseUrl')."/link/".$token_cnunc."<br>电信地址：".Config::get('baseUrl')."/link/".$token_ctnet."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show="APN 文件<br>移动地址：".Config::get('apiUrl')."/link/".$token_cmcc."<br>联通地址：".Config::get('apiUrl')."/link/".$token_cnunc."<br>电信地址：".Config::get('apiUrl')."/link/".$token_ctnet."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfoapndownload.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfoapndownload.tpl');
                 }
 
 
@@ -553,10 +624,12 @@ class UserController extends BaseController
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $token = LinkController::GenerateCode(7, $node->server, ($this->user->port-20000), 0, $this->user->id);
-                    $json_show="PAC Plus 信息<br>PAC 地址：".Config::get('baseUrl')."/link/".$token."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show="PAC Plus 信息<br>PAC 地址：".Config::get('apiUrl')."/link/".$token."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacplus.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfopacplus.tpl');
                 }
 
 
@@ -568,9 +641,11 @@ class UserController extends BaseController
                     $email=Radius::GetUserName($email);
                     $token = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 0, $this->user->id);
                     $token_ios = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 1, $this->user->id);
-                    $json_show="PAC Plus Plus信息<br>PAC 一般地址：".Config::get('baseUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('baseUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
+                    $json_show="PAC Plus Plus信息<br>PAC 一般地址：".Config::get('apiUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('apiUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
 
-                    return $this->view()->assign('json_show', $json_show)->display('user/nodeinfopacpp.tpl');
+                    return $this->view()
+                    ->assign('json_show', $json_show)
+                    ->display('user/nodeinfopacpp.tpl');
                 }
 
 
@@ -579,7 +654,13 @@ class UserController extends BaseController
 
             case 10:
                 if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
-                    return $this->view()->assign('node', $node)->assign('user', $user)->assign('mu', $mu)->assign('relay_rule_id', $relay_rule_id)->registerClass("URL", "App\Utils\URL")->display('user/nodeinfo.tpl');
+                    return $this->view()
+                    ->assign('node', $node)
+                    ->assign('user', $user)
+                    ->assign('mu', $mu)
+                    ->assign('relay_rule_id', $relay_rule_id)
+                    ->registerClass("URL", "App\Utils\URL")
+                    ->display('user/nodeinfo.tpl');
                 }
                 break;
             default:
@@ -678,7 +759,11 @@ class UserController extends BaseController
 
 
 
-        return $this->view()->assign("userip",$userip)->assign("userloginip", $userloginip)->assign("paybacks", $paybacks)->display('user/profile.tpl');
+        return $this->view()
+        ->assign("userip",$userip)
+        ->assign("userloginip", $userloginip)
+        ->assign("paybacks", $paybacks)
+        ->display('user/profile.tpl');
     }
 
 
@@ -688,7 +773,9 @@ class UserController extends BaseController
 
 
 
-        return $this->view()->assign("anns", $Anns)->display('user/announcement.tpl');
+        return $this->view()
+        ->assign("anns", $Anns)
+        ->display('user/announcement.tpl');
     }
 
 
@@ -700,10 +787,10 @@ class UserController extends BaseController
 
         $BIP = BlockIp::where("ip", $_SERVER["REMOTE_ADDR"])->first();
         if ($BIP == null) {
-            $Block = "IP: ".$_SERVER["REMOTE_ADDR"]." 没有被封";
+            $Block = "IP: ".$_SERVER["REMOTE_ADDR"]." 未封禁";
             $isBlock = 0;
         } else {
-            $Block = "IP: ".$_SERVER["REMOTE_ADDR"]." 已被封";
+            $Block = "IP: ".$_SERVER["REMOTE_ADDR"]." 已封禁";
             $isBlock = 1;
         }
 
@@ -711,8 +798,16 @@ class UserController extends BaseController
 
         $config_service = new Config();
 
-        return $this->view()->assign('user', $this->user)->assign('themes', $themes)->assign('isBlock', $isBlock)->assign('Block', $Block)->assign('bind_token', $bind_token)->assign('telegram_bot', Config::get('telegram_bot'))->assign('config_service', $config_service)
-                    ->registerClass("URL", "App\Utils\URL")->display('user/edit.tpl');
+        return $this->view()
+        ->assign('user', $this->user)
+        ->assign('themes', $themes)
+        ->assign('isBlock', $isBlock)
+        ->assign('Block', $Block)
+        ->assign('bind_token', $bind_token)
+        ->assign('telegram_bot', Config::get('telegram_bot'))
+        ->assign('config_service', $config_service)
+        ->registerClass("URL", "App\Utils\URL")
+        ->display('user/edit.tpl');
     }
 
 
@@ -727,7 +822,9 @@ class UserController extends BaseController
 
 
 
-        return $this->view()->assign('codes', $codes)->display('user/invite.tpl');
+        return $this->view()
+        ->assign('codes', $codes)
+        ->display('user/invite.tpl');
     }
 
     public function doInvite($request, $response, $args)
@@ -754,7 +851,9 @@ class UserController extends BaseController
 
     public function sys()
     {
-        return $this->view()->assign('ana', "")->display('user/sys.tpl');
+        return $this->view()
+        ->assign('ana', "")
+        ->display('user/sys.tpl');
     }
 
     public function updatePassword($request, $response, $args)
@@ -818,36 +917,35 @@ class UserController extends BaseController
 
 
         $res['ret'] = 1;
-        $res['msg'] = "发送解封命令解封 ".$_SERVER["REMOTE_ADDR"]." 成功";
+        $res['msg'] = $_SERVER["REMOTE_ADDR"];
         return $this->echoJson($response, $res);
     }
 
     public function shop($request, $response, $args)
     {
-        $pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
-        $shops = Shop::where("status", 1)->paginate(15, ['*'], 'page', $pageNum);
-        $shops->setPath('/user/shop');
+        $shops = Shop::where("status", 1)->get();
 
-        return $this->view()->assign('shops', $shops)->display('user/shop.tpl');
+        return $this->view()
+        ->assign('shops', $shops)
+        ->display('user/shop.tpl');
     }
 
     public function CouponCheck($request, $response, $args)
     {
         $coupon = $request->getParam('coupon');
+        $coupon = trim($coupon);
+
         $shop = $request->getParam('shop');
 
         $shop=Shop::where("id", $shop)->where("status", 1)->first();
 
-        if ($shop==null) {
+        if ($shop == null) {
             $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($coupon=="") {
+        if ($coupon == "") {
             $res['ret'] = 1;
             $res['name'] = $shop->name;
             $res['credit'] = "0 %";
@@ -857,13 +955,13 @@ class UserController extends BaseController
 
         $coupon=Coupon::where("code", $coupon)->first();
 
-        if ($coupon==null) {
+        if ($coupon == null) {
             $res['ret'] = 0;
             $res['msg'] = "优惠码无效";
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($coupon->order($shop->id)==false) {
+        if ($coupon->order($shop->id) == false) {
             $res['ret'] = 0;
             $res['msg'] = "此优惠码不可用于此商品";
             return $response->getBody()->write(json_encode($res));
@@ -880,6 +978,7 @@ class UserController extends BaseController
     public function buy($request, $response, $args)
     {
         $coupon = $request->getParam('coupon');
+        $coupon = trim($coupon);
         $code = $coupon;
         $shop = $request->getParam('shop');
 
@@ -887,28 +986,34 @@ class UserController extends BaseController
 
         $shop=Shop::where("id", $shop)->where("status", 1)->first();
 
-        if ($shop==null) {
+        if ($shop == null) {
             $res['ret'] = 0;
             $res['msg'] = "非法请求";
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($coupon=="") {
-            $credit=0;
-        } else {
-            $coupon=Coupon::where("code", $coupon)->first();
+        if (!$shop->canBuy($this->user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "您不符合购买此商品的条件";
+            return $response->getBody()->write(json_encode($res));
+        }
 
-            if ($coupon==null) {
-                $credit=0;
+        if ($coupon == "") {
+            $credit = 0;
+        } else {
+            $coupon = Coupon::where("code", $coupon)->first();
+
+            if ($coupon == null) {
+                $credit = 0;
             } else {
-                if ($coupon->onetime==1) {
-                    $onetime=true;
+                if ($coupon->onetime == 1) {
+                    $onetime = true;
                 }
 
                 $credit=$coupon->credit;
             }
 
-            if ($coupon->order($shop->id)==false) {
+            if ($coupon->order($shop->id) == false) {
                 $res['ret'] = 0;
                 $res['msg'] = "此优惠码不可用于此商品";
                 return $response->getBody()->write(json_encode($res));
@@ -919,37 +1024,55 @@ class UserController extends BaseController
                 $res['msg'] = "此优惠码已过期";
                 return $response->getBody()->write(json_encode($res));
             }
+
+            if ($coupon->number != 0) {
+                $boughts = Bought::where('coupon', $code)->get();
+                if (count($boughts) >= $coupon->number) {
+                    $res['ret'] = 0;
+                    $res['msg'] = "此优惠码已用完";
+                    return $response->getBody()->write(json_encode($res));
+                }
+            }
+
+            if ($coupon->times != 0) {
+                $boughts = Bought::where('coupon', $code)->where('userid', $this->user->id)->get();
+                if (count($boughts) >= $coupon->times) {
+                    $res['ret'] = 0;
+                    $res['msg'] = "此优惠码已达单账号使用次数上限";
+                    return $response->getBody()->write(json_encode($res));
+                }
+            }
         }
 
-        $price=$shop->price*((100-$credit)/100);
+        $price=$shop->price * ((100-$credit)/100);
         $user=$this->user;
 
         if ((float)$user->money<(float)$price) {
             $res['ret'] = 0;
-            $res['msg'] = "余额不足，总价为".$price."元。";
+            $res['msg'] = '当前余额不足，总价为'.$price.'元。</br><a href="/user/code">点击进入充值界面</a>';
             return $response->getBody()->write(json_encode($res));
         }
 
-        $user->money=$user->money-$price;
+        $user->money = $user->money - $price;
         $user->save();
 
         $bought=new Bought();
-        $bought->userid=$user->id;
-        $bought->shopid=$shop->id;
-        $bought->datetime=time();
-        if ($autorenew==0||$shop->auto_renew==0) {
-            $bought->renew=0;
+        $bought->userid = $user->id;
+        $bought->shopid = $shop->id;
+        $bought->datetime = time();
+        if ($autorenew == 0||$shop->auto_renew == 0) {
+            $bought->renew = 0;
         } else {
-            $bought->renew=time()+$shop->auto_renew*86400;
+            $bought->renew = time()+$shop->auto_renew * 86400;
         }
 
-        $bought->coupon=$code;
+        $bought->coupon = $code;
 
 
         if (isset($onetime)) {
-            $price=$shop->price;
+            $price = $shop->price;
         }
-        $bought->price=$price;
+        $bought->price = $price;
         $bought->save();
 
         $shop->buy($user);
@@ -969,7 +1092,9 @@ class UserController extends BaseController
         $shops = Bought::where("userid", $this->user->id)->orderBy("id", "desc")->paginate(15, ['*'], 'page', $pageNum);
         $shops->setPath('/user/bought');
 
-        return $this->view()->assign('shops', $shops)->display('user/bought.tpl');
+        return $this->view()
+        ->assign('shops', $shops)
+        ->display('user/bought.tpl');
     }
 
     public function deleteBoughtGet($request, $response, $args)
@@ -983,8 +1108,8 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($rs));
         }
 
-        if ($this->user->id==$shop->userid) {
-            $shop->renew=0;
+        if ($this->user->id == $shop->userid) {
+            $shop->renew = 0;
         }
 
         if (!$shop->save()) {
@@ -1007,12 +1132,15 @@ class UserController extends BaseController
         $tickets = Ticket::where("userid", $this->user->id)->where("rootid", 0)->orderBy("datetime", "desc")->paginate(15, ['*'], 'page', $pageNum);
         $tickets->setPath('/user/ticket');
 
-        return $this->view()->assign('tickets', $tickets)->display('user/ticket.tpl');
+        return $this->view()
+        ->assign('tickets', $tickets)
+        ->display('user/ticket.tpl');
     }
 
     public function ticket_create($request, $response, $args)
     {
-        return $this->view()->display('user/ticket_create.tpl');
+        return $this->view()
+        ->display('user/ticket_create.tpl');
     }
 
     public function ticket_add($request, $response, $args)
@@ -1027,7 +1155,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if (strpos($content, "admin")!=false||strpos($content, "user")!=false) {
+        if (strpos($content, "admin") != false||strpos($content, "user") != false) {
             $res['ret'] = 0;
             $res['msg'] = "请求中有不正当的词语。";
             return $this->echoJson($response, $res);
@@ -1038,11 +1166,11 @@ class UserController extends BaseController
 
         $antiXss = new AntiXSS();
 
-        $ticket->title=$antiXss->xss_clean($title);
-        $ticket->content=$antiXss->xss_clean($content);
-        $ticket->rootid=0;
-        $ticket->userid=$this->user->id;
-        $ticket->datetime=time();
+        $ticket->title = $antiXss->xss_clean($title);
+        $ticket->content = $antiXss->xss_clean($content);
+        $ticket->rootid = 0;
+        $ticket->userid = $this->user->id;
+        $ticket->datetime = time();
         $ticket->save();
 
         $adminUser = User::where("is_admin", "=", "1")->get();
@@ -1071,26 +1199,26 @@ class UserController extends BaseController
         $content = $request->getParam('content');
         $status = $request->getParam('status');
 
-        if ($content==""||$status=="") {
+        if ($content == ""||$status == "") {
             $res['ret'] = 0;
             $res['msg'] = "请填全";
             return $this->echoJson($response, $res);
         }
 
-        if (strpos($content, "admin")!=false||strpos($content, "user")!=false) {
+        if (strpos($content, "admin") != false||strpos($content, "user") != false) {
             $res['ret'] = 0;
             $res['msg'] = "请求中有不正当的词语。";
             return $this->echoJson($response, $res);
         }
 
 
-        $ticket_main=Ticket::where("id", "=", $id)->where("rootid", "=", 0)->first();
-        if ($ticket_main->userid!=$this->user->id) {
+        $ticket_main = Ticket::where("id", "=", $id)->where("rootid", "=", 0)->first();
+        if ($ticket_main->userid != $this->user->id) {
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
             return $newResponse;
         }
 
-        if ($status==1&&$ticket_main->status!=$status) {
+        if ($status == 1&&$ticket_main->status != $status) {
             $adminUser = User::where("is_admin", "=", "1")->get();
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName')."-工单被重新开启";
@@ -1125,12 +1253,12 @@ class UserController extends BaseController
         $antiXss = new AntiXSS();
 
         $ticket=new Ticket();
-        $ticket->title=$antiXss->xss_clean($ticket_main->title);
-        $ticket->content=$antiXss->xss_clean($content);
-        $ticket->rootid=$ticket_main->id;
-        $ticket->userid=$this->user->id;
-        $ticket->datetime=time();
-        $ticket_main->status=$status;
+        $ticket->title = $antiXss->xss_clean($ticket_main->title);
+        $ticket->content = $antiXss->xss_clean($content);
+        $ticket->rootid = $ticket_main->id;
+        $ticket->userid = $this->user->id;
+        $ticket->datetime = time();
+        $ticket_main->status = $status;
 
         $ticket_main->save();
         $ticket->save();
@@ -1146,8 +1274,8 @@ class UserController extends BaseController
     public function ticket_view($request, $response, $args)
     {
         $id = $args['id'];
-        $ticket_main=Ticket::where("id", "=", $id)->where("rootid", "=", 0)->first();
-        if ($ticket_main->userid!=$this->user->id) {
+        $ticket_main = Ticket::where("id", "=", $id)->where("rootid", "=", 0)->first();
+        if ($ticket_main->userid != $this->user->id) {
             $newResponse = $response->withStatus(302)->withHeader('Location', '/user/ticket');
             return $newResponse;
         }
@@ -1158,11 +1286,14 @@ class UserController extends BaseController
         }
 
 
-        $ticketset=Ticket::where("id", $id)->orWhere("rootid", "=", $id)->orderBy("datetime", "desc")->paginate(5, ['*'], 'page', $pageNum);
+        $ticketset = Ticket::where("id", $id)->orWhere("rootid", "=", $id)->orderBy("datetime", "desc")->paginate(5, ['*'], 'page', $pageNum);
         $ticketset->setPath('/user/ticket/'.$id."/view");
 
 
-        return $this->view()->assign('ticketset', $ticketset)->assign("id", $id)->display('user/ticket_view.tpl');
+        return $this->view()
+        ->assign('ticketset', $ticketset)
+        ->assign("id", $id)
+        ->display('user/ticket_view.tpl');
     }
 
 
@@ -1170,6 +1301,7 @@ class UserController extends BaseController
     {
         $type = $request->getParam('imtype');
         $wechat = $request->getParam('wechat');
+        $wechat = trim($wechat);
 
         $user = $this->user;
 
@@ -1233,10 +1365,10 @@ class UserController extends BaseController
         $user->protocol = $antiXss->xss_clean($protocol);
         $user->obfs = $antiXss->xss_clean($obfs);
 
-
+/*
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您目前的加密方式为 none ，但您将要设置为的协议并不在以下协议<br>".implode(',', Config::getSupportParam('allow_none_protocol')).'<br>之内，请您先修改您的加密方式，再来修改此处设置。';
+            $res['msg'] = "您将要设置为的协议并不在以下协议<br>".implode(',', Config::getSupportParam('allow_none_protocol')).'<br>之内，请您先修改您的加密方式，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
@@ -1245,18 +1377,18 @@ class UserController extends BaseController
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
         }
-
+*/
         $user->save();
 
         if(!URL::SSCanConnect($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。";
+            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
         if(!URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
+            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
@@ -1290,7 +1422,7 @@ class UserController extends BaseController
     public function updateMail($request, $response, $args)
     {
         $mail = $request->getParam('mail');
-
+        $mail = trim($mail);
         $user = $this->user;
 
         if (!($mail == "1"||$mail == "0")) {
@@ -1306,6 +1438,100 @@ class UserController extends BaseController
         $res['ret'] = 1;
         $res['msg'] = "ok";
         return $this->echoJson($response, $res);
+    }
+
+    public function updateEmail($request, $response, $args)
+    {
+        $email = $request->getParam('email');
+        $code = $request->getParam('code');
+
+        if ($code == "") {
+            $res['ret'] = 0;
+            $res['msg'] = "你似乎没有填写你的验证码";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        if (!Check::isEmailLegal($email)) {
+            $res['ret'] = 0;
+            $res['msg'] = "邮箱无效";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $user = $this->user;
+        $mailcount = EmailVerify::where('userid', '=', $user->id)->where('code', '=', $code)->where('expire_in', '>', time())->first();
+        if ($mailcount == null) {
+            $res['ret'] = 0;
+            $res['msg'] = "您的邮箱验证码不正确";
+            return $response->getBody()->write(json_encode($res));
+        }
+        EmailVerify::where('email', '=', $email)->delete();
+
+        $user->email = $email;
+        $user->save();
+
+        $res['ret'] = 1;
+        $res['msg'] = "修改成功！";
+        return $response->getBody()->write(json_encode($res));
+    }
+
+    public function verifyEmail($request, $response, $next)
+    {
+        $email = $request->getParam('email');
+
+        if ($email=="") {
+            $res['ret'] = 0;
+            $res['msg'] = "哦？你填了你的邮箱了吗？";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        // check email format
+        if (!Check::isEmailLegal($email)) {
+            $res['ret'] = 0;
+            $res['msg'] = "邮箱无效";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $user = $this->user;
+
+        $users = User::where("email","=",$email)->first();
+        if ($users != null){
+            $res['ret'] = 0;
+            $res['msg'] = "此邮箱已被使用。";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $ipcount = EmailVerify::where('userid', '=', $user->id)->where('expire_in', '>', time())->count();
+        if ($ipcount>=(int)Config::get('email_verify_iplimit')) {
+            $res['ret'] = 0;
+            $res['msg'] = "你的请求次数过多，请稍候再试";
+            return $response->getBody()->write(json_encode($res));
+        }
+
+        $code = Tools::genRandomChar(6);
+
+        $ev = new EmailVerify();
+        $ev->expire_in = time() + Config::get('email_verify_ttl');
+        $ev->ip = $_SERVER["REMOTE_ADDR"];
+        $ev->email = $email;
+        $ev->code = $code;
+        $ev->userid = $user->id;
+        $ev->save();
+
+        $subject = Config::get('appName')."- 验证邮件";
+
+        try {
+            Mail::send($email, $subject, 'auth/verify.tpl', [
+                "code" => $code,"expire" => date("Y-m-d H:i:s", time() + Config::get('email_verify_ttl'))
+            ], [
+                //BASE_PATH.'/public/assets/email/styles.css'
+            ]);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $res['ret'] = 1;
+        $res['msg'] = "验证码发送成功，请查收邮件。";
+        return $response->getBody()->write(json_encode($res));
     }
 
     public function PacSet($request, $response, $args)
@@ -1334,6 +1560,7 @@ class UserController extends BaseController
     {
         $user = Auth::getUser();
         $pwd = $request->getParam('sspwd');
+        $pwd= trim($pwd);
 
         if ($pwd == "") {
             $res['ret'] = 0;
@@ -1378,10 +1605,10 @@ class UserController extends BaseController
         }
 
         $user->method = $method;
-
+/*
         if (!Tools::checkNoneProtocol($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "您好，系统检测到您将要设置的加密方式为 none ，但您的协议并不在以下协议<br>".implode(',', Config::getSupportParam('allow_none_protocol')).'<br>之内，请您先修改您的协议，再来修改此处设置。';
+            $res['msg'] = "您的协议并不在以下协议<br>".implode(',', Config::getSupportParam('allow_none_protocol')).'<br>之内，请您先修改您的协议，再来修改此处设置。';
             return $this->echoJson($response, $res);
         }
 
@@ -1390,18 +1617,18 @@ class UserController extends BaseController
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
         }
-
+*/
         $user->updateMethod($method);
 
         if(!URL::SSCanConnect($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 Shadowsocks原版客户端无法连接，请您自行更换到 ShadowsocksR 客户端。";
+            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
         if(!URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
-            $res['msg'] = "设置成功，但您目前的协议，混淆，加密方式设置会导致 ShadowsocksR 客户端无法连接，请您自行更换到 Shadowsocks 客户端。";
+            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
@@ -1429,22 +1656,24 @@ class UserController extends BaseController
         }
 
         if (!$this->user->isAbleToCheckin()) {
-            $res['msg'] = "您似乎已经续命过了...";
+            $res['msg'] = "您似乎已经签到过了...";
             $res['ret'] = 1;
             return $response->getBody()->write(json_encode($res));
         }
-        $traffic = rand(Config::get('checkinMin'), Config::get('checkinMax'));
+        $traffic = rand(0, Config::get('checkinMax')-Config::get('checkinMin'))+Config::get('checkinMin');
         $this->user->transfer_enable = $this->user->transfer_enable + Tools::toMB($traffic);
         $this->user->last_check_in_time = time();
         $this->user->save();
-        $res['msg'] = sprintf("获得了 %u MB流量.", $traffic);
+        //$res['msg'] = sprintf("获得了 %u MB 流量.", $traffic);
+        $res['msg'] = sprintf( (($traffic<0)?"减少了":"增加了")." %u MB 流量.", abs($traffic));
         $res['ret'] = 1;
         return $this->echoJson($response, $res);
     }
 
     public function kill($request, $response, $args)
     {
-        return $this->view()->display('user/kill.tpl');
+        return $this->view()
+        ->display('user/kill.tpl');
     }
 
     public function handleKill($request, $response, $args)
@@ -1472,7 +1701,9 @@ class UserController extends BaseController
     public function trafficLog($request, $response, $args)
     {
         $traffic=TrafficLog::where('user_id', $this->user->id)->where("log_time", ">", (time()-3*86400))->orderBy('id', 'desc')->get();
-        return $this->view()->assign('logs', $traffic)->display('user/trafficlog.tpl');
+        return $this->view()
+        ->assign('logs', $traffic)
+        ->display('user/trafficlog.tpl');
     }
 
 
@@ -1486,7 +1717,9 @@ class UserController extends BaseController
         }
         $logs = DetectRule::paginate(15, ['*'], 'page', $pageNum);
         $logs->setPath('/user/detect');
-        return $this->view()->assign('rules', $logs)->display('user/detect_index.tpl');
+        return $this->view()
+        ->assign('rules', $logs)
+        ->display('user/detect_index.tpl');
     }
 
     public function detect_log($request, $response, $args)
@@ -1497,12 +1730,15 @@ class UserController extends BaseController
         }
         $logs = DetectLog::orderBy('id', 'desc')->where('user_id', $this->user->id)->paginate(15, ['*'], 'page', $pageNum);
         $logs->setPath('/user/detect/log');
-        return $this->view()->assign('logs', $logs)->display('user/detect_log.tpl');
+        return $this->view()
+        ->assign('logs', $logs)
+        ->display('user/detect_log.tpl');
     }
 
     public function disable($request, $response, $args)
     {
-        return $this->view()->display('user/disable.tpl');
+        return $this->view()
+        ->display('user/disable.tpl');
     }
 
     public function telegram_reset($request, $response, $args)
