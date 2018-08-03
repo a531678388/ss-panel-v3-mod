@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Models\Shop;
 use App\Models\Bought;
-use App\Models\User;
 use App\Controllers\AdminController;
 
 use Ozdemir\Datatables\Datatables;
@@ -40,38 +39,8 @@ class ShopController extends AdminController
         $shop->auto_reset_bandwidth =  $request->getParam('auto_reset_bandwidth');
 
         $content=array();
-        if ($request->getParam('group_limit')!='') {
-            $content["group_limit"]=$request->getParam('group_limit');
-        }
-        
-        if ($request->getParam('class_limit_operator')!='none'
-                && $request->getParam('class_limit_content')!='') {
-            if ($request->getParam('class_limit_operator')!='equal'
-                    && $request->getParam('class_limit_operator')!='not'
-                    && strpos($request->getParam('class_limit_content'), ',')!==false) {
-                $rs['ret'] = 0;
-                $rs['msg'] = "该等级限制运算符只能设置一个等级";
-                return $response->getBody()->write(json_encode($rs));
-            }
-            
-            $content["class_limit_operator"]=$request->getParam('class_limit_operator');
-            $content["class_limit_content"]=$request->getParam('class_limit_content');
-        }
-        
         if ($request->getParam('bandwidth')!=0) {
             $content["bandwidth"]=$request->getParam('bandwidth');
-        }
-        
-        if ($request->getParam('traffic_package')!=0) {
-            $content["traffic_package"]=$request->getParam('traffic_package');
-        }
-
-        if ($request->getParam('node_speedlimit')!=0) {
-            $content["node_speedlimit"]=$request->getParam('node_speedlimit');
-        }
-
-        if ($request->getParam('node_connector')!=0) {
-            $content["node_connector"]=$request->getParam('node_connector');
         }
 
         if ($request->getParam('expire')!=0) {
@@ -129,7 +98,6 @@ class ShopController extends AdminController
         $shop->price =  $request->getParam('price');
         $shop->auto_renew =  $request->getParam('auto_renew');
 
-        $deleted = false;
         if ($shop->auto_reset_bandwidth == 1 && $request->getParam('auto_reset_bandwidth') == 0) {
             $boughts = Bought::where("shopid", $id)->get();
 
@@ -137,50 +105,14 @@ class ShopController extends AdminController
                 $bought->renew=0;
                 $bought->save();
             }
-            
-            $deleted = true;
         }
 
         $shop->auto_reset_bandwidth =  $request->getParam('auto_reset_bandwidth');
         $shop->status=1;
 
         $content=array();
-        if ($request->getParam('group_limit')!='') {
-            $content["group_limit"]=$request->getParam('group_limit');
-        }
-        
-        if ($request->getParam('class_limit_operator')!='none'
-                && $request->getParam('class_limit_content')!='') {
-            if ($request->getParam('class_limit_operator')!='equal'
-                    && $request->getParam('class_limit_operator')!='not'
-                    && strpos($request->getParam('class_limit_content'), ',')!==false) {
-                $rs['ret'] = 0;
-                $rs['msg'] = "该等级限制运算符只能设置一个等级";
-                return $response->getBody()->write(json_encode($rs));
-            }
-            
-            $content["class_limit_operator"]=$request->getParam('class_limit_operator');
-            $content["class_limit_content"]=$request->getParam('class_limit_content');
-        }
-        
-        $needCheck = !$deleted && ($shop->group_limit() != $request->getParam('group_limit')
-                || $shop->class_limit_operator() != $request->getParam('class_limit_operator')
-                || $shop->class_limit_content() != $request->getParam('class_limit_content'));
-        
         if ($request->getParam('bandwidth')!=0) {
             $content["bandwidth"]=$request->getParam('bandwidth');
-        }
-        
-        if ($request->getParam('traffic_package')!=0) {
-            $content["traffic_package"]=$request->getParam('traffic_package');
-        }
-        
-        if ($request->getParam('node_speedlimit')!=0) {
-            $content["node_speedlimit"]=$request->getParam('node_speedlimit');
-        }
-        
-        if ($request->getParam('node_connector')!=0) {
-            $content["node_connector"]=$request->getParam('node_connector');
         }
 
         if ($request->getParam('expire')!=0) {
@@ -208,24 +140,6 @@ class ShopController extends AdminController
         }
 
         $shop->content=json_encode($content);
-        
-        if ($needCheck) {
-            $boughts = Bought::where("shopid", $id)->get();
-            
-            foreach ($boughts as $bought) {
-                $user=User::where("id", $bought->userid)->first();
-                
-                if ($user == null) {
-                    $bought->delete();
-                    continue;
-                }
-                
-                if (!$shop->canBuy($user)) {
-                    $bought->renew=0;
-                    $bought->save();
-                }
-            }
-        }
 
         if (!$shop->save()) {
             $rs['ret'] = 0;

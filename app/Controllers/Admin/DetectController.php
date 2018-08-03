@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\DetectLog;
 use App\Models\DetectRule;
+use App\Utils\Telegram;
 use App\Controllers\AdminController;
 
 use Ozdemir\Datatables\Datatables;
@@ -59,6 +60,8 @@ class DetectController extends AdminController
             return $response->getBody()->write(json_encode($rs));
         }
 
+        Telegram::SendMarkdown("有新的审计规则：".$rule->name);
+
         $rs['ret'] = 1;
         $rs['msg'] = "添加成功";
         return $response->getBody()->write(json_encode($rs));
@@ -86,6 +89,8 @@ class DetectController extends AdminController
             $rs['msg'] = "修改失败";
             return $response->getBody()->write(json_encode($rs));
         }
+
+        Telegram::SendMarkdown("规则更新：".PHP_EOL.$request->getParam('name'));
 
         $rs['ret'] = 1;
         $rs['msg'] = "修改成功";

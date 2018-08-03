@@ -19,32 +19,30 @@ class Pay
             case 'spay':
                 return Pay::spay_html($user);
             case 'zfbjk':
-                return Pay::zfbjk_html($user);         
+                return Pay::zfbjk_html($user);
             default:
                 return "";
         }
         return null;
     }
 
+
     private static function spay_html($user)
     {
         return '
-                        <form action="/user/alipay" method="get" target="_blank" >
-                            <h3>支付宝充值</h3>
-                            <p>充值金额: <input type="text" name="amount" /></p>
-                            <input type="submit" value="提交" />
-                        </form>
+						<form action="/user/alipay" method="get" target="_blank" >
+							<h3>支付宝充值</h3>
+							<p>充值金额: <input type="text" name="amount" /></p>
+							<input type="submit" value="提交" />
+						</form>
 ';
     }
 
     private static function zfbjk_html($user)
     {
         return '
-                        <h5>1. #吱口令#复制此条消息，打开支付宝转账充值X9sPMI19GW</h5>
-                        <h5>2. 扫描二维码进行转账充值</h5>
-                        <h5>* 转账时请填写备注（数字）： <code>'.$user->id.'</code>（不备注不会自动到账）</h5>
-                        <h5>* 转账时请填写备注（数字）： <code>'.$user->id.'</code>（乱备注不会自动到账）</h5><br>
-                        <img src="'.Config::get('zfbjk_qrcodeurl').'"/>
+						<p>请扫码，给我转账来充值，记得备注上 <code>'.$user->id.'</code>。<br></p>
+						<img src="'.Config::get('zfbjk_qrcodeurl').'"/>
 ';
     }
 

@@ -7,8 +7,9 @@
 
 
 
-	<main class="content">
 
+
+	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
 				<h1 class="content-heading">查看工单</h1>
@@ -140,8 +141,7 @@
         editor = editormd("editormd", {
             path : "/theme/material/editor/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
 			height: 450,
-			saveHTMLToTextarea : true,
-			emoji : true
+			saveHTMLToTextarea : true
         });
 
         /*

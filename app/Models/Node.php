@@ -44,12 +44,8 @@ class Node extends Model
     {
         $id = $this->attributes['id'];
         $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>=', time()-86400)->count();
-        $rate = $log/1440;
-        if ($rate >= 0.97){
-            return 1;
-        }else{
-            return $rate;
-        }
+
+        return $log/1440;
     }
 
     public function getNodeLoad()

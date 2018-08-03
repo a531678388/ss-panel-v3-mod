@@ -42,16 +42,6 @@
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="times">优惠码单账号使用次数(0 为不限制)</label>
-									<input class="form-control" id="times" type="number" value="0">
-								</div>
-
-								<div class="form-group form-group-label">
-									<label class="floating-label" for="number">优惠码数量(0 为不限制)</label>
-									<input class="form-control" id="number" type="number" value="0">
-								</div>
-
-								<div class="form-group form-group-label">
 									<label class="floating-label" for="shop">优惠码可用商品ID，不填即为所有商品可用，多个的话用英文半角逗号分割</label>
 									<input class="form-control" id="shop" type="text">
 								</div>
@@ -145,9 +135,7 @@ $(document).ready(function () {
 		          credit: $("#credit").val(),
 							shop: $("#shop").val(),
 							onetime: onetime,
-		          expire: $("#expire").val(),
-		          times: $("#times").val(),
-		          number: $("#number").val()
+		          expire: $("#expire").val()
 		          },
 		          success: function (data) {
 		              if (data.ret) {

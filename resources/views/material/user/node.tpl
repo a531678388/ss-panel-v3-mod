@@ -27,9 +27,8 @@
 								<div class="card-inner">
 									<h4>注意!</h4>
 									<p>请勿在任何地方公开节点地址！</p>
-									<p>未购买用户无法看到节点列表，请先 <a href="/user/code">充值</a> 或 <a href="/user/shop">购买</a></p>
-									<p>国内（CN）节点默认为中转模式，如需使用回国模式请手动添加中转规则：起源：CN；目标：不中转；优先级大于 <code>0</code> 即可。</p>
-									<a href="javascript:void(0);" onClick="urlChange('guide',0,0,0)">如何查看节点的详细信息和二维码方法？请点我</a>
+									<p>流量比例为0.5即使用1000MB按照500MB流量记录记录结算.</p>
+									<a href="javascript:void(0);" onClick="urlChange('guide',0,0,0)">如果您不知道如何查看节点的详细信息和二维码，请点我。</a>
 								</div>
 							</div>
 						</div>
@@ -54,9 +53,7 @@
 																</div>
 															</div>
 															<div class="tile-inner">
-																<div class="text-overflow">
-                                                                  {$prefix} | {if $user->class!=0}<font color="#000000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#000000">{$node_alive[$prefix]}</font></b></strong> | <font color="#000000">负载：{$node_latestload[$prefix]}%</font> | <font color="#000000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#000000">{$node_bandwidth[$prefix]}</font>{else}N/A{/if}
-                                                                 </div>
+																<div class="text-overflow">{$prefix} | <i class="icon icon-lg">person</i> {$node_alive[$prefix]} | <i class="icon icon-lg">build</i> {$node_method[$prefix]} | <i class="icon icon-lg">traffic</i> {if isset($node_bandwidth[$prefix])==true}{$node_bandwidth[$prefix]}{else}N/A{/if}</div>
 															</div>
 														</div>
 														<div class="collapsible-region collapse" id="heading{$node_order->$prefix}">
@@ -145,7 +142,7 @@
 																				<div class="card-main">
 																					<div class="card-inner">
 																					<p class="card-heading" >
-																						<a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} {$single_muport['server']->server} 端口</a>
+																						<a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口多用户 Shadowsocks - {$single_muport['server']->server} 端口</a>
 																						<span class="label label-brand-accent">{$node->status}</span>
 																					</p>
 
@@ -276,7 +273,7 @@ function urlChange(id,is_mu,rule_id) {
 	{
 		var doc = document.getElementById('infoifram').contentWindow.document;
 		doc.open();
-		doc.write('<img src="../images/node.gif" style="width: 100%;height: 100%; border: none;"/>');
+		doc.write('<img src="https://www.zhaoj.in/wp-content/uploads/2016/07/1469595156fca44223cf8da9719e1d084439782b27.gif" style="width: 100%;height: 100%; border: none;"/>');
 		doc.close();
 	}
 	else

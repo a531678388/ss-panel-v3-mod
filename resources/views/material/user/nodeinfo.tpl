@@ -62,7 +62,7 @@
 													混淆参数：{$ssr_item['obfs_param']}<br></p>
 												{else}
 													<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
-													<p>同时, ShadowsocksR 固定端口的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
+													<p>同时, ShadowsocksR 单端口多用户的连接不受您设置的影响,您可以在此使用相应的客户端进行连接~</p>
 												{/if}
 											</div>
 											<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_info">
@@ -73,7 +73,7 @@
 													加密方式：{$ss_item['method']}<br>
 													密码：{$ss_item['passwd']}<br>
 													混淆：{$ss_item['obfs']}<br>
-													混淆参数：wns.windows.com<br></p>
+													混淆参数：{$ss_item['obfs_param']}<br></p>
 												{else}
 													<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 												{/if}
@@ -105,16 +105,23 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_download">
 											{if URL::SSRCanConnect($user, $mu)}
-												<p>请前往<a href="https://docs.lhie1.com/black-hole/qiang-dong/shi-yong-jiao-cheng">「使用教程」</a>观看使用教程</p> 
-												<p>请前往<a href="https://docs.lhie1.com/black-hole/qiang-dong/tong-yong">「通用」</a>获得帮助与指导</p> 
+												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ssr-win.7z">Windows</a></p>
+												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ssr-mac.dmg">Mac OS X</a></p>
+												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://github.com/breakwa11/shadowsocks-rss/wiki/Python-client">Linux</a></p>
+												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ssr-android.apk">Android</a></p>
+												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_download">
 											{if URL::SSCanConnect($user, $mu)}
-												<p>请前往<a href="https://docs.lhie1.com/black-hole/qiang-dong/shi-yong-jiao-cheng">「使用教程」</a>观看使用教程</p> 
-												<p>请前往<a href="https://docs.lhie1.com/black-hole/qiang-dong/tong-yong">「通用」</a>获得帮助与指导</p> 
+												<p><i class="icon icon-lg">desktop_windows</i>&nbsp;<a href="/ssr-download/ss-win.7z">Windows</a></p>
+												<p><i class="icon icon-lg">laptop_mac</i>&nbsp;<a href="/ssr-download/ss-mac.zip">Mac OS X</a></p>
+												<p><i class="icon icon-lg">laptop_windows</i>&nbsp;<a href="https://shadowsocks.org/en/download/clients.html">Linux</a></p>
+												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android.apk">Android</a></p>
+												<p><i class="icon icon-lg">android</i>&nbsp;<a href="/ssr-download/ss-android-obfs.apk">Android Obfs插件</a></p>
+												<p><i class="icon icon-lg">phone_iphone</i>&nbsp;<a href="https://itunes.apple.com/us/app/shadowrocket/id932747118">iOS</a></p>
 											{else}
 												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
@@ -161,25 +168,26 @@
 }
 												</textarea>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SS-Libev 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_json">
 											{if URL::SSCanConnect($user, $mu)}
 											<textarea class="form-control" rows="6">
 {
-	"server": "{$ss_item['address']}",
-	"server_port":{$ss_item['port']},
-	"password": "{$ss_item['passwd']}",
-	"method": "{$ss_item['method']}",
-	"plugin": "{URL::getJsonObfs($ss_item)}"
-	"plugin_opts": obfs=http;obfs-host=wns.windows.com,
-	"remarks": "{$item['remark']}",
-	"timeout": 5,
+		"server": "{$ss_item['address']}",
+		"local_address": "127.0.0.1",
+		"local_port": 1080,
+		"timeout": 300,
+		"workers": 1,
+		"server_port": {$ss_item['port']},
+		"password": "{$ss_item['passwd']}",
+		"method": "{$ss_item['method']}",
+		"plugin": "{URL::getJsonObfs($ss_item)}"
 }
 											</textarea>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SSR 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 
@@ -207,16 +215,18 @@
 										</nav>
 										<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="ssr_url">
 											{if URL::SSRCanConnect($user, $mu)}
-												<p><a href="{URL::getItemUrl($ssr_item, 0)}"/>使用自带浏览器点击我即可直接添加此节点至客户端</a></p>
+												<p><a href="{URL::getItemUrl($ssr_item, 0)}"/>Android 手机上用默认浏览器打开点我就可以直接添加了(给 ShadowsocksR APP)</a></p>
+												<p><a href="{URL::getItemUrl($ssr_item, 0)}"/>iOS 上用 Safari 打开点我就可以直接添加了(给 Shadowrocket)</a></p>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SS-Libev 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_url">
 											{if URL::SSCanConnect($user, $mu)}
-												<p><a href="{URL::getItemUrl($ss_item, 1)}"/>使用自带浏览器点击我即可直接添加此节点至客户端</a></p>
+												<p><a href="{URL::getItemUrl($ss_item, 1)}"/>Android 手机上用默认浏览器打开点我就可以直接添加了(给 Shadowsocks)</a></p>
+												<p><a href="{URL::getItemUrl($ss_item, 1)}"/>iOS 上用 Safari 打开点我就可以直接添加了(给 Shadowrocket)</a></p>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SSR 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 									</div>
@@ -248,7 +258,7 @@
 													<div id="ss-qr-n"></div>
 												</div>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SS-Libev 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 ShadowsocksR 客户端下无法连接。请您选用 Shadowsocks 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 										<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="ss_qrcode">
@@ -274,7 +284,7 @@
 													</div>
 												</div>
 											{else}
-												<p>您目前的加密方式、协议、混淆为 SSR 模式</p>
+												<p>您好，您目前的 加密方式，混淆，或者协议设置在 Shadowsocks 客户端下无法连接。请您选用 ShadowsocksR 客户端来连接，或者到 资料编辑 页面修改后再来查看此处。</p>
 											{/if}
 										</div>
 									</div>

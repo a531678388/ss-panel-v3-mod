@@ -182,7 +182,6 @@ class User extends Model
 
         $now = time();
         if (date("Ymd", $now)!= date("Ymd", $last)) {
-        //if (time()-$last>3600*4) {
             return true;
         }
         return false;
