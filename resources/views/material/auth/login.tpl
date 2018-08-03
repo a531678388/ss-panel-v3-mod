@@ -10,11 +10,11 @@
                         <nav class="tab-nav margin-top-no">
                             <ul class="nav nav-justified">
                                 <li class="active">
-                                    <a class="waves-attach" data-toggle="tab" href="#passwd_login">账号密码登录</a>
+                                    <a class="waves-attach" data-toggle="tab" href="#passwd_login">普通登录</a>
                                 </li>
                                 {if $config['enable_telegram'] == 'true'}
                                 <li>
-                                    <a class="waves-attach" data-toggle="tab" href="#telegram_login">Telegram 登录</a>
+                                    <a class="waves-attach" data-toggle="tab" href="#telegram_login">快捷登录</a>
                                 </li>
                                 {/if}
                             </ul>
@@ -26,7 +26,7 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">登录到用户中心</h1>
+                                                    <h1 class="card-heading" style=" text-align:center;font-weight:bold;">登录到用户中心</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
@@ -104,11 +104,11 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">Telegram 快捷登录</h1>
+                                                    <h1 class="card-heading" style=" text-align:center;font-weight:bold;">一键登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
-                                                <p>如果你看不到下面的登录插件，请检查你与 Telegram 的网络连接。</p>
+                                                <p>正在载入，如果长时间未显示请刷新页面或检查代理网络</p>
                                                 <div id="telegram-login-box"></div>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">验证码登录</h1>
+                                                    <h1 class="card-heading" style=" text-align:center;font-weight:bold;">验证码登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
@@ -136,7 +136,7 @@
                                         <div class="card-main">
                                             <div class="card-header">
                                                 <div class="card-inner">
-                                                    <h1 class="card-heading">二维码登录</h1>
+                                                    <h1 class="card-heading" style=" text-align:center;font-weight:bold;">二维码登录</h1>
                                                 </div>
                                             </div>
                                             <div class="card-inner">
