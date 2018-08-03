@@ -24,6 +24,22 @@
 		<div class="container">
 			<section class="content-inner margin-top-no">
 				<div class="row">
+					
+					{if $pmw!=''}
+					<div class="col-lg-12 col-md-12">
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									<div class="card-inner">
+										<p class="card-heading">在线充值（10 秒内自动到账）</p>
+											{$pmw}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{/if}
+
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -45,21 +61,6 @@
 							</div>
 						</div>
 					</div>
-					
-					{if $pmw!=''}
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										{$pmw}
-									</div>
-									
-								</div>
-							</div>
-						</div>
-					</div>
-					{/if}
 					
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
@@ -121,7 +122,40 @@
 							</div>
 						</div>
 					</div>
+					<div aria-hidden="true" class="modal modal-va-middle fade" id="readytopay" role="dialog" tabindex="-1">
+						<div class="modal-dialog modal-xs">
+							<div class="modal-content">
+								<div class="modal-heading">
+									<a class="modal-close" data-dismiss="modal">×</a>
+									<h2 class="modal-title">正在连接支付宝</h2>
+								</div>
+								<div class="modal-inner">
+									<p id="title">正在处理...</p>
+								</div>
+							</div>
+						</div>
+					</div>
 					
+					<div aria-hidden="true" class="modal modal-va-middle fade" id="alipay" role="dialog" tabindex="-1">
+						<div class="modal-dialog modal-xs">
+							<div class="modal-content">
+								<div class="modal-heading">
+									<a class="modal-close" data-dismiss="modal">×</a>
+									<h2 class="modal-title">请使用支付宝扫码充值：</h2>
+								</div>
+								<div class="modal-inner">
+									<p id="title">手机点击二维码转跳支付宝</p>
+									<p id="divide">-------------------------------------------------------------</p>
+									<p id="qrcode"></p>
+									<p id="info"></p>
+								</div>
+								
+								<div class="modal-footer">
+									<p class="text-right"><button class="btn btn-flat btn-brand waves-attach" data-dismiss="modal" id="alipay_cancel" type="button">取消</button></p>
+								</div>
+							</div>
+						</div>
+					</div>
 					{include file='dialog.tpl'}
 				</div>
 			</section>
@@ -164,8 +198,7 @@
 				}
 			})
 		})
-		
-		
+
 	timestamp = {time()}; 
 		
 		
@@ -180,6 +213,7 @@
 			success: function (data) {
 				if (data.ret) {
 					clearTimeout(tid);
+					$("#alipay").modal('hide');
 					$("#result").modal();
 					$("#msg").html("充值成功！");
 					window.setTimeout("location.href=window.location.href", {$config['jump_delay']});

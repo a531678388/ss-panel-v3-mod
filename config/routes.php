@@ -127,6 +127,8 @@ $app->group('/user', function () {
     $this->post('/ssr', 'App\Controllers\UserController:updateSSR');
     $this->post('/theme', 'App\Controllers\UserController:updateTheme');
     $this->post('/mail', 'App\Controllers\UserController:updateMail');
+    $this->post('/email','App\Controllers\UserController:updateEmail');
+    $this->post('/verifyEmail','App\Controllers\UserController:verifyEmail');
     $this->post('/sspwd', 'App\Controllers\UserController:updateSsPwd');
     $this->post('/method', 'App\Controllers\UserController:updateMethod');
     $this->post('/hide', 'App\Controllers\UserController:updateHide');
@@ -164,6 +166,7 @@ $app->group('/auth', function () {
     $this->post('/register', 'App\Controllers\AuthController:registerHandle');
     $this->post('/send', 'App\Controllers\AuthController:sendVerify');
     $this->get('/logout', 'App\Controllers\AuthController:logout');
+    $this->get('/telegram_oauth', 'App\Controllers\AuthController:telegram_oauth');
 })->add(new Guest());
 
 // Password
@@ -270,7 +273,7 @@ $app->group('/admin', function () {
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user', 'App\Controllers\Admin\UserController:delete');
-    $this->get('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
+    $this->post('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
 
 
     $this->get('/coupon', 'App\Controllers\AdminController:coupon');
@@ -291,6 +294,7 @@ $app->group('/api', function () {
     $this->post('/token', 'App\Controllers\ApiController:newToken');
     $this->get('/node', 'App\Controllers\ApiController:node')->add(new Api());
     $this->get('/user/{id}', 'App\Controllers\ApiController:userInfo')->add(new Api());
+    $this->post('/login','App\Controllers\Client\leon:apilogin');
 });
 
 // mu

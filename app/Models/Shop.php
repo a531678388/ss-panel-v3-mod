@@ -16,33 +16,101 @@ class Shop extends Model
         $i = 0;
         foreach ($content as $key=>$value) {
             switch ($key) {
+                case "group_limit":
+                    $content_text .= "仅限 ".$value." 群组购买";
+                    break;
+                case "class_limit_operator":
+                    switch ($value) {
+                        case "equal":
+                            $operator = "等于";
+                            break;
+                        case "greater":
+                            $operator = "大于";
+                            break;
+                        case "greater_equal":
+                            $operator = "大于等于";
+                            break;
+                        case "less":
+                            $operator = "小于";
+                            break;
+                        case "less_equal":
+                            $operator = "小于等于";
+                            break;
+                        case "not":
+                            $operator = "非";
+                            break;
+                        default:
+                            $operator = "";
+                    }
+                    $content_text .= "仅限等级".$operator." ".$content["class_limit_content"]." 的用户购买";
+                    break;
                 case "bandwidth":
-                    $content_text .= "添加流量 ".$value." G ";
+                    if (isset($content["traffic_package"])) {
+                        $content_text .= "流量包: ";
+                    }
+                    $content_text .= "月度流量".$value." G";
+                    break;
+                case "node_speedlimit":
+                    $content_text .= "".$value."mbps 速率";
+                    break;
+                case "node_connector":
+                    $content_text .= "最多支持 ".$value."IP 同时在线";
                     break;
                 case "expire":
-                    $content_text .= "为账号的有效期添加 ".$value." 天 ";
+                    $content_text .= "账号有效期添加 ".$value." 天";
                     break;
                 case "class":
-                    $content_text .= "为账号升级为等级 ".$value." ,有效期 ".$content["class_expire"]." 天";
+                    $content_text .= "套餐有效期 ".$content["class_expire"]." 天";
                     break;
                 case "reset":
-                    $content_text .= " 在 ".$content["reset_exp"]." 天内，每 ".$value." 天重置流量为 ".$content["reset_value"]." G ";
+                    $content_text .= "每 ".$value." 天重置一次流量";
                     break;
                 default:
+                    continue 2;
             }
 
             if ($i<count($content)&&$key!="reset_exp") {
-                $content_text .= ",";
+                $content_text .= ", ";
             }
 
             $i++;
         }
 
-        if (substr($content_text, -1, 1)==",") {
-            $content_text=substr($content_text, 0, -1);
+        if (substr($content_text, -2, 2)==", ") {
+            $content_text=substr($content_text, 0, -2);
         }
 
         return $content_text;
+    }
+
+    public function group_limit()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->group_limit)) {
+            return $content->group_limit;
+        } else {
+            return '';
+        }
+    }
+
+    public function class_limit_operator()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->class_limit_operator)) {
+            return $content->class_limit_operator;
+        } else {
+            return 'none';
+        }
+    }
+
+    public function class_limit_content()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->class_limit_content)) {
+            return $content->class_limit_content;
+        } else {
+            return '';
+        }
     }
 
     public function bandwidth()
@@ -50,6 +118,36 @@ class Shop extends Model
         $content =  json_decode($this->attributes['content']);
         if (isset($content->bandwidth)) {
             return $content->bandwidth;
+        } else {
+            return 0;
+        }
+    }
+
+    public function traffic_package()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->traffic_package)) {
+            return $content->traffic_package;
+        } else {
+            return 0;
+        }
+    }
+
+    public function node_speedlimit()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->node_speedlimit)) {
+            return $content->node_speedlimit;
+        } else {
+            return 0;
+        }
+    }
+
+    public function node_connector()
+    {
+        $content =  json_decode($this->attributes['content']);
+        if (isset($content->node_connector)) {
+            return $content->node_connector;
         } else {
             return 0;
         }
@@ -115,6 +213,69 @@ class Shop extends Model
         }
     }
 
+    public function canBuy($user)
+    {
+        $content = json_decode($this->attributes['content'], true);
+        
+        if (isset($content["group_limit"])) {
+            $group_array=explode(",", $content["group_limit"]);
+            if (!in_array($user->node_group, $group_array)) {
+                return false;
+            }
+        }
+        
+        if (isset($content["class_limit_operator"])) {
+            switch ($content["class_limit_operator"]) {
+                case "equal":
+                    $class_array=explode(",", $content["class_limit_content"]);
+                    if (!in_array($user->class, $class_array)) {
+                        return false;
+                    }
+                    break;
+                case "greater":
+                    if (!($user->class > $content["class_limit_content"])) {
+                        return false;
+                    }
+                    break;
+                case "greater_equal":
+                    if (!($user->class >= $content["class_limit_content"])) {
+                        return false;
+                    }
+                    break;
+                case "less":
+                    if (!($user->class < $content["class_limit_content"])) {
+                        return false;
+                    }
+                    break;
+                case "less_equal":
+                    if (!($user->class <= $content["class_limit_content"])) {
+                        return false;
+                    }
+                    break;
+                case "not":
+                    $class_array=explode(",", $content["class_limit_content"]);
+                    if (in_array($user->class, $class_array)) {
+                        return false;
+                    }
+                    break;
+                default:
+            }
+        }
+        
+        if (isset($content["traffic_package"])) {
+            if (strtotime($user->expire_in) < time()) {
+                return false;
+            }
+            
+            $bought = Bought::where("userid", "=", $user->id)->first();
+            if ($bought == null) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     public function buy($user, $is_renew = 0)
     {
         $content = json_decode($this->attributes['content'], true);
@@ -124,7 +285,8 @@ class Shop extends Model
             switch ($key) {
                 case "bandwidth":
                     if ($is_renew == 0) {
-                        if (Config::get('enable_bought_reset') == 'true') {
+                        if (Config::get('enable_bought_reset') == 'true'
+                                && !isset($content["traffic_package"])) {
                             $user->transfer_enable=$value*1024*1024*1024;
                             $user->u = 0;
                             $user->d = 0;
@@ -142,6 +304,12 @@ class Shop extends Model
                             $user->transfer_enable=$user->transfer_enable+$value*1024*1024*1024;
                         }
                     }
+                    break;
+                case "node_speedlimit":
+                    $user->node_speedlimit = $value;
+                    break;
+                case "node_connector":
+                    $user->node_connector = $value;
                     break;
                 case "expire":
                     if (time()>strtotime($user->expire_in)) {
