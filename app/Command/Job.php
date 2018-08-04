@@ -213,8 +213,6 @@ class Job
 
         $copywrite = file_get_contents("http://update.cz88.net/ip/copywrite.rar");
 
-        $adminUser = User::where("is_admin", "=", "1")->get();
-
         $newmd5 = md5($copywrite);
         $oldmd5 = file_get_contents(BASE_PATH."/storage/qqwry.md5");
 
