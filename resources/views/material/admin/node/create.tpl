@@ -36,14 +36,6 @@
                                         <input class="form-control" id="node_ip" name="node_ip" type="text">
                                     </div>
 
-                                    <div class="form-group form-group-label">
-                                        <div class="checkbox switch">
-                                            <label for="auto_sync"></label>
-                                            <input class="access-hide" id="auto_sync" type="checkbox" name="auto_sync"><span class="switch-toggle"></span>IP 同步
-                                        </div>
-                                    </div>
-
-
                                     <div class="form-group form-group-label" hidden="hidden">
                                         <label class="floating-label" for="method">加密方式</label>
                                         <input class="form-control" id="method" type="text" name="method" value="aes-256-cfb">
