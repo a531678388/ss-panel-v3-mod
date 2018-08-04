@@ -326,7 +326,7 @@
 						<ul class="menu-collapse collapse in" id="ui_menu_use">
 							<li>
 								<a href="/user/lookingglass">
-									<i class="icon icon-lg">youtube_searched_for</i>&nbsp;下载速度
+									<i class="icon icon-lg">youtube_searched_for</i>&nbsp;三网监控
 								</a>
 							</li>
 						</ul>
