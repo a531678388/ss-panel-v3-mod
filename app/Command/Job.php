@@ -438,7 +438,6 @@ class Job
             }
             // Sync node end
 
-
             // Process node offline start
             if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
                 if (Config::get('node_offline_warn') == true){
@@ -457,7 +456,7 @@ class Job
                         }
                     }
                 }
-
+                $notice_text = '喵喵喵~ '.$node->name.' 节点掉线了喵~';
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != none){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
@@ -522,7 +521,10 @@ class Job
                             curl_close($RecUpdate);
                             break;
                     }
+                    $notice_text .= '域名解析被切换到了 '.$Temp_node->name.' 上了喵~';
                 }
+
+                Telegram::Send($notice_text);
 
                 $myfile = fopen(BASE_PATH.'/storage/'.$node->id.'.offline', 'w+') or die('Unable to open file!');
                 $txt = '1';
@@ -530,7 +532,6 @@ class Job
                 fclose($myfile);
             }
             // Process node offline end
-
 
             // Process node recover begin
             if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH.'/storage/'.$node->id.'.offline')&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
@@ -550,7 +551,7 @@ class Job
                         }
                     }
                 }
-
+                $notice_text = '喵喵喵~ '.$node->name.' 节点恢复了喵~';
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
                             if($node->dns_type==2){
                         $origin_type = 'CNAME';
@@ -610,7 +611,9 @@ class Job
                             curl_exec($RecUpdate);
                             curl_close($RecUpdate);
                     }
+                    $notice_text .= '域名解析被切换回来了喵~';
                 }
+                Telegram::Send($notice_text);
 
                 unlink(BASE_PATH.'/storage/'.$node->id.'.offline');
             }
