@@ -456,7 +456,7 @@ class Job
                         }
                     }
                 }
-                $notice_text = '喵喵喵~ '.$node->name.' 节点掉线了喵~';
+
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != none){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
@@ -521,10 +521,7 @@ class Job
                             curl_close($RecUpdate);
                             break;
                     }
-                    $notice_text .= '域名解析被切换到了 '.$Temp_node->name.' 上了喵~';
                 }
-
-                Telegram::Send($notice_text);
 
                 $myfile = fopen(BASE_PATH.'/storage/'.$node->id.'.offline', 'w+') or die('Unable to open file!');
                 $txt = '1';
@@ -551,7 +548,7 @@ class Job
                         }
                     }
                 }
-                $notice_text = '喵喵喵~ '.$node->name.' 节点恢复了喵~';
+
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
                             if($node->dns_type==2){
                         $origin_type = 'CNAME';
@@ -611,9 +608,7 @@ class Job
                             curl_exec($RecUpdate);
                             curl_close($RecUpdate);
                     }
-                    $notice_text .= '域名解析被切换回来了喵~';
                 }
-                Telegram::Send($notice_text);
 
                 unlink(BASE_PATH.'/storage/'.$node->id.'.offline');
             }
