@@ -439,7 +439,7 @@ class Job
             // Sync node end
 
             // Process node offline start
-            if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 720) {
+            if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
                 if (Config::get('node_offline_warn') == true){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
