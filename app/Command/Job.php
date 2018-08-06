@@ -441,6 +441,7 @@ class Job
 
             // Process node offline start
             if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
+                /*
                 if (Config::get('node_offline_warn') == true){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
@@ -457,7 +458,7 @@ class Job
                         }
                     }
                 }
-
+				*/
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != none){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
@@ -534,6 +535,7 @@ class Job
 
             // Process node recover begin
             if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH.'/storage/'.$node->id.'.offline')&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
+                /*
                 if (Config::get('node_offline_warn') == true){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
@@ -550,7 +552,7 @@ class Job
                         }
                     }
                 }
-
+				*/
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
                             if($node->dns_type==2){
                         $origin_type = 'CNAME';
