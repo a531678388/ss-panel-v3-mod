@@ -470,7 +470,7 @@ Domestic = select,DIRECT,PROXY
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$proxy_name.',url = http://www.gstatic.com/generate_204,interval = 1200
+AUTO = url-test'.$proxy_name.',url = http://captive.apple.com,interval = 1200
 
 '.$rules.'
 
