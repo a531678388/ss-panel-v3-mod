@@ -9,7 +9,7 @@
 }
 
 .kaobei:hover {
-    background-color: #ff7ffe; /* prink */
+    background-color: #000000; /* prink */
     color: white;
 }</style>
 
