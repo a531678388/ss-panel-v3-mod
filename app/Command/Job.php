@@ -462,7 +462,7 @@ class Job
                         }
                     }
                 }
-                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
+                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != "none"){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
                         $query->where('node_group', '=', $node->node_group)
