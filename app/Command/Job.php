@@ -446,7 +446,7 @@ class Job
 
             // Process node offline start
             if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
-                if (Config::get('node_offline_warn') == "true"){
+                if (Config::get('node_offline_warn') == 'true'){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
                         $subject = Config::get('appName').'-系统警告';
@@ -462,7 +462,7 @@ class Job
                         }
                     }
                 }
-                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != "none"){
+                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
                         $query->where('node_group', '=', $node->node_group)
@@ -537,7 +537,7 @@ class Job
 
             // Process node recover begin
             if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH.'/storage/'.$node->id.'.offline')&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
-                if (Config::get('node_offline_warn') == true){
+                if (Config::get('node_offline_warn') == 'true'){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
                         $subject = Config::get('appName').'-系统提示';
@@ -622,7 +622,7 @@ class Job
 
 
         // Detect login location begin
-        if (Config::get("login_warn") == "true") {
+        if (Config::get("login_warn") == 'true') {
             $iplocation = new QQWry();
             $Logs = LoginIp::where("datetime", ">", time()-60)->get();
             foreach ($Logs as $log) {
