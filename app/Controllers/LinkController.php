@@ -454,11 +454,18 @@ port = 8888
 socks-port = 8889
 
 enhanced-mode-by-rule = false
+show-error-page-for-reject = true
 
 // Auto
 exclude-simple-hostnames = true
 ipv6 = true
 replica = false
+
+[Replica]
+hide-apple-request = true
+hide-crashlytics-request = true
+hide-udp = false
+use-keyword-filter = false
 
 [Proxy]
 DIRECT = direct
