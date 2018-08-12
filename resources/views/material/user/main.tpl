@@ -320,8 +320,7 @@
 
 							<li><a href="/user/bought"><i class="icon icon-lg">shop</i>&nbsp;购买记录</a></li>
 						</ul>
-
-						
+<!--
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_use">监控</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_use">
 							<li>
@@ -330,7 +329,7 @@
 								</a>
 							</li>
 						</ul>
-
+-->
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_detect">
 							<li><a href="/user/detect"><i class="icon icon-lg">assignment_late</i>&nbsp;审计规则</a></li>
