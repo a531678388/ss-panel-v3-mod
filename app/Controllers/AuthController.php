@@ -219,10 +219,17 @@ class AuthController extends BaseController
         if (Config::get('enable_email_verify') == 'true') {
             $email = $request->getParam('email');
             $email = trim($email);
+            $mailwhitelist = "@qq.com|@163.com|@126.com|@gmail.com|@outlook.com|@icloud.com|@hotmail.com|@vip.qq.com|@sina.com|@yahoo|@yeah.net|@foxmail.com|@aliyun.com";
 
             if ($email == "") {
                 $res['ret'] = 0;
                 $res['msg'] = "未填写邮箱";
+                return $response->getBody()->write(json_encode($res));
+            }
+
+            if(!preg_match("/$mailwhitelist/i",$email)){
+                $res['ret'] = 0;
+                $res['msg'] = "不支持的邮箱";
                 return $response->getBody()->write(json_encode($res));
             }
 
