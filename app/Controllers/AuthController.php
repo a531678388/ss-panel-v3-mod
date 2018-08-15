@@ -320,15 +320,6 @@ class AuthController extends BaseController
             }
         }
 
-        if (Config::get('enable_invite_code') == 'true') {
-            $c = InviteCode::where('code', $code)->first();
-            if ($c == null) {
-                $res['ret'] = 0;
-                $res['msg'] = "邀请码无效";
-                return $response->getBody()->write(json_encode($res));
-            }
-        }
-
         // check email format
         if (!Check::isEmailLegal($email)) {
             $res['ret'] = 0;
@@ -422,6 +413,13 @@ class AuthController extends BaseController
         $user->auto_reset_bandwidth = Config::get('reg_auto_reset_bandwidth');
         $user->money = 0;
 
+        // invite
+        if (Config::get('enable_invite_code') == 'true') {
+            $c = InviteCode::where('code', $code)->first();
+            if ($c != null) {
+            	$user->money = Config::get('user_money_invite');
+            }
+        }
 
         // aff
         if (($affid && (is_numeric($affid))) || $affid == '0') {
@@ -470,6 +468,7 @@ class AuthController extends BaseController
         if ($user->save()) {
             $res['ret'] = 1;
             $res['msg'] = "注册成功";
+        	$c->delete();
 
             Duoshuo::add($user);
 
