@@ -28,7 +28,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="name">昵称</label>
+													<label class="floating-label" for="name">昵称（必填）</label>
 													<input class="form-control" id="name" type="text">
 												</div>
 											</div>
@@ -37,7 +37,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email">邮箱</label>
+													<label class="floating-label" for="email">邮箱（必填）</label>
 													<input class="form-control" id="email" type="text"><br>
 													{if $enable_email_verify == 'true'}
 													<button id="email_verify" class="btn btn-block btn-brand-accent waves-attach waves-light">获取验证码</button>
@@ -50,7 +50,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="email_code">验证码</label>
+													<label class="floating-label" for="email_code">验证码（必填）</label>
 													<input class="form-control" id="email_code" type="text">
 												</div>
 											</div>
@@ -60,7 +60,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="passwd">密码</label>
+													<label class="floating-label" for="passwd">密码（必填）</label>
 													<input class="form-control" id="passwd" type="password">
 												</div>
 											</div>
@@ -69,7 +69,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="repasswd">重复密码</label>
+													<label class="floating-label" for="repasswd">重复密码（必填）</label>
 													<input class="form-control" id="repasswd" type="password">
 												</div>
 
@@ -95,7 +95,7 @@
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
-													<label class="floating-label" for="wechat">在这输入联络方式账号</label>
+													<label class="floating-label" for="wechat">在这输入联络方式账号（必填）</label>
 													<input class="form-control" id="wechat" type="text">
 												</div>
 											</div>
