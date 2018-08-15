@@ -135,10 +135,6 @@
 																					{$server_explode[4]}
 																				</span></p>
 
-																				<p>VMess链接：
-																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
-																				</p>
-
 																				<p>{$node->info}</p>
 																				</div>
 																			</div>
