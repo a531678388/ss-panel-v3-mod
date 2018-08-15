@@ -101,7 +101,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">推介计划</p>
+										<p class="card-heading">返利列表</p>
 										<div class="card-table">
 											<div class="table-responsive">
 											{$paybacks->render()}
