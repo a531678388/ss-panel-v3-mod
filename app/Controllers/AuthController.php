@@ -397,7 +397,7 @@ class AuthController extends BaseController
             $user->obfs = Config::get('reg_obfs');
             $user->obfs_param = Config::get('reg_obfs_param');
         } else {
-            $user->method = "aes-128-gcm";
+            $user->method = "chacha20-ietf-poly1305";
             $user->protocol = "origin";
             $user->protocol_param = Config::get('reg_protocol_param');
             $user->obfs = "simple_obfs_http";

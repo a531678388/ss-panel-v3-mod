@@ -403,7 +403,7 @@
                 url: "/user/method",
                 dataType: "json",
                 data: {
-                    method: "aes-128-gcm"
+                    method: "chacha20-ietf-poly1305"
                 },
                 success: function (data) {
                     if (data.ret) {
