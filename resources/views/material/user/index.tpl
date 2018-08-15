@@ -144,7 +144,7 @@
 										{if URL::SSCanConnect($user)}
 										<div class="card-action">
 											<p class="card-heading">托管地址（SS 模式）</p>
-											<p>Surge/Surfboard 托管地址</p>
+											<p>Surge / Surfboard 托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1">点击拷贝</button>
 											<p><a href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键导入</a></p>
