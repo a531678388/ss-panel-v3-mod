@@ -29,13 +29,11 @@
 											<dd>{$user->email}</dd>
 										</dl>
 									</div>
-									<!--->
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
 											<a class="btn btn-flat waves-attach" href="kill"><span class="icon">check</span>&nbsp;删除我的账户</a>
 										</div>
 									</div>
-									<!--->
 								</div>
 							</div>
 						</div>
