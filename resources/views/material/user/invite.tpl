@@ -70,7 +70,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">邀请码（赠送初始奖金）</p>
+										<p class="card-heading">邀请码（邀请奖励）</p>
 										<p>当前您可以生成<code>{$user->invite_num}</code>个邀请码。 </p>
 									</div>
 									{if $user->invite_num }

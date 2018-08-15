@@ -467,9 +467,11 @@ class AuthController extends BaseController
 
         if ($user->save()) {
             $res['ret'] = 1;
-            $res['msg'] = "注册成功";
             if ($c != null) {
+            	$res['msg'] = "注册成功（获得邀请奖励）";
             	$c->delete();
+            } else {
+            	$res['msg'] = "注册成功";
             }
 
             Duoshuo::add($user);

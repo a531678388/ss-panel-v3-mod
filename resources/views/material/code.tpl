@@ -25,7 +25,7 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>使用邀请码注册可获得免费的初始奖金。</p>
+								<p>使用邀请码注册可获得奖励</p>
 							</div>
 						</div>
 					</div>
