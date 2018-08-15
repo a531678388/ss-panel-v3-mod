@@ -43,7 +43,7 @@
 										
 										<p>您每使用推介链接邀请一位用户注册，当 TA 充值时您就会获得 TA 充值金额的 <code>{$config["code_payback"]} %</code> 作为佣金。</p>
 										<p>推介收益的我们将会在用户购买产品服务后立即结算该推介佣金。您始终可以通过账户信息查看到您的推介情况。</p>
-										<p>当您的推介佣金达到 <code>50</code> 元，只需要在工单中申请并写入您的收款账户（支付宝账户），我们就会直接将佣金打入您的账户中。</p>
+										<p>当您的推介佣金达到 <code>100</code> 元，只需要在工单中申请并写入您的收款账户（支付宝账户），我们就会直接将佣金打入您的账户中。</p>
 									</div>
 									
 								</div>
@@ -56,7 +56,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">推介链接</p>
+										<p class="card-heading">推介链接（返利链接）</p>
 										<p>{$config["baseUrl"]}/auth/register?affid={$user->id}</p>
 										<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="https://dlercloud.com/auth/register?affid={$user->id}">点击拷贝</button>
 									</div>
@@ -70,14 +70,14 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">邀请</p>
+										<p class="card-heading">邀请码（赠送初始奖金）</p>
 										<p>当前您可以生成<code>{$user->invite_num}</code>个邀请码。 </p>
 									</div>
 									{if $user->invite_num }
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
 											
-												<button id="invite" class="btn btn-flat waves-attach">生成我的邀请码</button>
+												<button id="invite" class="btn btn-flat waves-attach">生成邀请码</button>
 											
 										</div>
 									</div>
