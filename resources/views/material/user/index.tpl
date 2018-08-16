@@ -127,27 +127,23 @@
 											<p class="card-heading">订阅地址（SSR 模式）</p>
 											{if URL::SSRCanConnect($user)}
 											<p>普通端口订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝</button>
-											<button href="Shadowrocket://add/sub://{$shadowrocket_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</button>
 											{/if}
 											<p>固定端口（123）订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
-											<button href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</button>
 											<p>固定端口（30000）订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=30000">点击拷贝</button>
-											<button href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</button>
 										</div>
 
 										{if URL::SSCanConnect($user)}
 										<div class="card-action">
 											<p class="card-heading">托管地址（SS 模式）</p>
 											<p>Surge / Surfboard 托管地址</p>
-											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p>
+											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p><p><a href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1">点击拷贝</button>
-											<button href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</button>
 										</div>
 										{/if}
 										
