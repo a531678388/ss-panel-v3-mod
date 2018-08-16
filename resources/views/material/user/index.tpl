@@ -21,7 +21,7 @@
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
 										<p class="card-heading">Dler CLoud</p>
-										<p><a href="https://t.me/black_hole_talk" target="_blank">交流群组</a> | <a href="https://t.me/black_hole_channel" target="_blank">公告面板</a> | <a href="https://t.me/DlerCloud_bot" target="_blank">Telegram bot</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
+										<p><a href="https://t.me/dlercloud_talk" target="_blank">交流群组</a> | <a href="https://t.me/dlercloud_news" target="_blank">公告面板</a> | <a href="https://t.me/DlerCloud_bot" target="_blank">Telegram bot</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
 									</div>
 								</div>
 							</div>
@@ -127,23 +127,27 @@
 											<p class="card-heading">订阅地址（SSR 模式）</p>
 											{if URL::SSRCanConnect($user)}
 											<p>普通端口订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝</button>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 											{/if}
 											<p>固定端口（123）订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 											<p>固定端口（30000）订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p><p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=30000">点击拷贝</button>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
 										</div>
 
 										{if URL::SSCanConnect($user)}
 										<div class="card-action">
 											<p class="card-heading">托管地址（SS 模式）</p>
 											<p>Surge / Surfboard 托管地址</p>
-											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p><p><a href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</p>
+											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1">点击拷贝</button>
+											<p><a href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</p>
 										</div>
 										{/if}
 										

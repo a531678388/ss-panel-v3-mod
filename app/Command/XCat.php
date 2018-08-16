@@ -66,6 +66,8 @@ class XCat
 				return Job::UserGa();
 			case("backup"):
 				return Job::backup();
+			case("initdownload"):
+				return $this->initdownload();
 			case("updatedownload"):
 				return Job::updatedownload();
 			case("cleanRelayRule"):
@@ -141,6 +143,12 @@ class XCat
 			}
 		}
 	}
+
+	public function initdownload()
+    {
+        system('git clone https://github.com/lhie1/black-hole-app.git '.BASE_PATH."/public/ssr-download/", $ret);
+        echo $ret;
+    }
 
 	public function createAdmin()
 	{

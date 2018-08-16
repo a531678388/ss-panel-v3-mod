@@ -247,7 +247,14 @@ class Job
             unlink(BASE_PATH."/storage/qqwry.dat");
             rename(BASE_PATH."/storage/qqwry.dat.bak", BASE_PATH."/storage/qqwry.dat");
         }
+        
+        Job::updatedownload();
     }
+
+    public static function updatedownload()
+      {
+        system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/lhie1/black-hole-app.git");
+     }
 
     public static function CheckJob()
     {
@@ -431,12 +438,11 @@ class Job
                         // process ss_node table
                         $node->node_ip=$ip;
                         $node->save();
-                        if ($node->sort == 10){
-                            $relay_rules = Relay::where('dist_node_id',$node->id)->get();
-                            foreach ($relay_rules as $relay_rule){
-                                $relay_rule->dist_ip = $ip;
-                                $relay->save();
-                            }
+                        // process relay table
+                        $relay_rules = Relay::where('dist_node_id',$node->id)->get();
+                        foreach ($relay_rules as $relay_rule){
+                            $relay_rule->dist_ip = $ip;
+                            $relay->save();
                         }
                     }
                 }
