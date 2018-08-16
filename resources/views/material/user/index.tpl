@@ -134,11 +134,11 @@
 											<p>固定端口（123）订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
-											<button href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
+											<button href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</button>
 											<p>固定端口（30000）订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=30000">点击拷贝</button>
-											<button href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</p>
+											<button href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</button>
 										</div>
 
 										{if URL::SSCanConnect($user)}
@@ -147,7 +147,7 @@
 											<p>Surge / Surfboard 托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1">点击拷贝</button>
-											<button href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</p>
+											<button href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</button>
 										</div>
 										{/if}
 										
