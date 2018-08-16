@@ -56,7 +56,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">推介链接（返利链接）</p>
+										<p class="card-heading">推介链接（您将获得充值返利）</p>
 										<p>{$config["baseUrl"]}/auth/register?affid={$user->id}</p>
 										<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="https://dlercloud.com/auth/register?affid={$user->id}">点击拷贝</button>
 									</div>
@@ -70,7 +70,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">邀请码（邀请奖励）</p>
+										<p class="card-heading">邀请码（您的朋友将获得注册奖励）</p>
 										<p>当前您可以生成<code>{$user->invite_num}</code>个邀请码。 </p>
 									</div>
 									{if $user->invite_num }
