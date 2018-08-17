@@ -956,9 +956,8 @@ class Job
                             				$CFResult = json_decode(curl_exec($RecUpdate),true)["success"];
                             				curl_close($RecUpdate);
                             				break;
-                    				} else {
+									}
 								}
-							}
 							$file_node = fopen(BASE_PATH."/storage/".$node->id.".gfw", "w+");
 							fclose($file_node);
 						} else{
@@ -1040,7 +1039,6 @@ class Job
                             				curl_exec($RecUpdate);
                             				curl_close($RecUpdate);
                     				}
-                				} else {
 								}
 							}
 							unlink(BASE_PATH."/storage/".$node->id.".gfw");
