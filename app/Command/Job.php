@@ -252,9 +252,9 @@ class Job
     }
 
     public static function updatedownload()
-      {
-        system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/lhie1/black-hole-app.git");
-     }
+	{
+    	system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/lhie1/black-hole-app.git");
+	}
 
     public static function CheckJob()
     {
@@ -841,9 +841,10 @@ class Job
         // Radius ban end
     }
 
+
+    // detect GFW degin
     public static function detectGFW()
 		{
-		//节点被墙检测
 		if(Config::get("enable_detect_gfw")=="true"){
 			$last_time=file_get_contents(BASE_PATH."/storage/last_detect_gfw_time");
 			for ($count=1;$count<=12;$count++){
@@ -1052,4 +1053,5 @@ class Job
 			}
 		}
 	}
+	// detect GFW end
 }
