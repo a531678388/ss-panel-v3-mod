@@ -416,7 +416,7 @@ class URL
 	}
   
   	public static function getUserExpiration($user){
-		$ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("到期时间：".$user->expire_in)."&group=".Tools::base64_url_encode(Config::get('appName'));
+		$ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("到期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
       		return "ssr://".Tools::base64_url_encode($ssurl);
 	}
 }
