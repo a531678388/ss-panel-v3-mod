@@ -253,7 +253,7 @@ class Job
 
     public static function updatedownload()
 	{
-    	system('cd '.BASE_PATH."/public/ssr-download/ && git pull https://github.com/lhie1/black-hole-app.git");
+    	system('cd '.BASE_PATH."/public/download/ && git pull https://github.com/lhie1/black-hole-app.git");
 	}
 
     public static function CheckJob()

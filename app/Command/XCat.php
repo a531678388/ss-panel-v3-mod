@@ -148,7 +148,7 @@ class XCat
 
 	public function initdownload()
     {
-        system('git clone https://github.com/lhie1/black-hole-app.git '.BASE_PATH."/public/ssr-download/", $ret);
+        system('git clone https://github.com/lhie1/black-hole-app.git '.BASE_PATH."/public/download/", $ret);
         echo $ret;
     }
 
