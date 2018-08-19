@@ -253,7 +253,7 @@ class URL
         $return_url = '';
 		if ($user->transfer_enable >0){
       		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
-      		$return_url .= URL::getUserExpiration($user).($enter == 0 ? ' ' : "\n");
+      		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
 		}
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
@@ -373,8 +373,9 @@ class URL
             $mu_user->protocol_param = $user->id.":".$user->passwd;
 
             $user = $mu_user;
-
+/*
             $node_name .= " - ".$mu_port." 端口";
+*/
         }
 
         if($is_ss) {
@@ -415,7 +416,7 @@ class URL
       		return "ssr://".Tools::base64_url_encode($ssurl);
 	}
   
-  	public static function getUserExpiration($user){
+  	public static function getUserClassExpiration($user){
 		$ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("到期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
       		return "ssr://".Tools::base64_url_encode($ssurl);
 	}

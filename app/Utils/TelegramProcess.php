@@ -37,11 +37,11 @@ class TelegramProcess
 								协议：".$ssr_user->protocol."
 								混淆：".$ssr_user->obfs."
 
-								普通端口订阅地址：
+								个人端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=0
-								固定端口（123）订阅地址：
+								公共端口（123）订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=123
-								固定端口（30000）订阅地址：
+								公共端口（30000）订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=30000
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
@@ -60,9 +60,9 @@ class TelegramProcess
 
 								Surge 托管地址：
 								".$apiUrl."/link/".$ios_token."?is_ss=1
-								SSR 固定端口（123）订阅地址：
+								SSR 公共端口（123）订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=123
-								SSR 固定端口（30000）订阅地址：
+								SSR 公共端口（30000）订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=30000
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
