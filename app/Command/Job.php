@@ -961,7 +961,7 @@ class Job
 								}
 							$file_node = fopen(BASE_PATH."/storage/".$node->id.".gfw", "w+");
 							fclose($file_node);
-						} else{
+						} else {
 							//没有被墙
 							echo($node->id.":true".PHP_EOL);
 							if(file_exists(BASE_PATH."/storage/".$node->id.".gfw")==false){
