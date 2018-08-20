@@ -305,12 +305,6 @@ class Shop extends Model
                         }
                     }
                     break;
-                case "node_speedlimit":
-                    $user->node_speedlimit = $value;
-                    break;
-                case "node_connector":
-                    $user->node_connector = $value;
-                    break;
                 case "expire":
                     if (time()>strtotime($user->expire_in)) {
                         $user->expire_in=date("Y-m-d H:i:s", time()+$value*86400);
@@ -319,11 +313,14 @@ class Shop extends Model
                     }
                     break;
                 case "class":
-                    if ($user->class==0||$user->class!=$value) {
-                        $user->class_expire=date("Y-m-d H:i:s", time());
-                    }
-                    $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$content["class_expire"]*86400);
                     $user->class=$value;
+                    $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
+                    break;
+                case "speedlimit":
+                    $user->node_speedlimit=$value;
+                    break;
+                case "connector":
+                    $user->node_connector=$value;
                     break;
                 default:
             }

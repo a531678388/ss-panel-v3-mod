@@ -129,16 +129,16 @@
 											<p>个人端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝</button>
-											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 											{/if}
 											<p>公共端口（123）订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
-											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 											<p>公共端口（30000）订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=30000">点击拷贝</button>
-											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
+											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 										</div>
 
 										{if URL::SSCanConnect($user)}
@@ -153,14 +153,14 @@
 										
 										<div class="card-action">
 											<div class="card-action-btn pull-left">
-												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅链接</a></p>
+												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅/托管地址</a></p>
 											</div>
 										</div>
 										{else}
 										<div class="card-action">
 											<div class="card-action-btn pull-left">
 												<a href="/user/shop">
-													<i class="icon icon-lg">info</i>&nbsp;已到期或未购买
+													<i class="icon icon-lg">info</i>&nbsp;已到期或未购买（点此购买）
 												</a>
 											</div>
 										</div>

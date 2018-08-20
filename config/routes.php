@@ -137,6 +137,7 @@ $app->group('/user', function () {
     $this->get('/kill', 'App\Controllers\UserController:kill');
     $this->post('/kill', 'App\Controllers\UserController:handleKill');
     $this->get('/logout', 'App\Controllers\UserController:logout');
+    $this->get('/backtoadmin', 'App\Controllers\UserController:backtoadmin');
     $this->get('/code', 'App\Controllers\UserController:code');
     $this->get('/alipay', 'App\Controllers\UserController:alipay');
     $this->get('/code_check', 'App\Controllers\UserController:code_check');
@@ -273,6 +274,7 @@ $app->group('/admin', function () {
     $this->get('/user/{id}/edit', 'App\Controllers\Admin\UserController:edit');
     $this->put('/user/{id}', 'App\Controllers\Admin\UserController:update');
     $this->delete('/user', 'App\Controllers\Admin\UserController:delete');
+    $this->post('/user/changetouser', 'App\Controllers\Admin\UserController:changetouser');
     $this->post('/user/ajax', 'App\Controllers\Admin\UserController:ajax');
 
 

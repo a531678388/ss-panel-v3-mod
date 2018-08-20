@@ -417,7 +417,11 @@ class URL
 	}
   
   	public static function getUserClassExpiration($user){
+        if($user->class !=0){
 		$ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("到期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
-      		return "ssr://".Tools::base64_url_encode($ssurl);
+        } else {
+      	$ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("已到期，请续费购买使用".Tools::base64_url_encode(Config::get('appName'));
+        }
+        return "ssr://".Tools::base64_url_encode($ssurl);
 	}
 }
