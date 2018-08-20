@@ -379,12 +379,6 @@
 							</li>
 						{/if}
 
-						{if $can_backtoadmin}
-                            <li>
-                                <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
-                            <li>
-                        {/if}
-
 
 						
 
