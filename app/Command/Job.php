@@ -449,9 +449,16 @@ class Job
             }
             // Sync node end
 
+            // Process new node
+            if ($node->online_status == 0 && time() - $node->node_heartbeat <= 90 && ($node->sort == 0 || $node->sort == 10)){
+                $node->online_status = 1;
+                $node->save();
+            }
 
             // Process node offline start
-            if ($node->isNodeOnline() === false && time() - $node->node_heartbeat <= 360) {
+            if ($node->isNodeOnline() == true && time() - $node->node_heartbeat > 120) {
+                $node->online_status = -1;
+                $node->save();
                 if (Config::get('node_offline_warn') == 'true'){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
@@ -474,7 +481,7 @@ class Job
                         $query->where('node_group', '=', $node->node_group)
                             ->orWhere('node_group', '=', 0);
                         }
-                    )->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->inRandomOrder()->first();
+                    )->whereRaw('UNIX_TIMESTAMP() - `node_heartbeat` < 60')->inRandomOrder()->first();
 
                     switch(Config::get('node_switcher'))
                     {
@@ -528,22 +535,19 @@ class Job
                             curl_setopt($RecUpdate, CURLOPT_CUSTOMREQUEST, 'PUT');
                             $post_data = '{"type":"CNAME","name":"'.$node->server.'","content":"'.$Temp_node->server.'","ttl":'.Config::get('cloudflare_ttl').'}';
                             curl_setopt($RecUpdate, CURLOPT_POSTFIELDS, $post_data);
-                            $CFResult = json_decode(curl_exec($RecUpdate),true)["success"];
+                            curl_exec($RecUpdate);
                             curl_close($RecUpdate);
                             break;
                     }
                 }
-
-                $myfile = fopen(BASE_PATH.'/storage/'.$node->id.'.offline', 'w+') or die('Unable to open file!');
-                $txt = '1';
-                fwrite($myfile, $txt);
-                fclose($myfile);
             }
             // Process node offline end
 
             // Process node recover begin
-            if (time()-$node->node_heartbeat<60&&file_exists(BASE_PATH.'/storage/'.$node->id.'.offline')&&$node->node_heartbeat!=0&&($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)) {
-                if (Config::get('node_offline_warn') == 'true'){
+            if ($node->isNodeOnline() == false && time() - $node->node_heartbeat < 60) {
+                $node->online_status = 1;
+                $node->save();
+                if (Config::get('node_offline_warn') == true){
                     $adminUser = User::where("is_admin", "=", "1")->get();
                     foreach ($adminUser as $user) {
                         $subject = Config::get('appName').'-系统提示';
@@ -561,10 +565,10 @@ class Job
                 }
                 if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
                             if($node->dns_type==2){
-                        $origin_type = 'CNAME';
+                                $origin_type = 'CNAME';
                                 $origin_value = $node->dns_value;
                             }else{
-                        $origin_type = 'A';
+                                $origin_type = 'A';
                                 $origin_value = $node->node_ip;
                             }
                     switch(Config::get('node_switcher'))
@@ -619,8 +623,6 @@ class Job
                             curl_close($RecUpdate);
                     }
                 }
-
-                unlink(BASE_PATH.'/storage/'.$node->id.'.offline');
             }
             // Process node recover end
         }
@@ -628,7 +630,7 @@ class Job
 
 
         // Detect login location begin
-        if (Config::get("login_warn") == 'true') {
+        if (Config::get("login_warn")=="true") {
             $iplocation = new QQWry();
             $Logs = LoginIp::where("datetime", ">", time()-60)->get();
             foreach ($Logs as $log) {

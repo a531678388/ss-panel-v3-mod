@@ -443,9 +443,7 @@ class UserController extends BaseController
                             $node_heartbeat[$temp[0]]="在线";
                         }
                     } else {
-                        if (!isset($node_heartbeat[$temp[0]])) {
-                            $node_heartbeat[$temp[0]]="暂无数据";
-                        }
+                        $node_heartbeat[$temp[0]]="暂无数据";
                     }
 
                     if ($node->node_bandwidth_limit==0) {
@@ -468,12 +466,6 @@ class UserController extends BaseController
                     if (strpos($node_method[$temp[0]], $temp[1])===false) {
                         $node_method[$temp[0]]=$node_method[$temp[0]]." ".$temp[1];
                     }
-                }
-
-                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
-                    $node_latestload[$temp[0]]=((float)explode(" ", $node_loadtemp)[0])*100;
-                } else {
-                    $node_latestload[$temp[0]]=null;
                 }
 
 
