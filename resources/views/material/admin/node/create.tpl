@@ -47,7 +47,7 @@
                                     </div>
 
                                     <div class="form-group form-group-label">
-                                        <label for="mu_only">
+                                        <label for="dns_type">
                                             <label class="floating-label" for="dns_type">DNS 类型</label>
                                             <select id="dns_type" class="form-control" name="dns_type">
                                                 <option value="1">非使用节点</option>
