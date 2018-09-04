@@ -79,13 +79,13 @@ class Config
     {
         switch ($type) {
             case 'obfs':
-                $list = array('plain', 'http_simple', 'http_simple_compatible', 'http_post', 'http_post_compatible',
-                            'tls1.2_ticket_auth', 'tls1.2_ticket_auth_compatible', 'tls1.2_ticket_fastauth', 'tls1.2_ticket_fastauth_compatible',
-                            'simple_obfs_http', 'simple_obfs_tls');
+                $list = array('plain', 'http_simple', 'http_simple_compatible', 'http_post', 'http_post_compatible', 'simple_obfs_http');
+/*
+                $list = array('plain', 'http_simple', 'http_simple_compatible', 'http_post', 'http_post_compatible', 'tls1.2_ticket_auth', 'tls1.2_ticket_auth_compatible', 'tls1.2_ticket_fastauth', 'tls1.2_ticket_fastauth_compatible', 'simple_obfs_http', 'simple_obfs_tls');
+*/
                 return $list;
             case 'protocol':
-                $list = array('origin',
-                            'auth_sha1_v4', 'auth_aes128_sha1', 'auth_aes128_md5');
+                $list = array('origin', 'auth_aes128_sha1', 'auth_aes128_md5');
                 return $list;
             case 'allow_none_protocol':
                 $list = array('auth_chain_a', 'auth_chain_b');
@@ -94,16 +94,13 @@ class Config
                 $list = array('auth_aes128_md5', 'auth_aes128_sha1', 'auth_chain_a', 'auth_chain_b');
                 return $list;
             case 'ss_aead_method':
-                $list = array('aes-128-gcm', 'aes-192-gcm',
-                'aes-256-gcm', 'chacha20-ietf-poly1305', 'xchacha20-ietf-poly1305');
+                $list = array('aes-128-gcm', 'aes-192-gcm', 'aes-256-gcm', 'chacha20-ietf-poly1305', 'xchacha20-ietf-poly1305');
                 return $list;
             case 'ss_obfs':
                 $list = array('simple_obfs_http', 'simple_obfs_tls');
                 return $list;
             default:
-                $list = array('rc4-md5', 'aes-128-cfb', 'aes-192-cfb', 'aes-256-cfb',
-                            'aes-128-ctr', 'aes-192-ctr', 'aes-256-ctr','chacha20', 'chacha20-ietf', 'aes-128-gcm', 'aes-192-gcm',
-                            'aes-256-gcm', 'chacha20-ietf-poly1305', 'xchacha20-ietf-poly1305');
+                $list = array('rc4-md5', 'aes-128-cfb', 'aes-192-cfb', 'aes-256-cfb', 'aes-128-ctr', 'aes-192-ctr', 'aes-256-ctr','chacha20', 'chacha20-ietf', 'aes-128-gcm', 'aes-192-gcm', 'aes-256-gcm', 'chacha20-ietf-poly1305', 'xchacha20-ietf-poly1305');
                 return $list;
         }
     }
