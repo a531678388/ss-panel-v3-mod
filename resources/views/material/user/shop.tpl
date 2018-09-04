@@ -25,8 +25,7 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>购买相同商品有效期会自动叠加累计</p>
-								<p>购买不同套餐时有效期会从当前时间开始计算</p>
+								<p>套餐不可叠加，新购套餐会覆盖旧商品的到期时间</p>
 								<p>购买新套餐时，如果旧套餐未关闭自动续费，则旧套餐的自动续费依然生效</p>
 								<p>注：Try-out 体验套餐、Bronze 套餐不包含游戏节点、国内节点</p>
 								<p>当前余额：{$user->money} 元</p>
@@ -285,6 +284,13 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
+
+		if(document.getElementById('disableothers').checked){
+			var disableothers=1;
+		}
+		else{
+			var disableothers=0;
+		}
 			
 		$.ajax({
 			type: "POST",
@@ -294,6 +300,7 @@ $("#order_input").click(function () {
 				coupon: $("#coupon").val(),
 				shop: shop,
 				autorenew: autorenew
+				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {

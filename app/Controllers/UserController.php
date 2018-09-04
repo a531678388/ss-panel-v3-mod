@@ -978,6 +978,8 @@ class UserController extends BaseController
         $code = $coupon;
         $shop = $request->getParam('shop');
 
+        $disableothers=$request->getParam('disableothers');
+
         $autorenew = $request->getParam('autorenew');
 
         $shop=Shop::where("id", $shop)->where("status", 1)->first();
@@ -1052,7 +1054,15 @@ class UserController extends BaseController
         $user->money = $user->money - $price;
         $user->save();
 
-        $bought=new Bought();
+        if($disableothers == 1){
+            $boughts = Bought::where("userid", $user->id);
+            foreach($boughts as $disable_bought){
+                $disable_bought->renew = 0;
+                $disable_bought->save();
+            }
+        }
+
+        $bought = new Bought();
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
         $bought->datetime = time();
