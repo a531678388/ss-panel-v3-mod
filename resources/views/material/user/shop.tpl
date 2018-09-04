@@ -284,13 +284,6 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
-
-		if(document.getElementById('disableothers').checked){
-			var disableothers=1;
-		}
-		else{
-			var disableothers=0;
-		}
 			
 		$.ajax({
 			type: "POST",
@@ -300,7 +293,6 @@ $("#order_input").click(function () {
 				coupon: $("#coupon").val(),
 				shop: shop,
 				autorenew: autorenew
-				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {
