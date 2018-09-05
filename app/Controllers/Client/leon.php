@@ -49,7 +49,7 @@ public function apiregister($request, $response, $next)
         $user = User::where('email', $email)->first();
         if ($user != null) {
             $res['status'] = 0;
-            $res['reason'] = "邮箱已经被注册了";
+            $res['reason'] = "邮箱已被注册";
             return $response->getBody()->write(json_encode($res));
         }
 
@@ -123,13 +123,13 @@ public function apiregister($request, $response, $next)
 
         if ($user == null) {
             $res['status'] = 0;
-            $res['reason'] = "401 邮箱或者密码错误";
+            $res['reason'] = "邮箱或者密码错误";
             return $response->getBody()->write(json_encode($res));
         }
 
         if (!Hash::checkPassword($user->pass, $passwd)) {
             $res['status'] = 0;
-            $res['reason'] = "402 邮箱或者密码错误";
+            $res['reason'] = "邮箱或者密码错误";
 
 
             $loginip=new LoginIp();
