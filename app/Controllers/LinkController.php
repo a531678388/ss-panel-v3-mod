@@ -423,16 +423,25 @@ class LinkController extends BaseController
 
     public static function GetIosConf($user, $is_mu = 0, $is_ss = 0)
     {
-        $proxy_name = "";
-        $proxy_group = "";
+        $proxy_name="";
+        $proxy_group="";
+        $domestic_name="";
 
         $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
+        	if (URL::getSurgeObfs($item) != "")
             $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
-            $proxy_name .= ",".$item['remark'];
+        	} else {
+        	$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
+             if (substr($item['remark'],0,2) == "CN") {
+                $domestic_name .= ",".$item['remark'];
+            } else {
+                $proxy_name .= ",".$item['remark'];
+            }
         }
+
 
         return '#!MANAGED-CONFIG '.Config::get('apiUrl').''.$_SERVER['REQUEST_URI'].'
 
@@ -473,7 +482,7 @@ DIRECT = direct
 
 [Proxy Group]
 PROXY = select,AUTO,DIRECT'.$proxy_name.'
-Domestic = select,DIRECT,PROXY
+Domestic = select,DIRECT,'.$domestic_name.'
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'

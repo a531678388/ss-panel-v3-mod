@@ -83,11 +83,11 @@
 
                                     <div class="form-group form-group-label">
                                         <label for="mu_only">
-                                            <label class="floating-label" for="sort">单端口多用户启用</label>
+                                            <label class="floating-label" for="sort">端口</label>
                                             <select id="mu_only" class="form-control" name="is_multi_user">
-                                                <option value="0" {if $node->mu_only==0}selected{/if}>单端口多用户与普通端口并存</option>
-                                                <option value="-1" {if $node->mu_only==-1}selected{/if}>只启用普通端口</option>
-                                                <option value="1" {if $node->mu_only==1}selected{/if}>只启用单端口多用户</option>
+                                                <option value="0">公共端口与个人端口并存</option>
+                                                <option value="-1">只启用个人端口</option>
+                                                <option value="1">只启用公共端口</option>
                                             </select>
                                         </label>
                                     </div>

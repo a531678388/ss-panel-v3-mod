@@ -77,18 +77,14 @@
 														<dl class="dl-horizontal">
 															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all}">复制个人端口节点信息配置</a></p>
 															<p><a href="/user/getpcconf?is_mu=0&is_ss=0">下载个人端口节点信息配置</a></p>
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口（123）节点信息配置</a></p>
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_30000}">复制公共端口（30000）节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口（123）节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=30000&is_ss=0">下载公共端口（30000）节点信息配置</a></p><br>
+															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口节点信息配置</a></p>
+															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口节点信息配置</a></p>
 
 															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;修改为 SS 模式</button>
 														</dl>
 														{else}
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口（123）节点信息配置</a></p>
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_30000}">复制公共端口（30000）节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口（123）节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=30000&is_ss=0">下载公共端口（30000）节点信息配置</a></p>
+															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口节点信息配置</a></p>
+															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口节点信息配置</a></p>
 														{/if}
 													</div>
 												</div>
@@ -131,14 +127,10 @@
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝</button>
 											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 											{/if}
-											<p>公共端口（123）订阅地址</p>
+											<p>公共端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
 											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
-											<p>公共端口（30000）订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=30000</code></p>
-											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=30000">点击拷贝</button>
-											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_30000}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 										</div>
 
 										{if URL::SSCanConnect($user)}

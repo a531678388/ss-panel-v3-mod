@@ -397,11 +397,11 @@ class AuthController extends BaseController
             $user->obfs = Config::get('reg_obfs');
             $user->obfs_param = Config::get('reg_obfs_param');
         } else {
-            $user->method = "xchacha20-ietf-poly1305";
-            $user->protocol = "origin";
-            $user->protocol_param = Config::get('reg_protocol_param');
-            $user->obfs = "simple_obfs_http";
-            $user->obfs_param = Config::get('reg_obfs_param');
+            $user->method = Config::get('surge_reg_method');
+            $user->protocol = Config::get('surge_reg_protocol');
+            $user->protocol_param = Config::get('surge_eg_protocol_param');
+            $user->obfs = Config::get('surge_reg_obfs');
+            $user->obfs_param = Config::get('surge_reg_obfs_param');
         }
         $user->forbidden_ip = Config::get('reg_forbidden_ip');
         $user->forbidden_port = Config::get('reg_forbidden_port');
