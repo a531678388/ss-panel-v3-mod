@@ -483,7 +483,7 @@ DIRECT = direct
 
 [Proxy Group]
 PROXY = select,AUTO,DIRECT'.$proxy_name.'
-Domestic = select,DIRECT,'.$domestic_name.'
+Domestic = select,DIRECT,PROXY'.$domestic_name.'
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
