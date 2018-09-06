@@ -431,7 +431,7 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-        	if (URL::getSurgeObfs($item) != "")
+        	if (URL::getSurgeObfs($item) != "") {
             $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
         	} else {
         	$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
