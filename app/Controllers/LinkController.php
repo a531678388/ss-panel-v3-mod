@@ -436,10 +436,9 @@ class LinkController extends BaseController
         	} else {
         	$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
         	}
-             if (substr($item['remark'],0,2) == "CN") {
+        	$proxy_name .= ",".$item['remark'];
+            if (substr($item['remark'],0,2) == "CN") {
                 $domestic_name .= ",".$item['remark'];
-            } else {
-                $proxy_name .= ",".$item['remark'];
             }
         }
 
