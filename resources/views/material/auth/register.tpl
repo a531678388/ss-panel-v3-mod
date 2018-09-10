@@ -23,6 +23,7 @@
 									</h1>
 									</div>
 								</div>
+								{if $config['enable_register']!='false'}
 								<div class="card-inner">
 									
 										<div class="form-group form-group-label">
@@ -151,7 +152,15 @@
 												</div>
 											</div>
 										</div>
-									
+										{else}
+										<div class="form-group">
+											<div class="row">
+												<div class="col-md-10 col-md-push-1">
+													<p>{$config["appName"]} 已停止新用户注册，请联系网站管理员</p>
+												</div>
+											</div>
+										</div>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -191,7 +200,7 @@
 {include file='footer.tpl'}
 
 
-
+{if $config['enable_register']!='false'}
 <script>
     $(document).ready(function(){
          var affid = {$aff};
