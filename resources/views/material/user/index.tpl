@@ -68,21 +68,21 @@
 													</nav>
 													<div class="tab-pane fade active in" id="all_ssr_info">
 														{$user = URL::getSSRConnectInfo($pre_user)}
-														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
-														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
+														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0, 1)}
+														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0, 1)}
 
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
 															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all}">复制个人端口节点信息配置</a></p>
 															<p><a href="/user/getpcconf?is_mu=0&is_ss=0">下载个人端口节点信息配置</a></p>
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口节点信息配置</a></p>
+															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">复制公共端口节点信息配置</a></p>
 															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口节点信息配置</a></p>
 
 															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;修改为 SS 模式</button>
 														</dl>
 														{else}
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu_123}">复制公共端口节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口节点信息配置</a></p>
+															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">复制公共端口节点信息配置</a></p>
+															<p><a href="/user/getpcconf?is_mu=1&is_ss=0">下载公共端口节点信息配置</a></p>
 														{/if}
 													</div>
 												</div>
