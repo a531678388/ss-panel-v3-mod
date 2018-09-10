@@ -110,7 +110,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">重置普通端口</p>
+										<p class="card-heading">重置个人端口</p>
 										<p>当前端口：<code id="ajax-user-port">{$user->port}</code></p>
 
 									</div>

@@ -110,7 +110,7 @@
 															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
 														</dl>
 														{else}
-															<p>您目前的加密方式、协议、混淆为 SSR 模式，推荐使用普通端口订阅地址</p><br>
+															<p>您目前的加密方式、协议、混淆为 SSR 模式</p><br>
 
 															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;切换为 SS 模式</button>
 														{/if}
@@ -145,7 +145,7 @@
 										
 										<div class="card-action">
 											<div class="card-action-btn pull-left">
-												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅/托管地址</a></p>
+												<p><a class="reset-link btn btn-brand btn-flat waves-attach" ><span class="icon">autorenew</span>&nbsp;重置订阅 / 托管地址</a></p>
 											</div>
 										</div>
 										{else}
