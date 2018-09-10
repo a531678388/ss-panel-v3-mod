@@ -314,7 +314,7 @@
         });
     })
 </script>
-
+{/if}
 
 {if $enable_email_verify == 'true'}
 <script>
