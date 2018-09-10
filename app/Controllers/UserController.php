@@ -70,13 +70,13 @@ class UserController extends BaseController
 
         $ssr_sub_token = LinkController::GenerateSSRSubCode($this->user->id, 0);
 
-        $surge_url = urlencode(Config::get('apiUrl').'/link/'.$ios_token.'?is_ss=1');
+        $ss_url = urlencode(Config::get('apiUrl').'/link/'.$ios_token.'?is_ss=1');
 
-        $shadowrocket_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
-        $shadowrocket_url_1 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1');
+        $ssr_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
+        $ssr_url_1 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1');
 
-        $quantumult_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0')&filter=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf');
-        $quantumult_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1')&filter=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf');
+        $filterUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')
+        $rejectUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf')
 
 
         $uid = time().rand(1, 10000) ;
@@ -91,11 +91,11 @@ class UserController extends BaseController
 
 
         return $this->view()
-        ->assign("surge_url", $surge_url)
-        ->assign("shadowrocket_url_0", $shadowrocket_url_0)
-        ->assign("shadowrocket_url_1", $shadowrocket_url_1)
-        ->assign("quantumult_url_0", $quantumult_url_0)
-        ->assign("quantumult_url_1", $quantumult_url_1)
+        ->assign("ss_url", $ss_url)
+        ->assign("ssr_url_0", $ssr_url_0)
+        ->assign("ssr_url_1", $ssr_url_1)
+        ->assign("filterUrl", $filterUrl)
+        ->assign("rejectUrl", $rejectUrl)
 
         ->assign("ssr_sub_token", $ssr_sub_token)
         ->assign("router_token", $router_token)
