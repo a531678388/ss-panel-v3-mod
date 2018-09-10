@@ -81,11 +81,11 @@
 
                                     <div class="form-group form-group-label">
                                         <label for="mu_only">
-                                            <label class="floating-label" for="sort">端口</label>
+                                            <label class="floating-label" for="sort">端口启用</label>
                                             <select id="mu_only" class="form-control" name="is_multi_user">
-                                                <option value="0">公共端口与个人端口并存</option>
-                                                <option value="-1">只启用个人端口</option>
-                                                <option value="1">只启用公共端口</option>
+                                                    <option value="0">个人端口与公共端口并存</option>
+                                                    <option value="-1">个人端口</option>
+                                                    <option value="1">公共端口</option>
                                             </select>
                                         </label>
                                     </div>
@@ -214,18 +214,17 @@
 
     $('#main_form').validate({
         rules: {
-            name: {required: true},
-            server: {required: true},
-            method: {required: true},
-            rate: {required: true},
-            info: {required: true},
-            group: {required: true},
-            status: {required: true},
-            node_speedlimit: {required: true},
-            sort: {required: true},
-            dns_type: {required: true},
-            node_bandwidth_limit: {required: true},
-            bandwidthlimit_resetday: {required: true}
+          name: {required: true},
+          server: {required: true},
+          method: {required: true},
+          rate: {required: true},
+          info: {required: true},
+          group: {required: true},
+          status: {required: true},
+          node_speedlimit: {required: true},
+          sort: {required: true},
+          node_bandwidth_limit: {required: true},
+          bandwidthlimit_resetday: {required: true}
         },
 
         submitHandler: function() {
@@ -264,23 +263,21 @@
                 data: {
                     name: $("#name").val(),
                     server: $("#server").val(),
-                    node_ip: $("#node_ip").val(),
+                                        node_ip: $("#node_ip").val(),
                     method: $("#method").val(),
                     custom_method: custom_method,
                     rate: $("#rate").val(),
                     info: $("#info").val(),
-                    dns_type: $("#dns_type").val(),
-                    dns_value: $("#dns_value").val(),
                     type: type,
-                    group: $("#group").val(),
+                                        group: $("#group").val(),
                     status: $("#status").val(),
-                    node_speedlimit: $("#node_speedlimit").val(),
+                                        node_speedlimit: $("#node_speedlimit").val(),
                     sort: $("#sort").val(),
-                    class: $("#class").val(),
-                    node_bandwidth_limit: $("#node_bandwidth_limit").val(),
-                    bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(),
-                    custom_rss: custom_rss,
-                    mu_only: $("#mu_only").val()
+                                        class: $("#class").val(),
+                                        node_bandwidth_limit: $("#node_bandwidth_limit").val(),
+                                        bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(),
+                                        custom_rss: custom_rss,
+                                        mu_only: $("#mu_only").val()
                 },
                 success: function (data) {
                     if (data.ret) {
