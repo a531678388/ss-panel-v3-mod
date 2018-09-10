@@ -86,19 +86,19 @@
 																	<li>流量与套餐同时失效</li>
 																	{/if}
 																	{if $shop->bandwidth() != 0}
-																	<li>{if $shop->traffic_package() != 0}这个月将在套餐基础额外增加 {$shop->bandwidth()}G 流量{else}{$shop->bandwidth()}G 流量{/if}</li>
+																	<li>{if $shop->traffic_package() != 0}这个月将在套餐基础额外增加 {$shop->bandwidth()}G 流量{else}每月 {$shop->bandwidth()}G 流量{/if}</li>
 																	{/if}
 																	{if $shop->node_speedlimit() != 0}
 																	<li>{$shop->node_speedlimit()}mbps 速率</li>
 																	{/if}
 																	{if $shop->node_connector() != 0}
-																	<li>最多支持 {$shop->node_connector()} IP 同时在线</li>
+																	<li>最多支持 {$shop->node_connector()}IP 同时在线</li>
 																	{/if}
 																	{if $shop->expire() != 0}
 																	<li>账号有效期添加 {$shop->expire()} 天</li>
 																	{/if}
 																	{if $shop->user_class() != 0}
-																	<li>套餐有效期 {$shop->class_expire()} 天</li>
+																	<li>有效期 {$shop->class_expire()} 天</li>
 																	{/if}
 																	{if $shop->reset() != 0}
 																	<li>每 {$shop->reset()} 天重置一次流量</li>
