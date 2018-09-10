@@ -83,13 +83,11 @@ class UserController extends BaseController
 
         $shadowrocket_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
         $shadowrocket_url_123 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=123');
-        $shadowrocket_url_30000 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=30000');
 
         return $this->view()
         ->assign("surge_url", $surge_url)
         ->assign("shadowrocket_url_0", $shadowrocket_url_0)
         ->assign("shadowrocket_url_123", $shadowrocket_url_123)
-        ->assign("shadowrocket_url_30000", $shadowrocket_url_30000)
                 
         ->assign("ssr_sub_token", $ssr_sub_token)
         ->assign("router_token", $router_token)

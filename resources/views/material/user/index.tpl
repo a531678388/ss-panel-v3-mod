@@ -71,7 +71,6 @@
 														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0, 1)}
 
 														{$ssr_url_all_mu_123 = URL::getAllUrl($pre_user, 123, 0, 1)}
-														{$ssr_url_all_mu_30000 = URL::getAllUrl($pre_user, 30000, 0, 1)}
 
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
