@@ -79,16 +79,9 @@ class UserController extends BaseController
 
         $Ann = Ann::orderBy('date', 'desc')->first();
 
-        $surge_url = urlencode(Config::get('apiUrl').'/link/'.$ios_token.'?is_ss=1');
 
-        $shadowrocket_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
-        $shadowrocket_url_123 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=123');
 
-        return $this->view()
-        ->assign("surge_url", $surge_url)
-        ->assign("shadowrocket_url_0", $shadowrocket_url_0)
-        ->assign("shadowrocket_url_123", $shadowrocket_url_123)
-                
+        return $this->view()    
         ->assign("ssr_sub_token", $ssr_sub_token)
         ->assign("router_token", $router_token)
         ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)

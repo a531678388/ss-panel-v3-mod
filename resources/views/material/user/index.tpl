@@ -68,9 +68,8 @@
 													</nav>
 													<div class="tab-pane fade active in" id="all_ssr_info">
 														{$user = URL::getSSRConnectInfo($pre_user)}
-														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0, 1)}
-
-														{$ssr_url_all_mu_123 = URL::getAllUrl($pre_user, 123, 0, 1)}
+														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0)}
+														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0)}
 
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
@@ -97,8 +96,8 @@
 													</nav>
 													<div class="tab-pane fade active in" id="all_ss_info">
 														{$user = URL::getSSConnectInfo($pre_user)}
-														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1, 1)}
-														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1, 1)}
+														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
+														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
 														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2, 1)}
 
 														{if URL::SSCanConnect($user)}
@@ -127,8 +126,8 @@
 											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_0}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 											{/if}
 											<p>公共端口订阅地址</p>
-											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=123</code></p>
-											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=123">点击拷贝</button>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=1</code></p>
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝</button>
 											<p><a href="Shadowrocket://add/sub://{$shadowrocket_url_123}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 										</div>
 
@@ -138,7 +137,7 @@
 											<p>Surge / Surfboard 托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1">点击拷贝</button>
-											<p><a href="surge:///install-config?url={$surge_url}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
+											<p><a href="surge:///install-config?url={$ios_token}?is_ss=1" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
 										</div>
 										{/if}
 										
