@@ -7,10 +7,10 @@ class Config
     public static function get($key)
     {
         global $System_Config;
-        if ($System_Config[$key]){
+        if (isset($System_Config[$key])){
             return $System_Config[$key];
         } else {
-            return;
+            return null;
         }
     }
 
@@ -36,7 +36,6 @@ class Config
             "enable_analytics_code" => self::get("enable_analytics_code"),
             "enable_donate" => self::get("enable_donate"),
             "enable_telegram" => self::get("enable_telegram")
-            "enable_register" => self::get("enable_register"),
          ];
     }
 
