@@ -75,8 +75,8 @@ class UserController extends BaseController
         $ssr_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
         $ssr_url_1 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1');
 
-        $filterUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')
-        $rejectUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf')
+        $filterUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf');
+        $rejectUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf');
 
 
         $uid = time().rand(1, 10000) ;
@@ -96,7 +96,6 @@ class UserController extends BaseController
         ->assign("ssr_url_1", $ssr_url_1)
         ->assign("filterUrl", $filterUrl)
         ->assign("rejectUrl", $rejectUrl)
-
         ->assign("ssr_sub_token", $ssr_sub_token)
         ->assign("router_token", $router_token)
         ->assign("router_token_without_mu", $router_token_without_mu)->assign("acl_token", $acl_token)
