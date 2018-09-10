@@ -75,8 +75,8 @@ class UserController extends BaseController
         $shadowrocket_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
         $shadowrocket_url_1 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1');
 
-        $quantumult_url_0 = Tools::base64_url_encode(Config::get('apiUrl/link/'.$ssr_sub_token.'?mu=0')&filter=urlencode(Config::get('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=urlencode(Config::get('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf'));
-        $quantumult_url_1 = Tools::base64_url_encode(Config::get('apiUrl/link/'.$ssr_sub_token.'?mu=1')&filter=urlencode(Config::get('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=urlencode(Config::get('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf'));
+        $quantumult_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0')&filter=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf')
+        $quantumult_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1')&filter=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf')&rejection=Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf')
 
 
         $uid = time().rand(1, 10000) ;
