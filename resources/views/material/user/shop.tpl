@@ -186,9 +186,17 @@
 									<p id="total">总金额：</p>
 									<p id="auto_reset">在到期时自动续费</p>
 									
+									<div class="checkbox switch">
+										<label for="disableothers">
+											<input checked class="access-hide" id="disableothers" type="checkbox">
+											<span class="switch-toggle"></span>关闭旧套餐自动续费
+										</label>
+									</div>
+									<br/>
 									<div class="checkbox switch" id="autor">
 										<label for="autorenew">
-											<input checked class="access-hide" id="autorenew" type="checkbox"><span class="switch-toggle"></span>自动续费
+											<input checked class="access-hide" id="autorenew" type="checkbox">
+											<span class="switch-toggle"></span>到期时自动续费
 										</label>
 									</div>
 
@@ -284,6 +292,13 @@ $("#order_input").click(function () {
 		{
 			var autorenew=0;
 		}
+
+		if(document.getElementById('disableothers').checked){
+			var disableothers=1;
+		}
+		else{
+			var disableothers=0;
+		}
 			
 		$.ajax({
 			type: "POST",
@@ -292,7 +307,8 @@ $("#order_input").click(function () {
 			data: {
 				coupon: $("#coupon").val(),
 				shop: shop,
-				autorenew: autorenew
+				autorenew: autorenew,
+				disableothers:disableothers
 			},
 			success: function (data) {
 				if (data.ret) {
