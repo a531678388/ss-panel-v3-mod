@@ -11,17 +11,12 @@
 	</footer>
 
 	<!-- js -->
-	<script src="/theme/material/js/jquery.min.js"></script>
+	<script src="//cdn.jsdelivr.net/gh/jquery/jquery@3.3.1/dist/jquery.min.js"></script>
 	<script src="//cdn.jsdelivr.net/gh/jquery-validation/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-	<!--<script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/jquery.dataTables.min.js"></script>-->
+	<script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/dataTables.material.min.js"></script>
 	<script src="/theme/material/js/base.js"></script>
 	<script src="/theme/material/js/project.js"></script>
-
-
-	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.datatables.net/1.10.16/js/dataTables.jqueryui.min.js"></script>
-	<script src="//cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-	<script src="//cdn.datatables.net/responsive/2.2.1/js/responsive.jqueryui.min.js"></script>
+	
 </body>
 </html>
