@@ -263,21 +263,23 @@
                 data: {
                     name: $("#name").val(),
                     server: $("#server").val(),
-                                        node_ip: $("#node_ip").val(),
+                    node_ip: $("#node_ip").val(),
                     method: $("#method").val(),
                     custom_method: custom_method,
                     rate: $("#rate").val(),
                     info: $("#info").val(),
+                    dns_type: $("#dns_type").val(),
+                    dns_value: $("#dns_value").val(),
                     type: type,
-                                        group: $("#group").val(),
+                    group: $("#group").val(),
                     status: $("#status").val(),
-                                        node_speedlimit: $("#node_speedlimit").val(),
+                    node_speedlimit: $("#node_speedlimit").val(),
                     sort: $("#sort").val(),
-                                        class: $("#class").val(),
-                                        node_bandwidth_limit: $("#node_bandwidth_limit").val(),
-                                        bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(),
-                                        custom_rss: custom_rss,
-                                        mu_only: $("#mu_only").val()
+                    class: $("#class").val(),
+                    node_bandwidth_limit: $("#node_bandwidth_limit").val(),
+                    bandwidthlimit_resetday: $("#bandwidthlimit_resetday").val(),
+                    custom_rss: custom_rss,
+                    mu_only: $("#mu_only").val()
                 },
                 success: function (data) {
                     if (data.ret) {
