@@ -14,110 +14,9 @@
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Material+Icons">
+	
 
- <style>
-    body {
-        background: #eee;
-    }
-
-    @keyframes mysnow {
-        0% {
-            bottom: 100%;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-            transform: rotate(1080deg);
-        }
-        100% {
-            transform: rotate(0deg);
-            opacity: 0;
-            bottom: 0;
-        }
-    }
-
-    @-webkit-keyframes mysnow {
-        0% {
-            bottom: 100%;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-            -webkit-transform: rotate(1080deg);
-        }
-        100% {
-            -webkit-transform: rotate(0deg);
-            opacity: 0;
-            bottom: 0;
-        }
-    }
-
-    @-moz-keyframes mysnow {
-        0% {
-            bottom: 100%;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-            -moz-transform: rotate(1080deg);
-        }
-        100% {
-            -moz-transform: rotate(0deg);
-            opacity: 0;
-            bottom: 0;
-        }
-    }
-
-    @-ms-keyframes mysnow {
-        0% {
-            bottom: 100%;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-            -ms-transform: rotate(1080deg);
-        }
-        100% {
-            -ms-transform: rotate(0deg);
-            opacity: 0;
-            bottom: 0;
-        }
-    }
-
-    @-o-keyframes mysnow {
-        0% {
-            bottom: 100%;
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-            -o-transform: rotate(1080deg);
-        }
-        100% {
-            -o-transform: rotate(0deg);
-            opacity: 0;
-            bottom: 0;
-        }
-    }
-
-    .roll {
-        position: absolute;
-        opacity: 0;
-        animation: mysnow 5s;
-        -webkit-animation: mysnow 5s;
-        -moz-animation: mysnow 5s;
-        -ms-animation: mysnow 5s;
-        -o-animation: mysnow 5s;
-        height: 80px;
-    }
-
-    .div {
-        position: fixed;
-    }
-    </style>
-
-
-
+	
 	<!-- favicon -->
 	<!-- ... -->
 	<style>
@@ -224,10 +123,10 @@
 			background-color:#fff
 		}
 
-
-
-
-
+		
+		
+		
+		
 		.pagination>li>a,
 		.pagination>li>span {
 		  border: 1px solid white;
@@ -236,13 +135,13 @@
 		  background: #f50057;
 		  color: #fff;
 		}
-
+		
 		.pagination>li>a {
 		  background: white;
 		  color: #000;
 		}
-
-
+		
+		
 		.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
 			color: #fff;
 			background-color: #000;
@@ -254,39 +153,40 @@
 		  color: #fff;
 		  border-color: #fff;
 		}
-
-
-
+		
+		
+		
 		.pagination > .disabled > span {
 		  border-color: #fff;
 		}
-
-
+		
+		
 		pre {
 			white-space: pre-wrap;
 			word-wrap: break-word;
 		}
-
+		
 		.progress-green .progress-bar {
 			background-color: #f0231b;
 		}
-
+		
 		.progress-green {
 			background-color: #000;
 		}
-
+		
 		.progress-green .progress-bar {
 			background-color: #ff0a00;
 		}
-
+		
 		.page-orange .ui-content-header {
 			background-image: url(/theme/material/css/images/bg/red.jpg);
 		}
-
+		
 		.content-heading {
 			font-weight: 300;
 			color: #fff;
 		}
+				
 	</style>
 	
 	
@@ -479,11 +379,10 @@
 							</li>
 						{/if}
 
-						{if $can_backtoadmin}
-							<li>
-                                <a class="padding-right-cd waves-attach" href="/user/backtoadmin"><span class="icon icon-lg margin-right">backtoadmin</span>返回管理员身份</a>
-							<li>
-						{/if}
+
+						
+
+						
 					</li>
 				</ul>
 			</div>

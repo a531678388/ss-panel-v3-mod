@@ -7,9 +7,6 @@ use App\Models\Ip;
 use App\Models\RadiusBan;
 use App\Models\Relay;
 use App\Controllers\AdminController;
-use App\Services\Config;
-use App\Services\Auth;
-use App\Utils;
 use App\Utils\Hash;
 use App\Utils\Radius;
 use App\Utils\QQWry;
@@ -163,6 +160,7 @@ class UserController extends AdminController
             $user->clean_link();
         }
 
+        $user->user_name = $request->getParam('user_name');
         $user->auto_reset_day =  $request->getParam('auto_reset_day');
         $user->auto_reset_bandwidth = $request->getParam('auto_reset_bandwidth');
         $origin_port = $user->port;
@@ -187,7 +185,6 @@ class UserController extends AdminController
         $user->node_connector = $request->getParam('node_connector');
         $user->enable = $request->getParam('enable');
         $user->is_admin = $request->getParam('is_admin');
-        $user->ga_enable = $request->getParam('ga_enable');
         $user->node_group = $request->getParam('group');
         $user->ref_by = $request->getParam('ref_by');
         $user->remark = $request->getParam('remark');
@@ -225,38 +222,6 @@ class UserController extends AdminController
         $rs['msg'] = "删除成功";
         return $response->getBody()->write(json_encode($rs));
     }
-    
-    public function changetouser($request, $response, $args)
-    {
-        $userid = $request->getParam('userid');
-        $adminid = $request->getParam('adminid');
-        $user = User::find($userid);
-        $admin = User::find($adminid);
-        $expire_in = time()+60*60;
-      
-        if (!$admin->is_admin || !$user || !Auth::getUser()->isLogin) {
-            $rs['ret'] = 0;
-            $rs['msg'] = "非法请求";
-            return $response->getBody()->write(json_encode($rs));
-        }
-        
-        Utils\Cookie::set([
-            "uid" => $user->id,
-            "email" => $user->email,
-            "key" => Hash::cookieHash($user->pass),
-            "ip" => md5($_SERVER["REMOTE_ADDR"].Config::get('key').$user.$expire_in),
-            "expire_in" =>  $expire_in,
-            "old_uid" => Utils\Cookie::get('uid'),
-            "old_email" => Utils\Cookie::get('email'),
-            "old_key" => Utils\Cookie::get('key'),
-            "old_ip" => Utils\Cookie::get('ip'),
-            "old_expire_in" => Utils\Cookie::get('expire_in'),
-            "old_local" =>  $request->getParam('local')
-        ],  $expire_in);
-        $rs['ret'] = 1;
-        $rs['msg'] = "切换成功";
-        return $response->getBody()->write(json_encode($rs));
-    }
 
     public function ajax($request, $response, $args)
     {
@@ -277,6 +242,7 @@ class UserController extends AdminController
         foreach ($users as $user) {
             array_push($res['data'], $user->get_table_json_array());
         }
-        return $this->echoJson($response, $res);    
+
+        return $this->echoJson($response, $res);
     }
 }
