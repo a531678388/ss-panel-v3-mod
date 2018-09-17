@@ -22,7 +22,7 @@
 							<div class="card-inner">
 
 
-								<p>快速查找用户</p>
+								<p>快速查看用户状态</p>
 
 			
 
@@ -79,7 +79,7 @@
 <hr>
                                                         <p>总流量：{$userf->enableTraffic()}</p>
                                                         <p>已用流量：{$userf->LastusedTraffic()}</p>
-                                                        <p>金额：{$userf->money}</p>
+                                                        <p>金钱：{$userf->money}</p>
 <hr>
 														<a class="btn btn-brand btn-flat waves-attach" href="/admin/user/{$userf->id}/edit" target="_blank" ><font style="color:green"><span class="icon">check</span>&nbsp;编辑</font></a>
                                                         &nbsp;&nbsp;<a class="btn btn-brand btn-flat waves-attach" id="delete"  ><font style="color:red"><span class="icon">close</span>&nbsp;删除</font></a>
