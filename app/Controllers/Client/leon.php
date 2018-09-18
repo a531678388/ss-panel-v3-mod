@@ -146,7 +146,7 @@ public function apiregister($request, $response, $next)
 		if (URL::SSRCanConnect($pre_user)) {
         $items = URL::getAllItems($user, 0, 0);
         } else if (URL::SSCanConnect($pre_user)) {
-        $items = URL::getAllItems($user, 123, 0);
+        $items = URL::getAllItems($user, 1, 0);
         }
         foreach($items as $item) {
             array_push($temparray, array("name"=>$item['remark'],
@@ -189,7 +189,7 @@ public function apiregister($request, $response, $next)
 	if (URL::SSRCanConnect($pre_user)) {
     $res['link'] = Config::get('apiUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=0';
     } else if (URL::SSCanConnect($pre_user)) {
-    $res['link'] = Config::get('apiUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=123';
+    $res['link'] = Config::get('apiUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=1';
     }
         return $response->getBody()->write(json_encode($res));
     }
