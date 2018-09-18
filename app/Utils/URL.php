@@ -390,18 +390,27 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
-        $return_array['address'] = $node->server;
-        $return_array['port'] = $user->port;
-        $return_array['passwd'] = $user->passwd;
-        $return_array['method'] = $user->method;
-        $return_array['remark'] = $node_name;
+        //根据节点描述区分端口和混淆
+        $gamehost = "game";
+    if(preg_match("/$gamehost/i",$node->info)){
+        $return_array['port'] = 1434;
+        $return_array['method'] = 'aes-128-ctr';
+        $return_array['protocol'] = 'auth_aes128_md5';
+        $return_array['obfs'] = 'plain';
+    }else{
+    	$return_array['port'] = $user->port;
+    	$return_array['method'] = $user->method;
         $return_array['protocol'] = $user->protocol;
-        $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs'] = $user->obfs;
+        }
+        $return_array['address'] = $node->server;
+        $return_array['passwd'] = $user->passwd;
+        $return_array['remark'] = $node_name;
+        $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
         if($mu_port != 0) {
-            $return_array['group'];
+        $return_array['group'] .= '';
         }
         return $return_array;
     }
