@@ -343,7 +343,7 @@
                 url: "/user/method",
                 dataType: "json",
                 data: {
-                    method: "chacha20"
+                    method: "aes-128-ctr"
                 },
                 success: function (data) {
                     if (data.ret) {
