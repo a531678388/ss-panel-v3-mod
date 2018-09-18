@@ -160,7 +160,8 @@ class URL
             )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
         }
 
-        if($is_mu) {
+        #1.1
+        #if($is_mu) {
             if ($user->is_admin) {
                 if ($is_mu!=1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
@@ -184,7 +185,8 @@ class URL
                     )->get();
                 }
             }
-        }
+        #1.2
+        #}
 
         $relay_rules = Relay::where('user_id', $user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
 
@@ -217,8 +219,9 @@ class URL
                 }
             }
 
-
-            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
+            #2
+            #if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
+            if ($node->custom_rss == 1 && (($node->mu_only != -1 && $is_mu != 0) || ($node->mu_only == 1 && $is_mu == 0))) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
