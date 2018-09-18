@@ -390,9 +390,8 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
-        //根据节点描述区分端口和混淆
-        $gamehost = "game";
-    if(preg_match("/$gamehost/i",$node->info)){
+        $gamehost = "GAME";
+    if(preg_match("/$gamehost/i",$node->name)){
         $return_array['port'] = 1434;
         $return_array['method'] = 'aes-128-ctr';
         $return_array['protocol'] = 'auth_aes128_md5';
