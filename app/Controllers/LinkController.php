@@ -442,7 +442,9 @@ class LinkController extends BaseController
                 $domestic_name .= ",".$item['remark'];
             }
             if (substr($item['remark'],-4,4) != "GAME") {
-                $auto_name .= ",".$item['remark'];
+                if (substr($item['remark'],0,2) != "CN") {
+                    $auto_name .= ",".$item['remark'];
+                }
             }
         }
 
