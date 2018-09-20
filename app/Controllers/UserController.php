@@ -92,7 +92,8 @@ class UserController extends BaseController
 
 
         return $this->view()
-        ->assign("ss_url", $ss_url)
+        ->assign("ss_url", $ss_url_0)
+        ->assign("ss_url", $ss_url_1)
         ->assign("ssr_url_0", $ssr_url_0)
         ->assign("ssr_url_1", $ssr_url_1)
         ->assign("filterUrl", $filterUrl)

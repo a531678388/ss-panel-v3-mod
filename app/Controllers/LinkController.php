@@ -226,7 +226,7 @@ class LinkController extends BaseController
                     $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.conf');//->getBody()->write($builder->output());
                     $newResponse->getBody()->write(LinkController::GetSurge(User::where("id", "=", $Elink->userid)->first()->passwd, $Elink->method, $Elink->address, $Elink->port, User::where("id", "=", $Elink->userid)->first()->pac));
                     return $newResponse;
-                } else {
+                }else{
                     $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.conf');//->getBody()->write($builder->output());
                     $newResponse->getBody()->write(LinkController::GetSurgeGeo(User::where("id", "=", $Elink->userid)->first()->passwd, $Elink->method, $Elink->address, $Elink->port));
                     return $newResponse;
@@ -234,7 +234,7 @@ class LinkController extends BaseController
             case 8:
                 if ($Elink->ios==0) {
                     $type = "SOCKS5";
-                } else {
+                }else{
                     $type = "SOCKS";
                 }
                 break;
@@ -335,7 +335,7 @@ class LinkController extends BaseController
                 }
             }
         ';
-    } else {
+    }else{
         $string='
             {
                 "strategy": null,
@@ -404,7 +404,7 @@ class LinkController extends BaseController
                                             "protocolparam"=>$item['protocol_param'],
                                             "obfs_udp"=>false,
                                             "enable"=>true));
-            } else {
+            }else{
                 array_push($temparray, array("server"=>$item['address'],
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
@@ -423,19 +423,22 @@ class LinkController extends BaseController
 
     public static function GetIosConf($user, $is_mu = 0, $is_ss = 0)
     {
-        $proxy_name="";
-        $domestic_name="";
-        $auto_name="";
-        $proxy_group="";
+        $proxy_name = "";
+        $domestic_name = "";
+        $auto_name = "";
+        $proxy_group = "";
 
         $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
         	if (URL::getSurgeObfs($item) != "") {
-            $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
-        	} else {
-        	$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
+        		if （$is_mu = 1）
+            		$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
+            	}else{
+            		$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',obfs-host=wns.windows.com,udp-relay=true,tfo=true'."\n";
+        	}else{
+        		$proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
         	}
         	$proxy_name .= ",".$item['remark'];
             if (substr($item['remark'],0,2) == "CN") {
@@ -586,7 +589,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                         $isget[$host]=1;
                         $find_function_content.="IP-CIDR,".$host."/32,DIRECT,no-resolve \n";
                         continue;
-                    } else {
+                    }else{
                         preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 3), $matches);
 
                         if (!isset($matches[4][0])) {
@@ -656,7 +659,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                     $isget[$host]=1;
                     $find_function_content.="IP-CIDR,".$host."/32,Proxy,no-resolve \n";
                     continue;
-                } else {
+                }else{
                     preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 1), $matches);
 
                     if (!isset($matches[4][0])) {
@@ -686,7 +689,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                         continue;
                     }
                 }
-            } else {
+            }else{
                 $host = substr($rule, 0);
                 if (strpos($host, "/")!==false) {
                     $host = substr($host, 0, strpos($host, "/"));
@@ -1228,7 +1231,7 @@ FINAL,Proxy';
                         //$find_function_content.="IP-CIDR,".$host."/32,DIRECT,no-resolve \n";
                         $bypass_list .= $host."/32\n";
                         continue;
-                    } else {
+                    }else{
                         preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 3), $matches);
 
                         if (!isset($matches[4][0])) {
@@ -1305,7 +1308,7 @@ FINAL,Proxy';
 
                     if (!isset($matches_ips[0])) {
                         $proxy_list .= $host."/32\n";
-                    } else {
+                    }else{
                         $host = $matches_ips[0];
                         $proxy_list .= $host."\n";
                     }
@@ -1313,7 +1316,7 @@ FINAL,Proxy';
                     //$find_function_content.="IP-CIDR,".$host."/32,Proxy,no-resolve \n";
 
                     continue;
-                } else {
+                }else{
                     preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 1), $matches);
 
                     if (!isset($matches[4][0])) {
@@ -1345,7 +1348,7 @@ FINAL,Proxy';
                         continue;
                     }
                 }
-            } else {
+            }else{
                 $host = substr($rule, 0);
                 if (strpos($host, "/")!==false) {
                     $host = substr($host, 0, strpos($host, "/"));
@@ -1424,7 +1427,7 @@ FINAL,Proxy';
         // 前后匹配的/表示精确匹配
         } elseif (substr($rule, 0, 1) == '/' && substr($rule, -1) == '/') {
             $rule_reg = substr($rule, 1, strlen($rule) - 2);
-        } else {
+        }else{
             $rule_reg = LinkController::reg_encode($rule);
         }
         // 以|结尾，替换为$结尾
@@ -1471,7 +1474,7 @@ FINAL,Proxy';
         // 前后匹配的/表示精确匹配
         } elseif (substr($rule, 0, 1) == '/' && substr($rule, -1) == '/') {
             $rule_reg = substr($rule, 1, strlen($rule) - 2);
-        } else {
+        }else{
             $rule_reg = LinkController::reg_encode($rule);
         }
         // 以|结尾，替换为$结尾
