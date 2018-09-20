@@ -271,11 +271,7 @@ class URL
             return "ssr://".Tools::base64_url_encode($ssurl);
         }else{
             if($is_ss == 2) {
-            	if (URL::getSurgeObfs($item) != "") {
-                	$personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port']."/?plugin=simple-obfs;obfs=".$item['obfs'];
-                }else{
-                	$personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
-                }
+                $personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info);
 
                 $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark'])."\n";
