@@ -218,7 +218,7 @@ class URL
             }
 
 
-            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
+            if ($node->custom_rss == 1 && $node->mu_only != -1) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
