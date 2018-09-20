@@ -133,9 +133,9 @@
 											<p><a href="quantumult://configuration?server={$ssr_url_1}&filter={$filterUrl}&rejection={$rejectUrl}" target="_blank"><span class="icon">check</span>&nbsp;Quantumult：一键订阅</a></p>
 										</div>
 
-										{if URL::SSCanConnect($user)}
 										<div class="card-action">
 											<p class="card-heading">托管地址</p>
+										{if URL::SSCanConnect($user)}
 											<p>Surge / Surfboard 个人端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0">点击拷贝</button>
