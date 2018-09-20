@@ -146,7 +146,7 @@ class URL
                         ->orwhere('sort', 10);
                 }
             )->where("type", "1")->orderBy("name")->get();
-        } else {
+        }else{
             $nodes=Node::where(
                 function ($query) {
                     $query->where('sort', 0)
@@ -167,7 +167,7 @@ class URL
                 }else{
                     $mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
                 }
-            } else {
+            }else{
                 if ($is_mu!=1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where('node_class', '<=', $user->class)->where("type", "1")->where(
                         function ($query) use ($user) {
@@ -267,7 +267,7 @@ class URL
         if(!$is_ss) {
             $ssurl = $item['address'].":".$item['port'].":".$item['protocol'].":".$item['method'].":".$item['obfs'].":".Tools::base64_url_encode($item['passwd'])."/?obfsparam=".Tools::base64_url_encode($item['obfs_param'])."&protoparam=".Tools::base64_url_encode($item['protocol_param'])."&remarks=".Tools::base64_url_encode($item['remark'])."&group=".Tools::base64_url_encode($item['group']);
             return "ssr://".Tools::base64_url_encode($ssurl);
-        } else {
+        }else{
             if($is_ss == 2) {
                 $personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info);
@@ -281,7 +281,7 @@ class URL
                 if(in_array($item['obfs'], $ss_obfs_list)) {
                     if(strpos($item['obfs'], 'http') !== FALSE) {
                         $plugin .= "obfs-local;obfs=http";
-                    } else {
+                    }else{
                         $plugin .= "obfs-local;obfs=tls";
                     }
 
@@ -304,7 +304,7 @@ class URL
         if(in_array($item['obfs'], $ss_obfs_list)) {
             if(strpos($item['obfs'], 'http') !== FALSE) {
                 $plugin .= "obfs-local";
-            } else {
+            }else{
                 $plugin .= "obfs-local";
             }
 
@@ -322,7 +322,7 @@ class URL
         if(in_array($item['obfs'], $ss_obfs_list)) {
             if(strpos($item['obfs'], 'http') !== FALSE) {
                 $plugin .= "obfs=http";
-            } else {
+            }else{
                 $plugin .= "obfs=tls";
             }
 
