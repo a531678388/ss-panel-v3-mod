@@ -218,7 +218,7 @@ class URL
             }
 
 
-            if ($node->custom_rss == 1 && $node->mu_only != -1) {
+            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
@@ -251,7 +251,7 @@ class URL
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-		if ($user->transfer_enable >0){
+		if ($user->transfer_enable > 0 && $is_mu == 0){
       		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
       		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
 		}
