@@ -282,9 +282,9 @@ class URL
                 $plugin = '';
                 if(in_array($item['obfs'], $ss_obfs_list)) {
                     if(strpos($item['obfs'], 'http') !== FALSE) {
-                        $plugin .= "obfs-local;obfs=http";
+                        $plugin .= "simple-obfs;obfs=http";
                     }else{
-                        $plugin .= "obfs-local;obfs=tls";
+                        $plugin .= "simple-obfs;obfs=tls";
                     }
 
                     if($item['obfs_param'] != '') {
