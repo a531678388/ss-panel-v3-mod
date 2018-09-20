@@ -251,15 +251,15 @@ class URL
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-		if ($user->transfer_enable > 0 && $is_mu == 0){
-      		$return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
-      		$return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
-		}
+        if ($user->transfer_enable >0){
+            $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
+            $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
+        }
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
-		}
+        }
         return $return_url;
-	}
+    }
 
     public static function getItemUrl($item, $is_ss) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
@@ -397,8 +397,8 @@ class URL
         $return_array['protocol'] = 'auth_aes128_md5';
         $return_array['obfs'] = 'plain';
     }else{
-    	$return_array['port'] = $user->port;
-    	$return_array['method'] = $user->method;
+        $return_array['port'] = $user->port;
+        $return_array['method'] = $user->method;
         $return_array['protocol'] = $user->protocol;
         $return_array['obfs'] = $user->obfs;
         }
