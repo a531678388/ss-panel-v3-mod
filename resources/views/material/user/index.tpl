@@ -135,12 +135,12 @@
 
 										<div class="card-action">
 											<p class="card-heading">托管地址</p>
-										{if URL::SSCanConnect($user)}
+											{if URL::SSCanConnect($user)}
 											<p>Surge / Surfboard 个人端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0">点击拷贝</button>
 											<p><a href="surge:///install-config?url={$ss_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
-										{/if}
+											{/if}
 											<p>Surge / Surfboard 公共端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1">点击拷贝</button>

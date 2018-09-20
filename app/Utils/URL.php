@@ -252,7 +252,7 @@ class URL
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
         if ($user->transfer_enable >0){
-        	if (URL::SSRCanConnect($user))
+        	if (URL::SSRCanConnect($user)){
             $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
             $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
         	}
