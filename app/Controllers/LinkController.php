@@ -424,8 +424,9 @@ class LinkController extends BaseController
     public static function GetIosConf($user, $is_mu = 0, $is_ss = 0)
     {
         $proxy_name="";
-        $proxy_group="";
         $domestic_name="";
+        $auto_name="";
+        $proxy_group="";
 
         $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
 
@@ -439,6 +440,9 @@ class LinkController extends BaseController
         	$proxy_name .= ",".$item['remark'];
             if (substr($item['remark'],0,2) == "CN") {
                 $domestic_name .= ",".$item['remark'];
+            }
+            if (substr($item['remark'],0,2) != "CN" | substr($item['remark'],-4,4) != "GAME") {
+                $auto_name .= ",".$item['remark'];
             }
         }
 
@@ -486,7 +490,7 @@ Domestic = select,DIRECT,PROXY'.$domestic_name.'
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$proxy_name.',url = http://captive.apple.com,interval = 1200
+AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200
 
 '.$rules.'
 
