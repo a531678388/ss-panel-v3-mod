@@ -162,13 +162,13 @@ class URL
 
         //if($is_mu) {
             if ($user->is_admin) {
-                if ($is_mu!=1){
+                if ($is_mu != 0 && $is_mu != 1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
                 }else{
                     $mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
                 }
             }else{
-                if ($is_mu!=1){
+                if ($is_mu != 0 && $is_mu != 1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where('node_class', '<=', $user->class)->where("type", "1")->where(
                         function ($query) use ($user) {
                             $query->where("node_group", "=", $user->node_group)
@@ -375,8 +375,9 @@ class URL
             $mu_user->protocol_param = $user->id.":".$user->passwd;
 
             $user = $mu_user;
-
-            //$node_name .= " - ".$mu_port." 端口";
+/*
+            $node_name .= " - ".$mu_port." 端口";
+*/
         }
 
         if($is_ss) {
@@ -393,12 +394,12 @@ class URL
 
         $gamehost = "GAME";
     if (preg_match("/$gamehost/i",$node->name)) {
-    	if ($user->port] == "152")
-        	$return_array['port'] = 531;
-        	$return_array['method'] = 'aes-128-ctr';
-        	$return_array['protocol'] = 'auth_aes128_md5';
-        	$return_array['obfs'] = 'plain';
-        }
+        if ($user->port] == "152")
+            $return_array['port'] = 531;
+            $return_array['method'] = 'aes-128-ctr';
+            $return_array['protocol'] = 'auth_aes128_md5';
+            $return_array['obfs'] = 'plain';
+        };
     }else{
         $return_array['port'] = $user->port;
         $return_array['method'] = $user->method;
