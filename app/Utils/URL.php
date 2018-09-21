@@ -160,7 +160,7 @@ class URL
             )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
         }
 
-        if($is_mu) {
+        //if($is_mu) {
             if ($user->is_admin) {
                 if ($is_mu!=1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
@@ -184,7 +184,7 @@ class URL
                     )->get();
                 }
             }
-        }
+        //}
 
         $relay_rules = Relay::where('user_id', $user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
 
@@ -205,12 +205,12 @@ class URL
                         }
                     }
 
-                    $item = URL::getItem($user, $node, 0, $relay_rule_id, $is_ss);
+                    $item = URL::getItem($user, $node, 0, $relay_rule_id, $is_ss, $is_mu);
                     if($item != null) {
                         array_push($return_array, $item);
                     }
                 }else{
-                    $item = URL::getItem($user, $node, 0, 0, $is_ss);
+                    $item = URL::getItem($user, $node, 0, 0, $is_ss, $is_mu);
                     if($item != null) {
                         array_push($return_array, $item);
                     }
@@ -218,7 +218,7 @@ class URL
             }
 
 
-            if ($node->custom_rss == 1 && $node->mu_only != -1 && $is_mu != 0) {
+            if ($node->custom_rss == 1 && (($node->mu_only != -1 && $is_mu == 1) || ($node->mu_only == 1 && $is_mu == 0))) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
@@ -231,12 +231,12 @@ class URL
                             }
                         }
 
-                        $item = URL::getItem($user, $node, $mu_node->server, $relay_rule_id, $is_ss);
+                        $item = URL::getItem($user, $node, $mu_node->server, $relay_rule_id, $is_ss, $is_mu);
                         if($item != null) {
                             array_push($return_array, $item);
                         }
                     }else{
-                        $item = URL::getItem($user, $node, $mu_node->server, 0, $is_ss);
+                        $item = URL::getItem($user, $node, $mu_node->server, 0, $is_ss, $is_mu);
                         if($item != null) {
                             array_push($return_array, $item);
                         }
@@ -350,7 +350,7 @@ class URL
     * group
     */
 
-    public static function getItem($user, $node, $mu_port = 0, $relay_rule_id = 0, $is_ss = 0) {
+    public static function getItem($user, $node, $mu_port = 0, $relay_rule_id = 0, $is_ss = 0, $is_mu = 0) {
         $relay_rule = Relay::where('id', $relay_rule_id)->where(
             function ($query) use ($user) {
                 $query->Where("user_id", "=", $user->id)
@@ -375,9 +375,9 @@ class URL
             $mu_user->protocol_param = $user->id.":".$user->passwd;
 
             $user = $mu_user;
-/*
+
             $node_name .= " - ".$mu_port." 端口";
-*/
+
         }
 
         if($is_ss) {
@@ -410,8 +410,8 @@ class URL
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0) {
-        $return_array['group'] .= '';
+        if($mu_port != 0 && $is_mu == 1) {
+            $return_array['group'] .= '';
         }
         return $return_array;
     }
