@@ -393,8 +393,8 @@ class URL
         }
 
         if ($node_name != "HK_IPLC_SS") {
-            if ($node_name != "HK_IPLC_SSR") {
-                $node_name != "HK_IPLC";
+            if ($node_name == "HK_IPLC_SSR") {
+                $node_name = "HK_IPLC";
 
         		$gamehost = "GAME";
         		if (preg_match("/$gamehost/i",$node->name) && $is_mu != 0){
