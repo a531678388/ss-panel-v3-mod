@@ -432,23 +432,22 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-        if (substr($item['remark'],-3,3) != "SSR") {
-            if ($item['remark'] == "HK_IPLC_SS") {
-                $item['remark'] = "HK_IPLC"
-				if (URL::getSurgeObfs($item) != "") {
-            	   $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
-				}else{
-        		  $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
-				}
-
-                $proxy_name .= ",".$item['remark'];
-
-                if (substr($item['remark'],0,2) == "CN") {
-                    $domestic_name .= ",".$item['remark'];
-                }
-                if (substr($item['remark'],-4,4) != "GAME") {
-                    if (substr($item['remark'],0,2) != "CN") {
-                        $auto_name .= ",".$item['remark'];
+            if (substr($item['remark'],-3,3) != "SSR") {
+                if ($item['remark'] == "HK_IPLC_SS") {
+                    $item['remark'] = "HK_IPLC"
+                    if (URL::getSurgeObfs($item) != "") {
+                        $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
+                    }else{
+                        $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
+                    }
+                    $proxy_name .= ",".$item['remark'];
+                    if (substr($item['remark'],0,2) == "CN") {
+                        $domestic_name .= ",".$item['remark'];
+                    }
+                    if (substr($item['remark'],-4,4) != "GAME") {
+                        if (substr($item['remark'],0,2) != "CN") {
+                            $auto_name .= ",".$item['remark'];
+                        }
                     }
                 }
             }
@@ -498,7 +497,7 @@ Domestic = select,DIRECT,PROXY'.$domestic_name.'
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200
+AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
 
 '.$rules.'
 
