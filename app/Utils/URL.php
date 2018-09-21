@@ -392,7 +392,7 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
-        if ($node_name != "HK_IPLC_SS") {
+        if (substr($node_name,-2,2) != "SS") {
             if ($node_name == "HK_IPLC_SSR") {
                 $node_name = "HK_IPLC";
 			}
