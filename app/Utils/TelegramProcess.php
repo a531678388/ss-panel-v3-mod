@@ -20,7 +20,7 @@ class TelegramProcess
                 break;
                 case 'connectinfo':
                     $text = "连接信息：
-								当前设置支持的客户端为：";
+								当前设置个人端口支持的客户端为：";
                     $pre_user = URL::cloneUser($user);
                     if (URL::SSRCanConnect($pre_user)) {
                         $ssr_user = URL::getSSRConnectInfo($pre_user);
@@ -37,10 +37,12 @@ class TelegramProcess
 								协议：".$ssr_user->protocol."
 								混淆：".$ssr_user->obfs."
 
-								个人端口订阅地址：
+								SSR 个人端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=0
-								公共端口订阅地址：
+								SSR 公共端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=1
+                                Surge 公共端口托管地址：
+                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
                     } else if (URL::SSCanConnect($pre_user)) {
@@ -56,8 +58,10 @@ class TelegramProcess
 								混淆：".$ss_user->obfs."
 								混淆参数：wns.windows.com
 
-								Surge 托管地址：
-								".$apiUrl."/link/".$ios_token."?is_ss=1
+								Surge 个人端口托管地址：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0
+                                Surge 公共端口托管地址：
+                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1
 								SSR 公共端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=1
 

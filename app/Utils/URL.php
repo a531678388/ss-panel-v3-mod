@@ -375,9 +375,8 @@ class URL
             $mu_user->protocol_param = $user->id.":".$user->passwd;
 
             $user = $mu_user;
-/*
-            $node_name .= " - ".$mu_port." 端口";
-*/
+
+            //$node_name .= " - ".$mu_port." 端口";
         }
 
         if($is_ss) {
