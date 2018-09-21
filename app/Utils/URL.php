@@ -393,7 +393,7 @@ class URL
 
         $gamehost = "GAME";
     if (preg_match("/$gamehost/i",$node->name)) {
-    	if ($mu_port == "152")
+    	if ($return_array['port'] == "152|153")
         	$return_array['port'] = 531;
         	$return_array['method'] = 'aes-128-ctr';
         	$return_array['protocol'] = 'auth_aes128_md5';
