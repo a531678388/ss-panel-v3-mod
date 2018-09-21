@@ -218,7 +218,7 @@ class URL
             }
 
 
-            if ($node->custom_rss == 1 && (($node->mu_only != -1 && $is_mu == 1) || ($node->mu_only == 1 && $is_mu == 0))) {
+            if ($node->custom_rss == 1 && (($node->mu_only != -1 && $is_mu != 0) || ($node->mu_only == 1 && $is_mu == 0))) {
                 foreach ($mu_nodes as $mu_node) {
                     if ($node->sort == 10) {
                         $relay_rule_id = 0;
@@ -392,23 +392,17 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
-        if (substr($return_array['remark'],-2,2) != "SS") {
-            if ($return_array['remark'] == "HK_IPLC_SSR") {
-                $return_array['remark'] = "HK_IPLC";
-            }
-        }
-
         $gamehost = "GAME";
-    if (preg_match("/$gamehost/i",$node->name)) {
-        $return_array['port'] = 531;
-        $return_array['method'] = 'aes-128-ctr';
-        $return_array['protocol'] = 'auth_aes128_md5';
-        $return_array['obfs'] = 'plain';
-    }else{
-        $return_array['port'] = $user->port;
-        $return_array['method'] = $user->method;
-        $return_array['protocol'] = $user->protocol;
-        $return_array['obfs'] = $user->obfs;
+        if(preg_match("/$gamehost/i",$node->name) && $is_mu != 0){
+            $return_array['port'] = 531;
+            $return_array['method'] = 'aes-128-ctr';
+            $return_array['protocol'] = 'auth_aes128_md5';
+            $return_array['obfs'] = 'plain';
+        }else{
+            $return_array['port'] = $user->port;
+            $return_array['method'] = $user->method;
+            $return_array['protocol'] = $user->protocol;
+            $return_array['obfs'] = $user->obfs;
         }
         $return_array['address'] = $node->server;
         $return_array['passwd'] = $user->passwd;
@@ -416,7 +410,7 @@ class URL
         $return_array['protocol_param'] = $user->protocol_param;
         $return_array['obfs_param'] = $user->obfs_param;
         $return_array['group'] = Config::get('appName');
-        if($mu_port != 0 && $is_mu == 1) {
+        if($mu_port != 0 && $is_mu != 0) {
             $return_array['group'] .= '';
         }
         return $return_array;
