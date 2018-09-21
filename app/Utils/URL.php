@@ -392,14 +392,18 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
+        if (substr($return_array['remark'],-2,2) != "SS") {
+            if ($return_array['remark'] == "HK_IPLC_SSR") {
+                $return_array['remark'] = "HK_IPLC";
+            }
+        }
+
         $gamehost = "GAME";
     if (preg_match("/$gamehost/i",$node->name)) {
-        if ($user->port == "152") {
-            $return_array['port'] = 531;
-            $return_array['method'] = 'aes-128-ctr';
-            $return_array['protocol'] = 'auth_aes128_md5';
-            $return_array['obfs'] = 'plain';
-        };
+        $return_array['port'] = 531;
+        $return_array['method'] = 'aes-128-ctr';
+        $return_array['protocol'] = 'auth_aes128_md5';
+        $return_array['obfs'] = 'plain';
     }else{
         $return_array['port'] = $user->port;
         $return_array['method'] = $user->method;
