@@ -392,11 +392,13 @@ class URL
         }
 
         $gamehost = "GAME";
-    if(preg_match("/$gamehost/i",$node->name)){
-        $return_array['port'] = 531;
-        $return_array['method'] = 'aes-128-ctr';
-        $return_array['protocol'] = 'auth_aes128_md5';
-        $return_array['obfs'] = 'plain';
+    if (preg_match("/$gamehost/i",$node->name)) {
+    	if ($mu_port == "152")
+        	$return_array['port'] = 531;
+        	$return_array['method'] = 'aes-128-ctr';
+        	$return_array['protocol'] = 'auth_aes128_md5';
+        	$return_array['obfs'] = 'plain';
+        }
     }else{
         $return_array['port'] = $user->port;
         $return_array['method'] = $user->method;
