@@ -397,12 +397,12 @@ class URL
                 $node_name = "HK_IPLC";
 			}
 		
-        		$gamehost = "GAME";
-        	if (preg_match("/$gamehost/i",$node->name) && $is_mu != 0){
+        		$relayhost = " - ";
+        	if (preg_match("/$relayhost/i",$node->name) && $is_mu != 0){
 				$return_array['port'] = 531;
 				$return_array['method'] = 'aes-128-ctr';
 				$return_array['protocol'] = 'auth_aes128_md5';
-				$return_array['obfs'] = 'plain';
+				$return_array['obfs'] = 'http_simple';
 			}else{
 				$return_array['port'] = $user->port;
 				$return_array['method'] = $user->method;
