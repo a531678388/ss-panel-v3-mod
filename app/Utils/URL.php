@@ -140,14 +140,14 @@ class URL
     public static function getAllItems($user, $is_mu = 0, $is_ss = 0) {
         $return_array = array();
         if ($user->is_admin) {
-            $nodes=Node::where(
+            $nodes = Node::where(
                 function ($query) {
                     $query->where('sort', 0)
                         ->orwhere('sort', 10);
                 }
             )->where("type", "1")->orderBy("name")->get();
         }else{
-            $nodes=Node::where(
+            $nodes = Node::where(
                 function ($query) {
                     $query->where('sort', 0)
                         ->orwhere('sort', 10);

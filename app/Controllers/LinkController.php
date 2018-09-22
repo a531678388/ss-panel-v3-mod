@@ -746,7 +746,7 @@ loglevel = notify
 
 [Proxy]
 
-Proxy = custom,'.$server.','.$port.','.$method.','.$passwd.','.Config::get('apiUrl').'/downloads/SSEncrypt.module
+Proxy = custom,'.$server.','.$port.','.$method.','.$passwd.','.Config::get('baseUrl').'/downloads/SSEncrypt.module
 
 
 
