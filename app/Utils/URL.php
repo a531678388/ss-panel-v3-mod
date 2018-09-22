@@ -397,7 +397,7 @@ class URL
                 $node_name = "HK_IPLC";
 			}
 		
-        	if ($relay_rule != null) && $is_mu != 0){
+        	if ($relay_rule != null && $is_mu != 0) {
 				$return_array['port'] = 531;
 				$return_array['method'] = 'aes-128-ctr';
 				$return_array['protocol'] = 'auth_aes128_md5';
