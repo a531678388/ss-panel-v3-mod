@@ -39,63 +39,63 @@ class ShopController extends AdminController
         $shop->auto_renew =  $request->getParam('auto_renew');
         $shop->auto_reset_bandwidth =  $request->getParam('auto_reset_bandwidth');
 
-        $content=array();
-        if ($request->getParam('group_limit')!='') {
-            $content["group_limit"]=$request->getParam('group_limit');
+        $content = array();
+        if ($request->getParam('group_limit') != '') {
+            $content["group_limit"] = $request->getParam('group_limit');
         }
         
-        if ($request->getParam('class_limit_operator')!='none'
-                && $request->getParam('class_limit_content')!='') {
-            if ($request->getParam('class_limit_operator')!='equal'
-                    && $request->getParam('class_limit_operator')!='not'
-                    && strpos($request->getParam('class_limit_content'), ',')!==false) {
+        if ($request->getParam('class_limit_operator') != 'none'
+                && $request->getParam('class_limit_content') != '') {
+            if ($request->getParam('class_limit_operator') != 'equal'
+                    && $request->getParam('class_limit_operator') != 'not'
+                    && strpos($request->getParam('class_limit_content'), ',') !== false) {
                 $rs['ret'] = 0;
                 $rs['msg'] = "该等级限制运算符只能设置一个等级";
                 return $response->getBody()->write(json_encode($rs));
             }
             
-            $content["class_limit_operator"]=$request->getParam('class_limit_operator');
-            $content["class_limit_content"]=$request->getParam('class_limit_content');
+            $content["class_limit_operator"] = $request->getParam('class_limit_operator');
+            $content["class_limit_content"] = $request->getParam('class_limit_content');
         }
         
-        if ($request->getParam('bandwidth')!=0) {
-            $content["bandwidth"]=$request->getParam('bandwidth');
+        if ($request->getParam('bandwidth') != 0) {
+            $content["bandwidth"] = $request->getParam('bandwidth');
         }
         
-        if ($request->getParam('traffic_package')!=0) {
-            $content["traffic_package"]=$request->getParam('traffic_package');
+        if ($request->getParam('traffic_package') != 0) {
+            $content["traffic_package"] = $request->getParam('traffic_package');
         }
 
-        if ($request->getParam('node_speedlimit')!=0) {
-            $content["node_speedlimit"]=$request->getParam('node_speedlimit');
+        if ($request->getParam('node_speedlimit') != 0) {
+            $content["node_speedlimit"] = $request->getParam('node_speedlimit');
         }
 
-        if ($request->getParam('node_connector')!=0) {
-            $content["node_connector"]=$request->getParam('node_connector');
+        if ($request->getParam('node_connector') != 0) {
+            $content["node_connector"] = $request->getParam('node_connector');
         }
 
-        if ($request->getParam('expire')!=0) {
-            $content["expire"]=$request->getParam('expire');
+        if ($request->getParam('expire') != 0) {
+            $content["expire"] = $request->getParam('expire');
         }
 
-        if ($request->getParam('class')!=0) {
-            $content["class"]=$request->getParam('class');
+        if ($request->getParam('class') != 0) {
+            $content["class"] = $request->getParam('class');
         }
 
-        if ($request->getParam('class_expire')!=0) {
-            $content["class_expire"]=$request->getParam('class_expire');
+        if ($request->getParam('class_expire') != 0) {
+            $content["class_expire"] = $request->getParam('class_expire');
         }
 
-        if ($request->getParam('reset')!=0) {
-            $content["reset"]=$request->getParam('reset');
+        if ($request->getParam('reset') != 0) {
+            $content["reset"] = $request->getParam('reset');
         }
 
-        if ($request->getParam('reset_value')!=0) {
-            $content["reset_value"]=$request->getParam('reset_value');
+        if ($request->getParam('reset_value') != 0) {
+            $content["reset_value"] = $request->getParam('reset_value');
         }
 
-        if ($request->getParam('reset_exp')!=0) {
-            $content["reset_exp"]=$request->getParam('reset_exp');
+        if ($request->getParam('reset_exp') != 0) {
+            $content["reset_exp"] = $request->getParam('reset_exp');
         }
 
         $shop->content=json_encode($content);
@@ -134,7 +134,7 @@ class ShopController extends AdminController
             $boughts = Bought::where("shopid", $id)->get();
 
             foreach ($boughts as $bought) {
-                $bought->renew=0;
+                $bought->renew = 0;
                 $bought->save();
             }
             
@@ -142,72 +142,72 @@ class ShopController extends AdminController
         }
 
         $shop->auto_reset_bandwidth =  $request->getParam('auto_reset_bandwidth');
-        $shop->status=1;
+        $shop->status = 1;
 
-        $content=array();
-        if ($request->getParam('group_limit')!='') {
-            $content["group_limit"]=$request->getParam('group_limit');
+        $content = array();
+        if ($request->getParam('group_limit') != '') {
+            $content["group_limit"] = $request->getParam('group_limit');
         }
         
-        if ($request->getParam('class_limit_operator')!='none'
-                && $request->getParam('class_limit_content')!='') {
-            if ($request->getParam('class_limit_operator')!='equal'
-                    && $request->getParam('class_limit_operator')!='not'
-                    && strpos($request->getParam('class_limit_content'), ',')!==false) {
+        if ($request->getParam('class_limit_operator') != 'none'
+                && $request->getParam('class_limit_content') != '') {
+            if ($request->getParam('class_limit_operator') != 'equal'
+                    && $request->getParam('class_limit_operator') != 'not'
+                    && strpos($request->getParam('class_limit_content'), ',') !== false) {
                 $rs['ret'] = 0;
                 $rs['msg'] = "该等级限制运算符只能设置一个等级";
                 return $response->getBody()->write(json_encode($rs));
             }
             
-            $content["class_limit_operator"]=$request->getParam('class_limit_operator');
-            $content["class_limit_content"]=$request->getParam('class_limit_content');
+            $content["class_limit_operator"] = $request->getParam('class_limit_operator');
+            $content["class_limit_content"] = $request->getParam('class_limit_content');
         }
         
         $needCheck = !$deleted && ($shop->group_limit() != $request->getParam('group_limit')
                 || $shop->class_limit_operator() != $request->getParam('class_limit_operator')
                 || $shop->class_limit_content() != $request->getParam('class_limit_content'));
         
-        if ($request->getParam('bandwidth')!=0) {
-            $content["bandwidth"]=$request->getParam('bandwidth');
+        if ($request->getParam('bandwidth') != 0) {
+            $content["bandwidth"] = $request->getParam('bandwidth');
         }
         
-        if ($request->getParam('traffic_package')!=0) {
-            $content["traffic_package"]=$request->getParam('traffic_package');
+        if ($request->getParam('traffic_package') != 0) {
+            $content["traffic_package"] = $request->getParam('traffic_package');
         }
         
-        if ($request->getParam('node_speedlimit')!=0) {
-            $content["node_speedlimit"]=$request->getParam('node_speedlimit');
+        if ($request->getParam('node_speedlimit') != 0) {
+            $content["node_speedlimit"] = $request->getParam('node_speedlimit');
         }
         
-        if ($request->getParam('node_connector')!=0) {
-            $content["node_connector"]=$request->getParam('node_connector');
+        if ($request->getParam('node_connector') != 0) {
+            $content["node_connector"] = $request->getParam('node_connector');
         }
 
-        if ($request->getParam('expire')!=0) {
-            $content["expire"]=$request->getParam('expire');
+        if ($request->getParam('expire') != 0) {
+            $content["expire"] = $request->getParam('expire');
         }
 
-        if ($request->getParam('class')!=0) {
-            $content["class"]=$request->getParam('class');
+        if ($request->getParam('class') != 0) {
+            $content["class"] = $request->getParam('class');
         }
 
-        if ($request->getParam('class_expire')!=0) {
-            $content["class_expire"]=$request->getParam('class_expire');
+        if ($request->getParam('class_expire') != 0) {
+            $content["class_expire"] = $request->getParam('class_expire');
         }
 
-        if ($request->getParam('reset')!=0) {
-            $content["reset"]=$request->getParam('reset');
+        if ($request->getParam('reset') != 0) {
+            $content["reset"] = $request->getParam('reset');
         }
 
-        if ($request->getParam('reset_value')!=0) {
-            $content["reset_value"]=$request->getParam('reset_value');
+        if ($request->getParam('reset_value') != 0) {
+            $content["reset_value"] = $request->getParam('reset_value');
         }
 
-        if ($request->getParam('reset_exp')!=0) {
-            $content["reset_exp"]=$request->getParam('reset_exp');
+        if ($request->getParam('reset_exp') != 0) {
+            $content["reset_exp"] = $request->getParam('reset_exp');
         }
 
-        $shop->content=json_encode($content);
+        $shop->content = json_encode($content);
         
         if ($needCheck) {
             $boughts = Bought::where("shopid", $id)->get();
@@ -253,7 +253,7 @@ class ShopController extends AdminController
         $boughts = Bought::where("shopid", $id)->get();
 
         foreach ($boughts as $bought) {
-            $bought->renew=0;
+            $bought->renew = 0;
             $bought->save();
         }
 
@@ -281,7 +281,7 @@ class ShopController extends AdminController
     {
         $id = $request->getParam('id');
         $shop = Bought::find($id);
-        $shop->renew=0;
+        $shop->renew = 0;
         if (!$shop->save()) {
             $rs['ret'] = 0;
             $rs['msg'] = "退订失败";
