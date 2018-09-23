@@ -433,8 +433,14 @@ class LinkController extends BaseController
         $auto_name = "";
         $proxy_group = "";
 
-        $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        $mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        if ($mitm == 0 || $mitm != 1)
+        	$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        } else {
+        	$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        	$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        	$rules = $rule."\n\n".$mitm;
+
+        }
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
@@ -461,8 +467,6 @@ class LinkController extends BaseController
             }
         }
 
-if ($mitm == 0 || $mitm != 1) {
-
         return '#!MANAGED-CONFIG '.Config::get('apiUrl').''.$_SERVER['REQUEST_URI'].'
 
 [General]
@@ -508,63 +512,9 @@ Apple = select,DIRECT,PROXY,AUTO
 Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
 AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
 
-'.$rules.''
+'.$rules.'';
 
-} else {
-
-        return '#!MANAGED-CONFIG '.Config::get('apiUrl').''.$_SERVER['REQUEST_URI'].'
-
-[General]
-// Auto
-loglevel = notify
-dns-server = system,1.2.4.8,223.5.5.5,223.6.6.6
-skip-proxy = 127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,100.64.0.0/10,17.0.0.0/8,localhost,*.local,*.crashlytics.com
-
-// iOS
-external-controller-access = lhie1@0.0.0.0:6170
-
-allow-wifi-access = true
-
-// macOS
-interface = 0.0.0.0
-socks-interface = 0.0.0.0
-port = 8888
-socks-port = 8889
-
-enhanced-mode-by-rule = false
-show-error-page-for-reject = true
-
-// Auto
-exclude-simple-hostnames = true
-ipv6 = true
-replica = false
-
-[Replica]
-hide-apple-request = true
-hide-crashlytics-request = true
-hide-udp = false
-use-keyword-filter = false
-
-[Proxy]
-DIRECT = direct
-'.$proxy_group.'
-
-[Proxy Group]
-PROXY = select,AUTO,DIRECT'.$proxy_name.'
-Domestic = select,DIRECT,PROXY'.$domestic_name.'
-Others = select,PROXY,DIRECT
-Apple = select,DIRECT,PROXY,AUTO
-Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
-AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
-
-'.$rules.'
-
-'.$mitm.'';
-
-
-
-
-    }
+	}
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
     {
