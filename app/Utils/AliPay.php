@@ -35,8 +35,7 @@ class AliPay
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1" ><img src="/images/alipay.jpg" width="45"></a>';
         if (!$this->getConfig('WxPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg" width="45"></a>';
-        $html = '<div class="form-group pull-left">
-                        <p class="modal-title" >本站支持支付宝/微信在线充值</p>';
+        $html = '<div class="form-group pull-left">';
         if (preg_match('/\|/', $this->getConfig('Pay_Price'))) {
             $data = explode('|', $this->getConfig('Pay_Price'));
             $html .= '<p>选择充值金额：</p><div class="form-group form-group-label btnBox">';

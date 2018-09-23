@@ -142,8 +142,7 @@
 									<h2 class="modal-title">正在连接支付宝</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">感谢您对我们的支持，请耐心等待</p>
-                                   <img src="/images/qianbai-2.png" height="200" width="200" />
+									<p id="title">感谢您的支持，请耐心等待</p>
 								</div>
 							</div>
 						</div>
