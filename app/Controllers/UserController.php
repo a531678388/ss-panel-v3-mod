@@ -127,7 +127,7 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        if (Config::get('payment_system') == 'chenAlipay') {
+        if (Config::get('payment_system') == 'chenpay') {
             $config = new AliPay();
             return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
                 ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
@@ -197,22 +197,6 @@ class UserController extends BaseController
         )->where("isused", 1)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/donate');
         return $this->view()->assign('codes', $codes)->assign('total_in', Code::where('isused', 1)->where('type', -1)->sum('number'))->assign('total_out', Code::where('isused', 1)->where('type', -2)->sum('number'))->display('user/donate.tpl');
-    }
-
-    function isHTTPS()
-    {
-        define('HTTPS', false);
-        if (defined('HTTPS') && HTTPS) return true;
-        if (!isset($_SERVER)) return FALSE;
-        if (!isset($_SERVER['HTTPS'])) return FALSE;
-        if ($_SERVER['HTTPS'] === 1) {  //Apache
-            return TRUE;
-        } elseif ($_SERVER['HTTPS'] === 'on') { //IIS
-            return TRUE;
-        } elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
-            return TRUE;
-        }
-        return FALSE;
     }
 
     public function code_check($request, $response, $args)
