@@ -213,11 +213,7 @@ class LinkController extends BaseController
                 $already = $user->u + $user->d;
         		$still = $user->transfer_enable;
         		$userinfo = "upload=0; download=".$already.";total=".$still;
-                if ($is_mu = 0) {
-                    $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');
-                } elseif ($is_mu = 1) {
-                    $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud Public.conf');
-                }
+                $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');
                 $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss, $mitm));
                 return $newResponse;
             case 3:
