@@ -127,7 +127,7 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        if (Config::get('payment_system') == 'chenpay') {
+        if (Config::get('payment_system') != 'zfbjk') {
             $config = new AliPay();
             return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
                 ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
