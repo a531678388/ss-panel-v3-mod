@@ -433,7 +433,7 @@ class LinkController extends BaseController
         $auto_name = "";
         $proxy_group = "";
 
-        if ($mitm == 0 || $mitm != 1)
+        if ($mitm == 0 || $mitm != 1) {
         	$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
         } else {
         	$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
