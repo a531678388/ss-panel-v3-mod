@@ -127,7 +127,12 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+        if (Config::get('payment_system') == 'chenAlipay') {
+            $config = new AliPay();
+            return $this->view()->assign('codes', $codes)->assign('QRcodeUrl', $config->getConfig('AliPay_QRcode'))
+                ->assign('WxQRcodeUrl', $config->getConfig('WxPay_QRcode'))
+                ->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
+        } else return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
     public function CheckAliPay($request, $response, $args)
