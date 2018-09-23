@@ -109,7 +109,7 @@
 							<li><a href="/admin/coupon"><i class="icon icon-lg">card_giftcard</i>&nbsp;优惠码</a></li>
 							<li><a href="/admin/bought"><i class="icon icon-lg">shopping_cart</i>&nbsp;购买记录</a></li>
 							{if $config['payment_system'] != 'zfbjk'}
-							<li><a href="/admin/editConfig"><i class="icon icon-lg">shopping_cart</i>&nbsp;支付设置</a></li>
+							<li><a href="/admin/payEdit"><i class="icon icon-lg">shopping_cart</i>&nbsp;支付设置</a></li>
 							{/if}
 						</ul>
 
