@@ -43,6 +43,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">在线充值（10 秒内自动到账）</p>
+										<p class="card-heading">如有问题请发送邮件：lhie1x@gmail.com</p>
 											{$pmw}
 									</div>
 								</div>
@@ -141,7 +142,8 @@
 									<h2 class="modal-title">正在连接支付宝</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">正在处理...</p>
+									<p id="title">感谢您对我们的支持，请耐心等待</p>
+                                   <img src="/images/qianbai-2.png" height="200" width="200" />
 								</div>
 							</div>
 						</div>
@@ -168,28 +170,31 @@
 													 width="300px"/>
 											</a>
 										</p>
-										<p id="title">支付成功后大约一分钟内提示</p>
+										<p id="title">支付成功后，请等待支付网关响应</p>
 										<p id="info"></p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+
 					<div aria-hidden="true" class="modal modal-va-middle fade" id="alipay" role="dialog" tabindex="-1">
 						<div class="modal-dialog modal-xs">
 							<div class="modal-content">
-								<div class="modal-heading">
+							<div class="modal-heading">
 									<a class="modal-close" data-dismiss="modal">×</a>
-									<h2 class="modal-title">请使用支付宝扫码充值：</h2>
+                              <h2 class="modal-title">请使用支付宝App扫码充值：</h2>
 								</div>
 								<div class="modal-inner">
-									<p id="title">手机点击二维码转跳支付宝</p>
+                                   <div class="text-center">
+                                    <p id="divide">-------------------------------------------------------------</p>
+									<p id="title">手机端点击二维码即可转跳app支付</p>
 									<p id="divide">-------------------------------------------------------------</p>
 									<p id="qrcode"></p>
 									<p id="info"></p>
 								</div>
-								
+                                  </div>
+
 								<div class="modal-footer">
 									<p class="text-right"><button class="btn btn-flat btn-brand waves-attach" data-dismiss="modal" id="alipay_cancel" type="button">取消</button></p>
 								</div>
@@ -239,9 +244,6 @@
 			})
 		})
 
-	timestamp = {time()}; 
-		
-		
 	function f(){
 		$.ajax({
 			type: "GET",
@@ -263,7 +265,7 @@
 		tid = setTimeout(f, 1000); //循环调用触发setTimeout
 	}
 
-{if $config['payment_system'] == 'chenAlipay'}
+   {if $config['payment_system']=='chenAlipay'}
     var $zxing = 'http://mobile.qq.com/qrcode?url=',
         $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
         $wxpayApp = 'weixin://',

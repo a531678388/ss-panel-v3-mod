@@ -111,12 +111,9 @@ class UserController extends BaseController
 
     public function lookingglass($request, $response, $args)
     {
-        $Speedtest = Speedtest::where("datetime", ">", time()-Config::get('Speedtest_duration')*3600)->orderBy('datetime', 'desc')->get();
+        $Speedtest = Speedtest::where("datetime", ">", time()-Config::get('Speedtest_duration') * 3600)->orderBy('datetime', 'desc')->get();
 
-        return $this->view()
-        ->assign('speedtest', $Speedtest)
-        ->assign('hour', Config::get('Speedtest_duration'))
-        ->display('user/lookingglass.tpl');
+        return $this->view()->assign('speedtest', $Speedtest)->assign('hour', Config::get('Speedtest_duration'))->display('user/lookingglass.tpl');
     }
 
 
@@ -130,10 +127,7 @@ class UserController extends BaseController
         }
         $codes = Code::where('type', '<>', '-2')->where('userid', '=', $this->user->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
         $codes->setPath('/user/code');
-        return $this->view()
-        ->assign('codes', $codes)
-        ->assign('pmw', Pay::getHTML($this->user))
-        ->display('user/code.tpl');
+        return $this->view()->assign('codes', $codes)->assign('pmw', Pay::getHTML($this->user))->display('user/code.tpl');
     }
 
     public function CheckAliPay($request, $response, $args)
