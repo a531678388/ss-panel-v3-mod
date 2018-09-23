@@ -6,7 +6,7 @@
             <a href="https://dlercloud.com/tos.html" target="_blank">条款及保障</a> |
             <a href="/staff">致谢</a>
             <br>
-			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config["appName"]}</a>, Inc. All rights reserved.
+			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved.
 		</div>
 	</footer>
 
