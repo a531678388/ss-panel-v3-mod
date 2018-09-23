@@ -248,7 +248,7 @@ class XCat
 		$qqwry = file_get_contents("http://update.cz88.net/ip/qqwry.rar");
 		if ($qqwry != "") {
 			$key = unpack("V6", $copywrite)[6];
-			for ($i=0; $i<0x200; $i++) {
+			for ($i = 0; $i < 0x200; $i++) {
 				$key *= 0x805;
 				$key ++;
 				$key = $key & 0xFF;
