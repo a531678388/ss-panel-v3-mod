@@ -205,11 +205,16 @@ class LinkController extends BaseController
                     $is_mu = $request->getQueryParams()["is_mu"];
                 }
 
+                $mitm = 0;
+                if (isset($request->getQueryParams()["mitm"])) {
+                    $is_mu = $request->getQueryParams()["mitm"];
+                }
+
                 $already = $user->u + $user->d;
         		$still = $user->transfer_enable;
         		$userinfo = "upload=0; download=".$already.";total=".$still;
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');//->getBody()->write($builder->output());
-                $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss));
+                $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss, $mitm));
                 return $newResponse;
             case 3:
                 $type = "PROXY";
@@ -226,7 +231,7 @@ class LinkController extends BaseController
                     $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.conf');//->getBody()->write($builder->output());
                     $newResponse->getBody()->write(LinkController::GetSurge(User::where("id", "=", $Elink->userid)->first()->passwd, $Elink->method, $Elink->address, $Elink->port, User::where("id", "=", $Elink->userid)->first()->pac));
                     return $newResponse;
-                }else{
+                } else {
                     $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.conf');//->getBody()->write($builder->output());
                     $newResponse->getBody()->write(LinkController::GetSurgeGeo(User::where("id", "=", $Elink->userid)->first()->passwd, $Elink->method, $Elink->address, $Elink->port));
                     return $newResponse;
@@ -234,7 +239,7 @@ class LinkController extends BaseController
             case 8:
                 if ($Elink->ios==0) {
                     $type = "SOCKS5";
-                }else{
+                } else {
                     $type = "SOCKS";
                 }
                 break;
@@ -297,8 +302,8 @@ class LinkController extends BaseController
 
     public static function GetPcConf($user, $is_mu = 0, $is_ss = 0)
     {
-    if ($is_ss==0) {
-        $string='
+    if ($is_ss == 0) {
+        $string = '
             {
                 "index" : 0,
                 "random" : false,
@@ -335,7 +340,7 @@ class LinkController extends BaseController
                 }
             }
         ';
-    }else{
+    } else {
         $string='
             {
                 "strategy": null,
@@ -404,7 +409,7 @@ class LinkController extends BaseController
                                             "protocolparam"=>$item['protocol_param'],
                                             "obfs_udp"=>false,
                                             "enable"=>true));
-            }else{
+            } else {
                 array_push($temparray, array("server"=>$item['address'],
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
@@ -421,7 +426,7 @@ class LinkController extends BaseController
     }
 
 
-    public static function GetIosConf($user, $is_mu = 0, $is_ss = 0)
+    public static function GetIosConf($user, $is_mu = 0, $is_ss = 0, $mitm = 0)
     {
         $proxy_name = "";
         $domestic_name = "";
@@ -429,6 +434,7 @@ class LinkController extends BaseController
         $proxy_group = "";
 
         $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        $mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
@@ -439,7 +445,7 @@ class LinkController extends BaseController
             }
             if (URL::getSurgeObfs($item) != "") {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,'.URL::getSurgeObfs($item).',udp-relay=true,tfo=true'."\n";
-            }else{
+            } else {
                 $proxy_group .= $item['remark'].' = custom,'.$item['address'].','.$item['port'].','.$item['method'].','.$item['passwd'].',https://dlercloud.com/SSEncrypt.module,udp-relay=true,tfo=true'."\n";
             }
 
@@ -455,6 +461,56 @@ class LinkController extends BaseController
             }
         }
 
+if ($mitm == 0 || $mitm != 1) {
+
+        return '#!MANAGED-CONFIG '.Config::get('apiUrl').''.$_SERVER['REQUEST_URI'].'
+
+[General]
+// Auto
+loglevel = notify
+dns-server = system,1.2.4.8,223.5.5.5,223.6.6.6
+skip-proxy = 127.0.0.1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,100.64.0.0/10,17.0.0.0/8,localhost,*.local,*.crashlytics.com
+
+// iOS
+external-controller-access = lhie1@0.0.0.0:6170
+
+allow-wifi-access = true
+
+// macOS
+interface = 0.0.0.0
+socks-interface = 0.0.0.0
+port = 8888
+socks-port = 8889
+
+enhanced-mode-by-rule = false
+show-error-page-for-reject = true
+
+// Auto
+exclude-simple-hostnames = true
+ipv6 = true
+replica = false
+
+[Replica]
+hide-apple-request = true
+hide-crashlytics-request = true
+hide-udp = false
+use-keyword-filter = false
+
+[Proxy]
+DIRECT = direct
+'.$proxy_group.'
+
+[Proxy Group]
+PROXY = select,AUTO,DIRECT'.$proxy_name.'
+Domestic = select,DIRECT,PROXY'.$domestic_name.'
+Others = select,PROXY,DIRECT
+Apple = select,DIRECT,PROXY,AUTO
+Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
+AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
+
+'.$rules.''
+
+} else {
 
         return '#!MANAGED-CONFIG '.Config::get('apiUrl').''.$_SERVER['REQUEST_URI'].'
 
@@ -503,7 +559,11 @@ AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tol
 
 '.$rules.'
 
-';
+'.$mitm.'';
+
+
+
+
     }
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)
@@ -559,7 +619,7 @@ DOMAIN-SUFFIX,umtrack.com,REJECT
 DOMAIN-SUFFIX,uyunad.com,REJECT
 DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
         $isget=array();
-        foreach ($gfwlist as $index=>$rule) {
+        foreach ($gfwlist as $index => $rule) {
             if (empty($rule)) {
                 continue;
             } elseif (substr($rule, 0, 1) == '!' || substr($rule, 0, 1) == '[') {
@@ -593,7 +653,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                         $isget[$host]=1;
                         $find_function_content.="IP-CIDR,".$host."/32,DIRECT,no-resolve \n";
                         continue;
-                    }else{
+                    } else {
                         preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 3), $matches);
 
                         if (!isset($matches[4][0])) {
@@ -663,7 +723,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                     $isget[$host]=1;
                     $find_function_content.="IP-CIDR,".$host."/32,Proxy,no-resolve \n";
                     continue;
-                }else{
+                } else {
                     preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 1), $matches);
 
                     if (!isset($matches[4][0])) {
@@ -693,7 +753,7 @@ DOMAIN-SUFFIX,youmi.net,REJECT'."\n";
                         continue;
                     }
                 }
-            }else{
+            } else {
                 $host = substr($rule, 0);
                 if (strpos($host, "/")!==false) {
                     $host = substr($host, 0, strpos($host, "/"));
@@ -1235,7 +1295,7 @@ FINAL,Proxy';
                         //$find_function_content.="IP-CIDR,".$host."/32,DIRECT,no-resolve \n";
                         $bypass_list .= $host."/32\n";
                         continue;
-                    }else{
+                    } else {
                         preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 3), $matches);
 
                         if (!isset($matches[4][0])) {
@@ -1312,7 +1372,7 @@ FINAL,Proxy';
 
                     if (!isset($matches_ips[0])) {
                         $proxy_list .= $host."/32\n";
-                    }else{
+                    } else {
                         $host = $matches_ips[0];
                         $proxy_list .= $host."\n";
                     }
@@ -1320,7 +1380,7 @@ FINAL,Proxy';
                     //$find_function_content.="IP-CIDR,".$host."/32,Proxy,no-resolve \n";
 
                     continue;
-                }else{
+                } else {
                     preg_match_all("~^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?~i", substr($rule, 1), $matches);
 
                     if (!isset($matches[4][0])) {
@@ -1352,7 +1412,7 @@ FINAL,Proxy';
                         continue;
                     }
                 }
-            }else{
+            } else {
                 $host = substr($rule, 0);
                 if (strpos($host, "/")!==false) {
                     $host = substr($host, 0, strpos($host, "/"));
@@ -1431,7 +1491,7 @@ FINAL,Proxy';
         // 前后匹配的/表示精确匹配
         } elseif (substr($rule, 0, 1) == '/' && substr($rule, -1) == '/') {
             $rule_reg = substr($rule, 1, strlen($rule) - 2);
-        }else{
+        } else {
             $rule_reg = LinkController::reg_encode($rule);
         }
         // 以|结尾，替换为$结尾
@@ -1478,7 +1538,7 @@ FINAL,Proxy';
         // 前后匹配的/表示精确匹配
         } elseif (substr($rule, 0, 1) == '/' && substr($rule, -1) == '/') {
             $rule_reg = substr($rule, 1, strlen($rule) - 2);
-        }else{
+        } else {
             $rule_reg = LinkController::reg_encode($rule);
         }
         // 以|结尾，替换为$结尾
@@ -1512,7 +1572,7 @@ FINAL,Proxy';
                 $bash .= 'nvram set rt_ss_usage_x'.$count.'="'."-o ".$item['obfs']." -g ".$item['obfs_param']." -O ".$item['protocol']." -G ".$item['protocol_param']."\"\n";
                 $bash .= 'nvram set rt_ss_method_x'.$count.'='.$item['method']."\n";
                 $count += 1;
-            }else{
+            } else {
                 $bash .= 'nvram set rt_ss_name_x'.$count.'="'.$item['remark']."\"\n";
                 $bash .= 'nvram set rt_ss_port_x'.$count.'='.$item['port']."\n";
                 $bash .= 'nvram set rt_ss_password_x'.$count.'="'.$item['passwd']."\"\n";
