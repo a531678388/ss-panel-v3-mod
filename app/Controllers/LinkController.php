@@ -227,7 +227,7 @@ class LinkController extends BaseController
                 $newResponse->getBody()->write(LinkController::GetApn($Elink->isp, $Elink->address, $Elink->port, User::where("id", "=", $Elink->userid)->first()->pac));
                 return $newResponse;
             case 0:
-                if ($Elink->geo==0) {
+                if ($Elink->geo == 0) {
                     $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename='.$token.'.conf');//->getBody()->write($builder->output());
                     $newResponse->getBody()->write(LinkController::GetSurge(User::where("id", "=", $Elink->userid)->first()->passwd, $Elink->method, $Elink->address, $Elink->port, User::where("id", "=", $Elink->userid)->first()->pac));
                     return $newResponse;
@@ -237,7 +237,7 @@ class LinkController extends BaseController
                     return $newResponse;
                 }
             case 8:
-                if ($Elink->ios==0) {
+                if ($Elink->ios == 0) {
                     $type = "SOCKS5";
                 } else {
                     $type = "SOCKS";
@@ -341,7 +341,7 @@ class LinkController extends BaseController
             }
         ';
     } else {
-        $string='
+        $string = '
             {
                 "strategy": null,
                 "index": 6,
@@ -433,13 +433,12 @@ class LinkController extends BaseController
         $auto_name = "";
         $proxy_group = "";
 
-        if ($mitm == 0 || $mitm != 1) {
+        if ($mitm == 0) {
         	$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
         } else {
         	$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
         	$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
         	$rules = $rule."\n\n".$mitm;
-
         }
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
@@ -513,7 +512,6 @@ Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
 AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
 
 '.$rules.'';
-
 	}
 
     private static function GetSurge($passwd, $method, $server, $port, $defined)

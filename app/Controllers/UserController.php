@@ -717,7 +717,7 @@ class UserController extends BaseController
 
     public function GetIosConf($request, $response, $args)
     {
-        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=allinone.conf');//->getBody()->write($builder->output());
+        $newResponse = $response->withHeader('Content-type', ' application/octet-stream')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');//->getBody()->write($builder->output());
         if ($this->user->is_admin) {
             $newResponse->getBody()->write(LinkController::GetIosConf(Node::where(
                 function ($query) {
