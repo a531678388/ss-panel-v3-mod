@@ -1263,7 +1263,7 @@ class UserController extends BaseController
             return $newResponse;
         }
 
-        if ($status == 1&&$ticket_main->status != $status) {
+        if ($status == 1 && $ticket_main->status != $status) {
             $adminUser = User::where("is_admin", "=", "1")->get();
             foreach ($adminUser as $user) {
                 $subject = Config::get('appName')."-工单被重新开启";
@@ -1417,7 +1417,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if(!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
+        if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
@@ -1425,13 +1425,13 @@ class UserController extends BaseController
 */
         $user->save();
 
-        if(!URL::SSCanConnect($user)) {
+        if (!URL::SSCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        if(!URL::SSRCanConnect($user)) {
+        if (!URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);

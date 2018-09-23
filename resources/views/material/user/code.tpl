@@ -44,6 +44,7 @@
 									<div class="card-inner">
 										<p class="card-heading">在线充值（10 秒内自动到账）</p>
 										<p class="card-heading">如有问题请发送邮件：lhie1x@gmail.com</p>
+										<li>$config['payment_system']</li>
 											{$pmw}
 									</div>
 								</div>

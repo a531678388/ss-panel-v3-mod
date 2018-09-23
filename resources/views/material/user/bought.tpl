@@ -125,7 +125,7 @@ $(document).ready(function(){
 					$("#result").modal();
 					$("#msg").html(data.msg);
 					window.setTimeout("location.href=window.location.href", {$config['jump_delay']});
-				}else{
+				} else {
 					$("#result").modal();
 					$("#msg").html(data.msg);
 				}

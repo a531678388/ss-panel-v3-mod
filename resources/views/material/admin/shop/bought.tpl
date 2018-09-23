@@ -90,7 +90,7 @@ $(document).ready(function(){
 					$("#result").modal();
 					$("#msg").html(data.msg);
 					$("#row_delete_"+deleteid).attr("disabled","true");
-				}else{
+				} else {
 					$("#result").modal();
 					$("#msg").html(data.msg);
 				}
