@@ -190,7 +190,7 @@ class LinkController extends BaseController
 
         switch ($Elink->type) {
             case -1:
-                $user=User::where("id", $Elink->userid)->first();
+                $user = User::where("id", $Elink->userid)->first();
                 if ($user == null) {
                     return null;
                 }
@@ -213,7 +213,11 @@ class LinkController extends BaseController
                 $already = $user->u + $user->d;
         		$still = $user->transfer_enable;
         		$userinfo = "upload=0; download=".$already.";total=".$still;
-                $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');//->getBody()->write($builder->output());
+                if ($is_mu = 0) {
+                    $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');
+                } elseif ($is_mu = 1) {
+                    $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud Public.conf');
+                }
                 $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss, $mitm));
                 return $newResponse;
             case 3:
