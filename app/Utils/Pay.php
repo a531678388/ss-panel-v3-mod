@@ -19,7 +19,9 @@ class Pay
             case 'spay':
                 return Pay::spay_html($user);
             case 'zfbjk':
-                return Pay::zfbjk_html($user);         
+                return Pay::zfbjk_html($user);
+            case "chenAlipay":
+                return (new AliPay)->getHTML();
             default:
                 return "";
         }
