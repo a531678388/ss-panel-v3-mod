@@ -147,7 +147,7 @@
                 },
                 error: function (jqXHR) {
                     $("#result").modal();
-                    $("#msg").html(data.msg + "  发生错误了。");
+                    $("#msg").html(data.msg);
                 }
             });
         }
