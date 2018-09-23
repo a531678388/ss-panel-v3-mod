@@ -36,7 +36,7 @@
 			<section class="content-inner margin-top-no">
 				<div class="row">
 					
-					{if $pmw!=''}
+					{if $pmw != ''}
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -213,7 +213,7 @@
 
 
 
-{include file='user/footer.tpl'}
+{include file = 'user/footer.tpl'}
 
 
 <script>
@@ -265,7 +265,7 @@
 		tid = setTimeout(f, 1000); //循环调用触发setTimeout
 	}
 
-   {if $config['payment_system']=='chenAlipay'}
+   {if $config['payment_system'] == 'chenAlipay'}
     var $zxing = 'http://mobile.qq.com/qrcode?url=',
         $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
         $wxpayApp = 'weixin://',
