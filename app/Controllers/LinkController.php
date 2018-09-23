@@ -409,7 +409,7 @@ class LinkController extends BaseController
                                             "server_port"=>$item['port'],
                                             "password"=>$item['passwd'],
                                             "method"=>$item['method'],
-                                            "plugin"=>($item['obfs']=='plain')?'':'obfs-local',
+                                            "plugin"=>"obfs-local",
                                             "plugin_opts"=>URL::getSurgeObfs($item).";obfs-host=wns.windows.com",
                                             "remarks"=>$item['remark'],
                                             "timeout"=>5));
