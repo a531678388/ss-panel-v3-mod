@@ -207,7 +207,7 @@ class LinkController extends BaseController
 
                 $mitm = 0;
                 if (isset($request->getQueryParams()["mitm"])) {
-                    $is_mu = $request->getQueryParams()["mitm"];
+                    $mitm = $request->getQueryParams()["mitm"];
                 }
 
                 $already = $user->u + $user->d;
