@@ -267,6 +267,7 @@
 		tid = setTimeout(f, 1000); //循环调用触发setTimeout
 	}
 
+	{if $config['payment_system'] != 'zfbjk'}
     var $zxing = 'http://mobile.qq.com/qrcode?url=',
         $alipay = 'alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=',
         $wxpayApp = 'weixin://',
@@ -400,5 +401,6 @@
             }
         }
     });
+	{/if}
 })
 </script>
