@@ -29,7 +29,7 @@
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
-				<h1 class="content-heading">充值</h1>
+				<h1 class="content-heading">充值 当前余额：{$user->money} 元</h1>
 			</div>
 		</div>
 		<div class="container">
@@ -58,7 +58,6 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">充值码</p>
-										<p>当前余额：{$user->money} 元</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">
