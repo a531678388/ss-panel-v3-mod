@@ -59,8 +59,6 @@ class XCat
 				return Job::syncnode();
 			case("syncnasnode"):
 				return Job::syncnasnode();
-			case("detectGFW"):
-				return Job::detectGFW();
 			case("syncnas"):
 				return SyncRadius::syncnas();
 			case("dailyjob"):
