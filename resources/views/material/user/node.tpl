@@ -93,7 +93,7 @@
 
 																				</span></p>
 
-																			{if $node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10}
+																			{if $node->sort == 0||$node->sort==7||$node->sort==8||$node->sort==10}
 
 
 																				<p>流量比例：<span class="label label-red">
@@ -102,7 +102,7 @@
 
 
 
-																				{if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10) && ($node->node_speedlimit != 0 || $user->node_speedlimit != 0)}
+																				{if ($node->sort==0||$node->sort==7||$node->sort==8||$node->sort==10)&&($node->node_speedlimit!=0||$user->node_speedlimit!=0)}
 																					<p>节点限速：<span class="label label-green">
 																						{if $node->node_speedlimit>$user->node_speedlimit}
 																							{$node->node_speedlimit}Mbps

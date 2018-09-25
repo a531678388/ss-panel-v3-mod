@@ -282,27 +282,27 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($codeq->type == 10001) {
-            $user->transfer_enable = $user->transfer_enable + $codeq->number * 1024 * 1024 * 1024;
+        if ($codeq->type==10001) {
+            $user->transfer_enable=$user->transfer_enable+$codeq->number*1024*1024*1024;
             $user->save();
         }
 
-        if ($codeq->type == 10002) {
-            if (time() > strtotime($user->expire_in)) {
-                $user->expire_in = date("Y-m-d H:i:s", time() + $codeq->number * 86400);
+        if ($codeq->type==10002) {
+            if (time()>strtotime($user->expire_in)) {
+                $user->expire_in=date("Y-m-d H:i:s", time()+$codeq->number*86400);
             } else {
-                $user->expire_in = date("Y-m-d H:i:s", strtotime($user->expire_in)+$codeq->number * 86400);
+                $user->expire_in=date("Y-m-d H:i:s", strtotime($user->expire_in)+$codeq->number*86400);
             }
             $user->save();
         }
 
-        if ($codeq->type >= 1 && $codeq->type <= 10000) {
-            if ($user->class == 0 || $user->class != $codeq->type) {
-                $user->class_expire = date("Y-m-d H:i:s", time());
+        if ($codeq->type>=1&&$codeq->type<=10000) {
+            if ($user->class==0||$user->class!=$codeq->type) {
+                $user->class_expire=date("Y-m-d H:i:s", time());
                 $user->save();
             }
-            $user->class_expire = date("Y-m-d H:i:s", strtotime($user->class_expire) + $codeq->number * 86400);
-            $user->class = $codeq->type;
+            $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$codeq->number*86400);
+            $user->class=$codeq->type;
             $user->save();
         }
     }
@@ -511,14 +511,15 @@ class UserController extends BaseController
                     }
                 }
 
-                $nodeLoad = $node->getNodeLoad();
-                if (isset($nodeLoad[0]['load'])){
-                    $node_latestload[$name_cheif]=((float)(explode(" ",$nodeLoad[0]['load']))[0])*100;
+                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
+                    $node_latestload[$temp[0]] = ((float)explode(" ", $node_loadtemp)[0]) * 100;
                 } else {
-                    $node_latestload[$name_cheif]=null;
+                    $node_latestload[$temp[0]] = null;
                 }
 
-                array_push($node_prefix[$name_cheif], $node);
+
+
+                array_push($node_prefix[$temp[0]], $node);
             }
         }
         $node_prefix = (object)$node_prefix;
@@ -559,7 +560,7 @@ class UserController extends BaseController
         switch ($node->sort) {
 
             case 0:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
+                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)
@@ -569,10 +570,10 @@ class UserController extends BaseController
             break;
 
             case 1:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = "VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
+                    $json_show="VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -581,10 +582,10 @@ class UserController extends BaseController
             break;
 
             case 2:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = "SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
+                    $json_show="SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -595,12 +596,12 @@ class UserController extends BaseController
 
 
             case 3:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
                     $token = LinkController::GenerateCode(3, $exp[0], $exp[1], 0, $this->user->id);
-                    $json_show = "PAC 信息<br>地址：".Config::get('apiUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show="PAC 信息<br>地址：".Config::get('apiUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -610,10 +611,10 @@ class UserController extends BaseController
             break;
 
             case 4:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $json_show = "APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
+                    $json_show="APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -623,11 +624,11 @@ class UserController extends BaseController
             break;
 
             case 5:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
 
-                    $json_show = "Anyconnect 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show="Anyconnect 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -638,9 +639,9 @@ class UserController extends BaseController
             break;
 
             case 6:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
 
                     $token_cmcc = LinkController::GenerateApnCode("cmnet", $exp[0], $exp[1], $this->user->id);
@@ -658,10 +659,10 @@ class UserController extends BaseController
             break;
 
             case 7:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port - 20000), 0, $this->user->id);
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
+                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port-20000), 0, $this->user->id);
                     $json_show="PAC Plus 信息<br>PAC 地址：".Config::get('apiUrl')."/link/".$token."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
 
@@ -674,12 +675,12 @@ class UserController extends BaseController
             break;
 
             case 8:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
-                    $email = $this->user->email;
-                    $email = Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 0, $this->user->id);
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
+                    $email=$this->user->email;
+                    $email=Radius::GetUserName($email);
+                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 0, $this->user->id);
                     $token_ios = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 1, $this->user->id);
-                    $json_show = "PAC Plus Plus信息<br>PAC 一般地址：".Config::get('apiUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('apiUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
+                    $json_show="PAC Plus Plus信息<br>PAC 一般地址：".Config::get('apiUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('apiUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -691,7 +692,7 @@ class UserController extends BaseController
 
 
             case 10:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth<$node->node_bandwidth_limit)) {
+                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)
@@ -765,7 +766,7 @@ class UserController extends BaseController
         $userloginip=array();
 
         foreach ($totallogin as $single) {
-            //if (isset($useripcount[$single->userid]))
+            //if(isset($useripcount[$single->userid]))
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
@@ -777,16 +778,16 @@ class UserController extends BaseController
 
         foreach($total as $single)
         {
-            //if (isset($useripcount[$single->userid]))
+            //if(isset($useripcount[$single->userid]))
             {
                 $single->ip = Tools::getRealIp($single->ip);
                 $is_node = Node::where("node_ip", $single->ip)->first();
-                if ($is_node) {
+                if($is_node) {
                     continue;
                 }
 
 
-                if (!isset($userip[$single->ip]))
+                if(!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
                     $location=$iplocation->getlocation($single->ip);
@@ -1096,7 +1097,7 @@ class UserController extends BaseController
         $user->money = $user->money - $price;
         $user->save();
 
-        if ($disableothers == 1){
+        if($disableothers == 1){
             $boughts = Bought::where("userid", $user->id)->get();
             foreach($boughts as $disable_bought){
                 $disable_bought->renew = 0;
@@ -1430,13 +1431,13 @@ class UserController extends BaseController
 
         if (!URL::SSCanConnect($user)) {
             $res['ret'] = 1;
-            $res['msg'] = "当前为 SSR 模式，请您自行更换客户端。";
+            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
         if (!URL::SSRCanConnect($user)) {
             $res['ret'] = 1;
-            $res['msg'] = "当前为 SS 模式，请您自行更换客户端。";
+            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
@@ -1660,7 +1661,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
+        if(!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
@@ -1668,19 +1669,19 @@ class UserController extends BaseController
 */
         $user->updateMethod($method);
 
-        if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 1;
-            $res['msg'] = "当前为 SSR 模式，请您自行更换客户端。";
+        if(!URL::SSCanConnect($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        if (!URL::SSRCanConnect($user)) {
-            $res['ret'] = 1;
-            $res['msg'] = "当前为 SS 模式，请您自行更换客户端。";
+        if(!URL::SSRCanConnect($user)) {
+            $res['ret'] = 0;
+            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 1;
+        $res['ret'] = 0;
         $res['msg'] = "设置成功，您可自由选用两种客户端来进行连接。";
         return $this->echoJson($response, $res);
     }
