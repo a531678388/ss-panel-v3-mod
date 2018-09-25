@@ -436,7 +436,6 @@ class UserController extends BaseController
         $node_heartbeat = array();
         $node_bandwidth = array();
         $node_muport = array();
-        $node_latestload = array();
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
@@ -512,13 +511,8 @@ class UserController extends BaseController
                 }
 
                 $nodeLoad = $node->getNodeLoad();
-                if (isset($nodeLoad[0]['load'])){
-                    $node_latestload[$name_cheif] = ((float)(explode(" ",$nodeLoad[0]['load']))[0]) * 100;
-                } else {
-                    $node_latestload[$name_cheif] = null;
-                }
 
-                array_push($node_prefix[$temp[0]], $node);
+                array_push($node_prefix[$name_cheif], $node);
             }
         }
         $node_prefix = (object)$node_prefix;
@@ -538,7 +532,6 @@ class UserController extends BaseController
         ->assign('node_order', $node_order)
         ->assign('user', $user)
         ->assign('node_alive', $node_alive)
-        ->assign('node_latestload', $node_latestload)
         ->display('user/node.tpl');
     }
 
@@ -559,7 +552,7 @@ class UserController extends BaseController
         switch ($node->sort) {
 
             case 0:
-                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth < $node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)
@@ -569,10 +562,10 @@ class UserController extends BaseController
             break;
 
             case 1:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
-                    $json_show="VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $json_show = "VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -581,10 +574,10 @@ class UserController extends BaseController
             break;
 
             case 2:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
-                    $json_show="SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $json_show = "SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -595,12 +588,12 @@ class UserController extends BaseController
 
 
             case 3:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
                     $token = LinkController::GenerateCode(3, $exp[0], $exp[1], 0, $this->user->id);
-                    $json_show="PAC 信息<br>地址：".Config::get('apiUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show = "PAC 信息<br>地址：".Config::get('apiUrl')."/link/".$token."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -610,10 +603,10 @@ class UserController extends BaseController
             break;
 
             case 4:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
-                    $json_show="APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $json_show = "APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -623,11 +616,11 @@ class UserController extends BaseController
             break;
 
             case 5:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
 
-                    $json_show="Anyconnect 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
+                    $json_show = "Anyconnect 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -638,9 +631,9 @@ class UserController extends BaseController
             break;
 
             case 6:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
 
                     $token_cmcc = LinkController::GenerateApnCode("cmnet", $exp[0], $exp[1], $this->user->id);
@@ -658,10 +651,10 @@ class UserController extends BaseController
             break;
 
             case 7:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port-20000), 0, $this->user->id);
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $token = LinkController::GenerateCode(7, $node->server, ($this->user->port - 20000), 0, $this->user->id);
                     $json_show="PAC Plus 信息<br>PAC 地址：".Config::get('apiUrl')."/link/".$token."<br>支持方式：".$node->method."<br>备注：".$node->info;
 
 
@@ -674,12 +667,12 @@ class UserController extends BaseController
             break;
 
             case 8:
-                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
-                    $email=$this->user->email;
-                    $email=Radius::GetUserName($email);
-                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 0, $this->user->id);
+                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                    $email = $this->user->email;
+                    $email = Radius::GetUserName($email);
+                    $token = LinkController::GenerateCode(8, $node->server, ($this->user->port - 20000), 0, $this->user->id);
                     $token_ios = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 1, $this->user->id);
-                    $json_show="PAC Plus Plus信息<br>PAC 一般地址：".Config::get('apiUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('apiUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
+                    $json_show = "PAC Plus Plus信息<br>PAC 一般地址：".Config::get('apiUrl')."/link/".$token."<br>PAC iOS 地址：".Config::get('apiUrl')."/link/".$token_ios."<br>"."备注：".$node->info;
 
                     return $this->view()
                     ->assign('json_show', $json_show)
@@ -691,7 +684,7 @@ class UserController extends BaseController
 
 
             case 10:
-                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
+                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth<$node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)

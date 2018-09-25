@@ -57,7 +57,7 @@
 															</div>
 															<div class="tile-inner">
 																<div class="text-overflow">
-                                                                  {$prefix} | {if $user->class!=0}<font color="#000000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#000000">{$node_alive[$prefix]}</font></b></strong> | <font color="#000000">负载：{$node_latestload[$prefix]}%</font> | <font color="#000000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#000000">{$node_bandwidth[$prefix]}</font>{else}N/A{/if}
+                                                                  {$prefix} | {if $user->class!=0}<font color="#000000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#000000">{$node_alive[$prefix]}</font></b></strong> | <font color="#000000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#000000">{$node_bandwidth[$prefix]}</font>{else}N/A{/if}
                                                                  </div>
 															</div>
 														</div>
