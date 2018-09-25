@@ -207,7 +207,7 @@ class UserController extends BaseController
     {
         $time = $request->getQueryParams()["time"];
         $codes = Code::where('userid', '=', $this->user->id)->where('usedatetime', '>', date('Y-m-d H:i:s', $time))->first();
-        if ($codes != null && strpos($codes->code, "充值") ! ==  false) {
+        if ($codes!=null && strpos($codes->code, "充值") !== false) {
             $res['ret'] = 1;
             return $response->getBody()->write(json_encode($res));
         } else {
@@ -250,11 +250,11 @@ class UserController extends BaseController
         $codeq->userid=$user->id;
         $codeq->save();
 
-        if ($codeq->type == -1) {
+        if ($codeq->type==-1) {
             $user->money=($user->money+$codeq->number);
             $user->save();
 
-            if ($user->ref_by != "" && $user->ref_by != 0 && $user->ref_by != null) {
+            if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
                 $gift_user=User::where("id", "=", $user->ref_by)->first();
                 $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
                 $gift_user->save();
@@ -282,12 +282,12 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($codeq->type == 10001) {
+        if ($codeq->type==10001) {
             $user->transfer_enable=$user->transfer_enable+$codeq->number*1024*1024*1024;
             $user->save();
         }
 
-        if ($codeq->type == 10002) {
+        if ($codeq->type==10002) {
             if (time()>strtotime($user->expire_in)) {
                 $user->expire_in=date("Y-m-d H:i:s", time()+$codeq->number*86400);
             } else {
@@ -296,8 +296,8 @@ class UserController extends BaseController
             $user->save();
         }
 
-        if ($codeq->type >= 1 && $codeq->type <= 10000) {
-            if ($user->class == 0 || $user->class != $codeq->type) {
+        if ($codeq->type>=1&&$codeq->type<=10000) {
+            if ($user->class==0||$user->class!=$codeq->type) {
                 $user->class_expire=date("Y-m-d H:i:s", time());
                 $user->save();
             }
@@ -418,7 +418,7 @@ class UserController extends BaseController
                     $query->Where("node_group", "=", $this->user->node_group)
                         ->orWhere("node_group", "=", 0);
                 }
-            )->where('type', 1)->where("node_class", " <= ", $this->user->class)->orderBy('name')->get();
+            )->where('type', 1)->where("node_class", "<=", $this->user->class)->orderBy('name')->get();
         }
 
         $relay_rules = Relay::where('user_id', $this->user->id)->orwhere('user_id', 0)->orderBy('id', 'asc')->get();
@@ -446,7 +446,7 @@ class UserController extends BaseController
                     $query->Where("node_group", "=", $user->node_group)
                         ->orWhere("node_group", "=", 0);
                 }
-            )->where('type', 1)->where('sort', 9)->where("node_class", " <= ", $user->class)->orderBy('name')->count();
+            )->where('type', 1)->where('sort', 9)->where("node_class", "<=", $user->class)->orderBy('name')->count();
         }
 
         $ports_count += 1;
@@ -476,11 +476,11 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
+                if ($node->sort == 0||$node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
                     $node_tempalive = $node->getOnlineUserCount();
                     $node_prealive[$node->id] = $node_tempalive;
-                    if ($node->isNodeOnline() ! ==  null) {
-                        if ($node->isNodeOnline()  == = false) {
+                    if ($node->isNodeOnline() !== null) {
+                        if ($node->isNodeOnline() === false) {
                             $node_heartbeat[$temp[0]] = "离线";
                         } else {
                             $node_heartbeat[$temp[0]] = "在线";
@@ -489,7 +489,7 @@ class UserController extends BaseController
                         $node_heartbeat[$temp[0]]="暂无数据";
                     }
 
-                    if ($node->node_bandwidth_limit == 0) {
+                    if ($node->node_bandwidth_limit==0) {
                         $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ∞";
                     } else {
                         $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ".(int)($node->node_bandwidth_limit / 1024 / 1024 / 1024)." GB";
@@ -506,7 +506,7 @@ class UserController extends BaseController
                 }
 
                 if (isset($temp[1])) {
-                    if (strpos($node_method[$temp[0]], $temp[1])  == = false) {
+                    if (strpos($node_method[$temp[0]], $temp[1]) === false) {
                         $node_method[$temp[0]] = $node_method[$temp[0]]." ".$temp[1];
                     }
                 }
@@ -560,7 +560,7 @@ class UserController extends BaseController
         switch ($node->sort) {
 
             case 0:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth<$node->node_bandwidth_limit)) {
+                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)
@@ -570,7 +570,7 @@ class UserController extends BaseController
             break;
 
             case 1:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $json_show="VPN 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
@@ -582,7 +582,7 @@ class UserController extends BaseController
             break;
 
             case 2:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $json_show="SSH 信息<br>地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
@@ -596,7 +596,7 @@ class UserController extends BaseController
 
 
             case 3:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
@@ -611,7 +611,7 @@ class UserController extends BaseController
             break;
 
             case 4:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $json_show="APN 信息<br>下载地址：".$node->server."<br>"."用户名：".$email."<br>密码：".$this->user->passwd."<br>支持方式：".$node->method."<br>备注：".$node->info;
@@ -624,7 +624,7 @@ class UserController extends BaseController
             break;
 
             case 5:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
 
@@ -639,7 +639,7 @@ class UserController extends BaseController
             break;
 
             case 6:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $exp = explode(":", $node->server);
@@ -659,7 +659,7 @@ class UserController extends BaseController
             break;
 
             case 7:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $token = LinkController::GenerateCode(7, $node->server, ($this->user->port-20000), 0, $this->user->id);
@@ -675,7 +675,7 @@ class UserController extends BaseController
             break;
 
             case 8:
-                if ($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) {
+                if ($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0)) {
                     $email=$this->user->email;
                     $email=Radius::GetUserName($email);
                     $token = LinkController::GenerateCode(8, $node->server, ($this->user->port-20000), 0, $this->user->id);
@@ -692,7 +692,7 @@ class UserController extends BaseController
 
 
             case 10:
-                if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && ($node->node_bandwidth_limit == 0 || $node->node_bandwidth<$node->node_bandwidth_limit)) {
+                if ((($user->class>=$node->node_class&&($user->node_group==$node->node_group||$node->node_group==0))||$user->is_admin)&&($node->node_bandwidth_limit==0||$node->node_bandwidth<$node->node_bandwidth_limit)) {
                     return $this->view()
                     ->assign('node', $node)
                     ->assign('user', $user)
@@ -740,7 +740,7 @@ class UserController extends BaseController
                     $query->where("node_group", "=", $this->user->node_group)
                         ->orWhere("node_group", "=", 0);
                 }
-            )->where("node_class", " <= ", $this->user->class)->get(), $this->user));
+            )->where("node_class", "<=", $this->user->class)->get(), $this->user));
         }
         return $newResponse;
     }
@@ -759,14 +759,14 @@ class UserController extends BaseController
 
         $userip = array();
 
-        $total = Ip::where("datetime"," >= ",time() - 300)->where('userid', '=',$this->user->id)->get();
+        $total = Ip::where("datetime",">=",time() - 300)->where('userid', '=',$this->user->id)->get();
 
         $totallogin = LoginIp::where('userid', '=', $this->user->id)->where("type", "=", 0)->orderBy("datetime", "desc")->take(10)->get();
 
         $userloginip=array();
 
         foreach ($totallogin as $single) {
-            //if (isset($useripcount[$single->userid]))
+            //if(isset($useripcount[$single->userid]))
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
@@ -778,16 +778,16 @@ class UserController extends BaseController
 
         foreach($total as $single)
         {
-            //if (isset($useripcount[$single->userid]))
+            //if(isset($useripcount[$single->userid]))
             {
                 $single->ip = Tools::getRealIp($single->ip);
                 $is_node = Node::where("node_ip", $single->ip)->first();
-                if ($is_node) {
+                if($is_node) {
                     continue;
                 }
 
 
-                if (!isset($userip[$single->ip]))
+                if(!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
                     $location=$iplocation->getlocation($single->ip);
@@ -1097,7 +1097,7 @@ class UserController extends BaseController
         $user->money = $user->money - $price;
         $user->save();
 
-        if ($disableothers == 1){
+        if($disableothers == 1){
             $boughts = Bought::where("userid", $user->id)->get();
             foreach($boughts as $disable_bought){
                 $disable_bought->renew = 0;
@@ -1109,7 +1109,7 @@ class UserController extends BaseController
         $bought->userid = $user->id;
         $bought->shopid = $shop->id;
         $bought->datetime = time();
-        if ($autorenew == 0 || $shop->auto_renew == 0) {
+        if ($autorenew == 0||$shop->auto_renew == 0) {
             $bought->renew = 0;
         } else {
             $bought->renew = time()+$shop->auto_renew * 86400;
@@ -1248,13 +1248,13 @@ class UserController extends BaseController
         $content = $request->getParam('content');
         $status = $request->getParam('status');
 
-        if ($content == "" || $status == "") {
+        if ($content == ""||$status == "") {
             $res['ret'] = 0;
             $res['msg'] = "请填全";
             return $this->echoJson($response, $res);
         }
 
-        if (strpos($content, "admin") != false || strpos($content, "user") != false) {
+        if (strpos($content, "admin") != false||strpos($content, "user") != false) {
             $res['ret'] = 0;
             $res['msg'] = "请求中有不正当的词语。";
             return $this->echoJson($response, $res);
@@ -1360,7 +1360,7 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($wechat == "" || $type == "") {
+        if ($wechat == ""||$type == "") {
             $res['ret'] = 0;
             $res['msg'] = "请填好";
             return $response->getBody()->write(json_encode($res));
@@ -1391,7 +1391,7 @@ class UserController extends BaseController
 
         $user = $this->user;
 
-        if ($obfs == "" || $protocol == "") {
+        if ($obfs == ""||$protocol == "") {
             $res['ret'] = 0;
             $res['msg'] = "请填好";
             return $response->getBody()->write(json_encode($res));
@@ -1474,7 +1474,7 @@ class UserController extends BaseController
         $mail = trim($mail);
         $user = $this->user;
 
-        if (!($mail == "1" || $mail == "0")) {
+        if (!($mail == "1"||$mail == "0")) {
             $res['ret'] = 0;
             $res['msg'] = "悟空别闹";
             return $response->getBody()->write(json_encode($res));
@@ -1550,7 +1550,7 @@ class UserController extends BaseController
         }
 
         $ipcount = EmailVerify::where('userid', '=', $user->id)->where('expire_in', '>', time())->count();
-        if ($ipcount >= (int)Config::get('email_verify_iplimit')) {
+        if ($ipcount>=(int)Config::get('email_verify_iplimit')) {
             $res['ret'] = 0;
             $res['msg'] = "你的请求次数过多，请稍候再试";
             return $response->getBody()->write(json_encode($res));
@@ -1661,7 +1661,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
+        if(!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
@@ -1669,13 +1669,13 @@ class UserController extends BaseController
 */
         $user->updateMethod($method);
 
-        if (!URL::SSCanConnect($user)) {
+        if(!URL::SSCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        if (!URL::SSRCanConnect($user)) {
+        if(!URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
