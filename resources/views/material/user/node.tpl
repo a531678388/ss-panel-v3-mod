@@ -57,7 +57,7 @@
 															</div>
 															<div class="tile-inner">
 																<div class="text-overflow">
-                                                                  {$prefix} | {if $user->class!=0}<font color="#000000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#000000">{$node_alive[$prefix]}</font></b></strong> | <font color="#000000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#000000">{$node_bandwidth[$prefix]}</font>{else}N/A{/if}
+                                                                  {$prefix} | {if $user->class!=0}<font color="#000000"><i class="icon icon-lg">flight_takeoff</i></font> <strong>{else}{/if}<b><font color="#000000">{$node_alive[$prefix]}</font></b></strong> | <font color="#000000">负载：{$node_latestload[$prefix]}%</font> | <font color="#000000"><i class="icon icon-lg">equalizer</i></font> {if isset($node_bandwidth[$prefix])==true}<font color="#000000">{$node_bandwidth[$prefix]}</font>{else}N/A{/if}
                                                                  </div>
 															</div>
 														</div>
@@ -73,7 +73,7 @@
 																		{$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
 																	{/if}
 
-																	{if $node->mu_only != 1 && $node->sort != 11}
+																	{if $node->mu_only != 1}
 																	<div class="card">
 																		<div class="card-main">
 																			<div class="card-inner">
@@ -102,7 +102,7 @@
 
 
 
-																				{if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10) && ($node->node_speedlimit != 0||$user->node_speedlimit != 0)}
+																				{if ($node->sort == 0 || $node->sort == 7 || $node->sort == 8 || $node->sort == 10) && ($node->node_speedlimit != 0 || $user->node_speedlimit != 0)}
 																					<p>节点限速：<span class="label label-green">
 																						{if $node->node_speedlimit>$user->node_speedlimit}
 																							{$node->node_speedlimit}Mbps
@@ -125,55 +125,7 @@
 																		{$point_node=$node}
 																	{/if}
 
-																	{if $node->sort == 11} 
-																		{assign var=server_explode value=";"|explode:$node->server}
-																		<div class="card">
-																			<div class="card-main">
-																				<div class="card-inner">
-																					<p class="card-heading" >
-																						<a href="javascript:void(0);" >{$node->name}</a>
-																					</p>																				
-																				<p>地址：<span class="label label-brand-accent">
-                                                                                    {$server_explode[0]}
-																				</span></p>
 
-																				<p>端口：<span class="label label-brand-red">
-																					{$server_explode[1]}
-																				</span></p>
-
-																				<p>协议：<span class="label label-brand-accent">
-																					{$server_explode[2]}
-																				</span></p>
-
-																				<p>协议参数：<span class="label label-green">
-																					{$server_explode[0]}
-																				</span></p>
-
-																				<p>用户 UUID：<span class="label label-brand">
-																					{$user->getUuid()}
-																				</span></p>
-
-																				<p>流量比例：<span class="label label-red">
-																					{$node->traffic_rate}
-																				</span></p>
-
-																				<p>AlterId：<span class="label label-green">
-																					{$server_explode[3]}
-																				</span></p>
-
-																				<p>Level：<span class="label label-brand">
-																					{$server_explode[4]}
-																				</span></p>
-
-																				<p>VMess链接：
-																					<a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
-																				</p>
-
-																				<p>{$node->info}</p>
-																				</div>
-																			</div>
-																		</div>
-																	{/if}
 
 																	{if ($node->sort == 0 || $node->sort == 10) && $node->custom_rss == 1 && $node->mu_only != -1}
 																		{foreach $node_muport as $single_muport}

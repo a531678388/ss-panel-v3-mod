@@ -436,6 +436,7 @@ class UserController extends BaseController
         $node_heartbeat = array();
         $node_bandwidth = array();
         $node_muport = array();
+        $node_latestload = array();
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
@@ -511,6 +512,11 @@ class UserController extends BaseController
                 }
 
                 $nodeLoad = $node->getNodeLoad();
+                if (isset($nodeLoad[0]['load'])){
+                    $node_latestload[$name_cheif]=((float)(explode(" ",$nodeLoad[0]['load']))[0])*100;
+                } else {
+                    $node_latestload[$name_cheif]=null;
+                }
 
                 array_push($node_prefix[$name_cheif], $node);
             }
@@ -532,6 +538,7 @@ class UserController extends BaseController
         ->assign('node_order', $node_order)
         ->assign('user', $user)
         ->assign('node_alive', $node_alive)
+        ->assign('node_latestload', $node_latestload)
         ->display('user/node.tpl');
     }
 
@@ -1662,18 +1669,18 @@ class UserController extends BaseController
         $user->updateMethod($method);
 
         if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
+            $res['ret'] = 1;
+            $res['msg'] = "当前为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
         if (!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
+            $res['ret'] = 1;
+            $res['msg'] = "当前为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用两种客户端来进行连接。";
         return $this->echoJson($response, $res);
     }
