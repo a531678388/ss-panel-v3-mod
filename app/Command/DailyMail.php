@@ -19,11 +19,11 @@ class DailyMail
         $todayCheckinUser = $sts->getTodayCheckinUser();
         $users = User::all();
         $logs = Ann::orderBy('id', 'desc')->get();
-        $ann="";
+        $text1="";
         
         foreach ($logs as $log) {
             if (strpos($log->content, "Links") === false) {
-                $ann.=$log->content."<br><br>";
+                $text1=$text1.$log->content."<br><br>";
             }
         }
         $lastday_total = 0;
@@ -35,7 +35,7 @@ class DailyMail
                 echo "Send daily mail to user: ".$user->id;
                 $subject = Config::get('appName')." - 流量报告以及公告";
                 $to = $user->email;
-                $text = "公告:<br><br>".$ann."<br><br>晚安！";
+                $text = "公告:<br><br>".$text1."<br><br>晚安！";
                 
                 
                 try {
