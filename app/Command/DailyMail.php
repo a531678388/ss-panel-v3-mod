@@ -17,17 +17,12 @@ class DailyMail
     {
         $sts = new Analytics();
         $todayCheckinUser = $sts->getTodayCheckinUser();
-        
         $users = User::all();
-        if (Config::get('mailAnnouncementDays') == '0') {
-            $logs = Ann::orderBy('id', 'desc')->get();
-        } else {
-            $logs = Ann::where("date", ">", date("Y-m-d H:i:s", time()-86400*Config::get('mailAnnouncementDays')))->orderBy('id', 'desc')->get();
-        }
+        $logs = Ann::orderBy('id', 'desc')->get();
         $ann="";
         
         foreach ($logs as $log) {
-            if (strpos($log->content, "Links")===false) {
+            if (strpos($log->content, "Links") === false) {
                 $ann.=$log->content."<br><br>";
             }
         }
