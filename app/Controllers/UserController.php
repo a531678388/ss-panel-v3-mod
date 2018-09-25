@@ -282,27 +282,27 @@ class UserController extends BaseController
             return $response->getBody()->write(json_encode($res));
         }
 
-        if ($codeq->type==10001) {
-            $user->transfer_enable=$user->transfer_enable+$codeq->number*1024*1024*1024;
+        if ($codeq->type == 10001) {
+            $user->transfer_enable = $user->transfer_enable + $codeq->number * 1024 * 1024 * 1024;
             $user->save();
         }
 
-        if ($codeq->type==10002) {
-            if (time()>strtotime($user->expire_in)) {
-                $user->expire_in=date("Y-m-d H:i:s", time()+$codeq->number*86400);
+        if ($codeq->type == 10002) {
+            if (time() > strtotime($user->expire_in)) {
+                $user->expire_in = date("Y-m-d H:i:s", time() + $codeq->number * 86400);
             } else {
-                $user->expire_in=date("Y-m-d H:i:s", strtotime($user->expire_in)+$codeq->number*86400);
+                $user->expire_in = date("Y-m-d H:i:s", strtotime($user->expire_in)+$codeq->number * 86400);
             }
             $user->save();
         }
 
-        if ($codeq->type>=1&&$codeq->type<=10000) {
-            if ($user->class==0||$user->class!=$codeq->type) {
-                $user->class_expire=date("Y-m-d H:i:s", time());
+        if ($codeq->type >= 1 && $codeq->type <= 10000) {
+            if ($user->class == 0 || $user->class != $codeq->type) {
+                $user->class_expire = date("Y-m-d H:i:s", time());
                 $user->save();
             }
-            $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$codeq->number*86400);
-            $user->class=$codeq->type;
+            $user->class_expire = date("Y-m-d H:i:s", strtotime($user->class_expire) + $codeq->number * 86400);
+            $user->class = $codeq->type;
             $user->save();
         }
     }
@@ -476,7 +476,7 @@ class UserController extends BaseController
                 }
 
 
-                if ($node->sort == 0||$node->sort == 7 || $node->sort == 8 || $node->sort == 10) {
+                if ($node->sort == 0||$node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
                     $node_tempalive = $node->getOnlineUserCount();
                     $node_prealive[$node->id] = $node_tempalive;
                     if ($node->isNodeOnline() !== null) {
@@ -511,13 +511,12 @@ class UserController extends BaseController
                     }
                 }
 
-                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
-                    $node_latestload[$temp[0]] = ((float)explode(" ", $node_loadtemp)[0]) * 100;
+                $nodeLoad = $node->getNodeLoad();
+                if (isset($nodeLoad[0]['load'])){
+                    $node_latestload[$name_cheif] = ((float)(explode(" ",$nodeLoad[0]['load']))[0]) * 100;
                 } else {
-                    $node_latestload[$temp[0]] = null;
+                    $node_latestload[$name_cheif] = null;
                 }
-
-
 
                 array_push($node_prefix[$temp[0]], $node);
             }

@@ -53,22 +53,28 @@ class NodeController extends AdminController
         $node->node_speedlimit = $request->getParam('node_speedlimit');
         $node->status = $request->getParam('status');
         $node->sort = $request->getParam('sort');
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
+
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
             } else {
-                $node->node_ip = gethostbyname($request->getParam('server'));
+                if ($node->sort == 11) {
+                    $server_list = explode(";", $request->getParam('server'));
+                    $node->node_ip = gethostbyname($server_list[0]);
+                } else {
+                    $node->node_ip = gethostbyname($request->getParam('server'));
+                }
             }
         } else {
-            $node->node_ip="";
+            $node->node_ip = "";
         }
 
-        if ($node->sort==1) {
+        if ($node->sort == 1) {
             Radius::AddNas($node->node_ip, $request->getParam('server'));
         }
-        $node->node_class=$request->getParam('class');
-        $node->node_bandwidth_limit=$request->getParam('node_bandwidth_limit')*1024*1024*1024;
-        $node->bandwidthlimit_resetday=$request->getParam('bandwidthlimit_resetday');
+        $node->node_class = $request->getParam('class');
+        $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
+        $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
         if (!$node->save()) {
             $rs['ret'] = 0;
@@ -110,41 +116,62 @@ class NodeController extends AdminController
         $node->type = $request->getParam('type');
         $node->sort = $request->getParam('sort');
 
-        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10) {
-            if ($request->getParam('node_ip') != '') {
-                $node->node_ip = $request->getParam('node_ip');
-            } else {
+        if ($node->sort == 0 || $node->sort == 1 || $node->sort == 10 || $node->sort == 11) {
+            if ($req_node_ip != '') {
+                $node->node_ip = $req_node_ip;
+            } 
+			else {
                 if ($node->isNodeOnline()) {
-                    if (!$node->changeNodeIp($request->getParam('server'))) {
+                    $succ = false;
+                    if ($node->sort == 11) {
+                        $server_list = explode(";", $request->getParam('server'));
+                        $succ = $node->changeNodeIp($server_list[0]);
+                    } 
+					else {
+                        $succ = $node->changeNodeIp($request->getParam('server'));
+                    }
+
+                    if (!$succ) {
                         $rs['ret'] = 0;
                         $rs['msg'] = "更新节点IP失败，请检查您输入的节点地址是否正确！";
                         return $response->getBody()->write(json_encode($rs));
                     }
                 }
+				else{
+					if ($node->sort == 11) {
+						$server_list = explode(";", $request->getParam('server'));
+						$node->node_ip = gethostbyname($server_list[0]);
+					} 
+					else {
+						$node->node_ip = gethostbyname($request->getParam('server'));
+					}
+				}
             }
-        } else {
-            $node->node_ip="";
+        } 
+		else {
+            $node->node_ip = "";
         }
 
         if ($node->sort == 0 || $node->sort == 10) {
             Tools::updateRelayRuleIp($node);
         }
 
-        if ($node->sort==1) {
-            $SS_Node=Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
-            if ($SS_Node!=null) {
-                if (time()-$SS_Node->node_heartbeat<300||$SS_Node->node_heartbeat==0) {
+        if ($node->sort == 1) {
+            $SS_Node = Node::where('sort', '=', 0)->where('server', '=', $request->getParam('server'))->first();
+            if ($SS_Node != null) {
+                if (time() - $SS_Node->node_heartbeat < 300 || $SS_Node->node_heartbeat == 0) {
                     Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
                 }
-            } else {
+            } 
+			else {
                 Radius::AddNas(gethostbyname($request->getParam('server')), $request->getParam('server'));
             }
         }
 
         $node->status = $request->getParam('status');
-        $node->node_class=$request->getParam('class');
-        $node->node_bandwidth_limit=$request->getParam('node_bandwidth_limit')*1024*1024*1024;
-        $node->bandwidthlimit_resetday=$request->getParam('bandwidthlimit_resetday');
+        $node->node_class = $request->getParam('class');
+        $node->node_bandwidth_limit = $request->getParam('node_bandwidth_limit') * 1024 * 1024 * 1024;
+        $node->bandwidthlimit_resetday = $request->getParam('bandwidthlimit_resetday');
 
         if (!$node->save()) {
             $rs['ret'] = 0;

@@ -43,8 +43,8 @@ class Node extends Model
     public function getNodeUpRate()
     {
         $id = $this->attributes['id'];
-        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>=', time()-86400)->count();
-        $rate = $log/1440;
+        $log = NodeOnlineLog::where('node_id', $id)->where('log_time', '>=', time() - 86400)->count();
+        $rate = $log / 1440;
         if ($rate >= 0.97){
             return 1;
         }else{
@@ -124,7 +124,7 @@ class Node extends Model
         $online_status = $this->attributes['online_status'];
         $sort = $this->attributes['sort'];
 
-        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10)) {
+        if (!($sort == 0 || $sort == 7 || $sort == 8 || $sort==10 || $sort==11)) {
             return null;
         }
 
