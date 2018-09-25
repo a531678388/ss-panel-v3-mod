@@ -49,7 +49,7 @@ class Job
     public static function backup()
     {
         $to = Config::get('auto_backup_email');
-        if($to==null){
+        if ($to==null){
             return false;
         }
         mkdir('/tmp/ssmodbackup/');
@@ -160,9 +160,9 @@ class Job
                 continue;
             }
 
-            if($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
-              if(time() - $shop->reset_exp() * 86400 < $bought->datetime) {
-                if(intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
+            if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
+              if (time() - $shop->reset_exp() * 86400 < $bought->datetime) {
+                if (intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
                   $user->transfer_enable = Tools::toGB($shop->reset_value());
                   $user->u = 0;
                   $user->d = 0;
@@ -303,7 +303,7 @@ class Job
         foreach ($full_alive_ips as $full_alive_ip) {
             $full_alive_ip->ip = Tools::getRealIp($full_alive_ip->ip);
             $is_node = Node::where("node_ip", $full_alive_ip->ip)->first();
-            if($is_node) {
+            if ($is_node) {
                 continue;
             }
 
@@ -385,16 +385,16 @@ class Job
 
 
         // Auto renew Begin
-        $boughts=Bought::where("renew", "<", time())->where("renew", "<>", 0)->get();
+        $boughts = Bought::where("renew", "<", time())->where("renew", "<>", 0)->get();
         foreach ($boughts as $bought) {
-            $user=User::where("id", $bought->userid)->first();
+            $user = User::where("id", $bought->userid)->first();
 
             if ($user == null) {
                 $bought->delete();
                 continue;
             }
 
-            if ($user->money>=$bought->price) {
+            if ($user->money >= $bought->price) {
                 $shop=Shop::where("id", $bought->shopid)->first();
 
                 if ($shop == null) {
@@ -402,23 +402,23 @@ class Job
                     continue;
                 }
 
-                $user->money=$user->money-$bought->price;
+                $user->money = $user->money - $bought->price;
 
                 $user->save();
 
                 $shop->buy($user, 1);
 
-                $bought->renew=0;
+                $bought->renew = 0;
                 $bought->save();
 
 
-                $bought_new=new Bought();
-                $bought_new->userid=$user->id;
-                $bought_new->shopid=$shop->id;
+                $bought_new = new Bought();
+                $bought_new->userid = $user->id;
+                $bought_new->shopid = $shop->id;
                 $bought_new->datetime=time();
-                $bought_new->renew=time()+$shop->auto_renew*86400;
-                $bought_new->price=$bought->price;
-                $bought_new->coupon="";
+                $bought_new->renew = time() + $shop->auto_renew * 86400;
+                $bought_new->price = $bought->price;
+                $bought_new->coupon = "";
                 $bought_new->save();
 
                 $subject = Config::get('appName')."-续费成功";
@@ -442,10 +442,10 @@ class Job
 
 
         // Database clean start
-        Ip::where("datetime", "<", time()-300)->delete();
-        UnblockIp::where("datetime", "<", time()-300)->delete();
-        BlockIp::where("datetime", "<", time()-86400)->delete();
-        TelegramSession::where("datetime", "<", time()-900)->delete();
+        Ip::where("datetime", "<", time() - 300)->delete();
+        UnblockIp::where("datetime", "<", time() - 300)->delete();
+        BlockIp::where("datetime", "<", time() - 86400)->delete();
+        TelegramSession::where("datetime", "<", time() - 900)->delete();
         // Database clean end
 
         /**
@@ -465,7 +465,7 @@ class Job
                 if ($node->sort != 999 && $node->sort != 9) {
                     if ($node->dns_type == 2){
                         $sync_host = $node->dns_value;    // dynamic CNAME
-                    }else{
+                    } else {
                         $sync_host = $node->server;   // dynamic A
                     }
                     $ip = gethostbyname($sync_host);
@@ -510,7 +510,7 @@ class Job
                         }
                     }
                 }
-                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
+                if (($node->sort == 0 || $node->sort == 10) && Config::get('node_switcher') != 'none'){
                     $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
                         function ($query) use ($node) {
                         $query->where('node_group', '=', $node->node_group)
@@ -527,11 +527,11 @@ class Job
 
                             $api->setProtocol(true);
 
-                            $domain_json=json_decode($api->domain->domainList());
+                            $domain_json = json_decode($api->domain->domainList());
 
                             foreach ($domain_json->data as $domain) {
-                                if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-                                    $domain_id=$domain->id;
+                                if (strpos($domain->domain, Config::get('cloudxns_domain')) !== false) {
+                                    $domain_id = $domain->id;
                                 }
                             }
 
@@ -598,11 +598,11 @@ class Job
                         }
                     }
                 }
-                if (($node->sort==0 || $node->sort==10) && Config::get('node_switcher') != 'none'){
-                            if($node->dns_type==2){
+                if (($node->sort == 0 || $node->sort == 10) && Config::get('node_switcher') != 'none'){
+                            if ($node->dns_type==2){
                                 $origin_type = 'CNAME';
                                 $origin_value = $node->dns_value;
-                            }else{
+                            } else {
                                 $origin_type = 'A';
                                 $origin_value = $node->node_ip;
                             }
@@ -618,16 +618,16 @@ class Job
                             $domain_json=json_decode($api->domain->domainList());
 
                             foreach ($domain_json->data as $domain) {
-                                if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
-                                    $domain_id=$domain->id;
+                                if (strpos($domain->domain, Config::get('cloudxns_domain')) !== false) {
+                                    $domain_id = $domain->id;
                                 }
                             }
 
-                            $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
+                            $record_json = json_decode($api->record->recordList($domain_id, 0, 0, 2000));
 
                             foreach ($record_json->data as $record) {
-                                if (($record->host.".".Config::get('cloudxns_domain'))==$node->server) {
-                                    $record_id=$record->record_id;
+                                if (($record->host.".".Config::get('cloudxns_domain')) == $node->server) {
+                                    $record_id = $record->record_id;
 
                                     $api->record->recordUpdate($domain_id, $record->host, $origin_value, $origin_type, 55, 600, 1, '', $record_id);
                                 }
@@ -665,26 +665,26 @@ class Job
 
 
         // Detect login location begin
-        if (Config::get("login_warn")=="true") {
+        if (Config::get("login_warn") == "true") {
             $iplocation = new QQWry();
-            $Logs = LoginIp::where("datetime", ">", time()-60)->get();
+            $Logs = LoginIp::where("datetime", ">", time() - 60)->get();
             foreach ($Logs as $log) {
-                $UserLogs=LoginIp::where("userid", "=", $log->userid)->orderBy("id", "desc")->take(2)->get();
-                if ($UserLogs->count()==2) {
+                $UserLogs = LoginIp::where("userid", "=", $log->userid)->orderBy("id", "desc")->take(2)->get();
+                if ($UserLogs->count() == 2) {
                     $i = 0;
                     $Userlocation = "";
                     foreach ($UserLogs as $userlog) {
                         if ($i == 0) {
-                            $location=$iplocation->getlocation($userlog->ip);
-                            $ip=$userlog->ip;
+                            $location = $iplocation->getlocation($userlog->ip);
+                            $ip = $userlog->ip;
                             $Userlocation = $location['country'];
                             $i++;
                         } else {
-                            $location=$iplocation->getlocation($userlog->ip);
-                            $nodes=Node::where("node_ip", "LIKE", $ip.'%')->first();
-                            $nodes2=Node::where("node_ip", "LIKE", $userlog->ip.'%')->first();
-                            if ($Userlocation!=$location['country']&&$nodes==null&&$nodes2==null) {
-                                $user=User::where("id", "=", $userlog->userid)->first();
+                            $location = $iplocation->getlocation($userlog->ip);
+                            $nodes = Node::where("node_ip", "LIKE", $ip.'%')->first();
+                            $nodes2 = Node::where("node_ip", "LIKE", $userlog->ip.'%')->first();
+                            if ($Userlocation != $location['country'] && $nodes == null && $nodes2 == null) {
+                                $user = User::where("id", "=", $userlog->userid)->first();
                                 $subject = Config::get('appName')."-系统警告";
                                 $to = $user->email;
                                 $text = "您好，系统发现您的账号在 ".iconv('gbk', 'utf-8//IGNORE', $Userlocation)." 有异常登录，请您自己自行核实登录行为。有异常请及时修改密码。" ;
@@ -708,15 +708,15 @@ class Job
         // Process user begin
         $users = User::all();
         foreach ($users as $user) {
-            if (($user->transfer_enable<=$user->u+$user->d||$user->enable==0||(strtotime($user->expire_in)<time()&&strtotime($user->expire_in)>644447105))&&RadiusBan::where("userid", $user->id)->first()==null) {
-                $rb=new RadiusBan();
-                $rb->userid=$user->id;
+            if (($user->transfer_enable <= $user->u + $user->d || $user->enable == 0 || (strtotime($user->expire_in) < time() && strtotime($user->expire_in) > 644447105)) && RadiusBan::where("userid", $user->id)->first() == null) {
+                $rb = new RadiusBan();
+                $rb->userid = $user->id;
                 $rb->save();
                 Radius::Delete($user->email);
             }
 
-            if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
-                if (Config::get('enable_account_expire_reset')=='true') {
+            if (strtotime($user->expire_in) < time() && (((Config::get('enable_account_expire_reset') == 'true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset') == 'true' && ($user->class != 0 && strtotime($user->class_expire) < time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true))) {
+                if (Config::get('enable_account_expire_reset') == 'true') {
                     $user->transfer_enable = Tools::toGB(Config::get('enable_account_expire_reset_traffic'));
                     $user->u = 0;
                     $user->d = 0;
@@ -736,8 +736,8 @@ class Job
                 }
             }
 
-            if (strtotime($user->expire_in)+((int)Config::get('enable_account_expire_delete_days')*86400)<time()) {
-                if (Config::get('enable_account_expire_delete')=='true') {
+            if (strtotime($user->expire_in) + ((int)Config::get('enable_account_expire_delete_days') * 86400) < time()) {
+                if (Config::get('enable_account_expire_delete') == 'true') {
                     $subject = Config::get('appName')."-您的帐号已经被删除了";
                     $to = $user->email;
                     $text = "您好，系统发现您的账号已经到期 ".Config::get('enable_account_expire_delete_days')." 天了，帐号已经被删除。" ;
@@ -759,8 +759,8 @@ class Job
 
 
 
-            if ((int)Config::get('enable_auto_clean_uncheck_days')!=0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
-                if (Config::get('enable_auto_clean_uncheck')=='true') {
+            if ((int)Config::get('enable_auto_clean_uncheck_days') != 0 && max($user->last_check_in_time, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_uncheck_days') * 86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
+                if (Config::get('enable_auto_clean_uncheck') == 'true') {
                     $subject = Config::get('appName')."-您的帐号已经被删除了";
                     $to = $user->email;
                     $text = "您好，系统发现您的账号已经 ".Config::get('enable_auto_clean_uncheck_days')." 天没签到了，帐号已经被删除。" ;
@@ -787,7 +787,7 @@ class Job
             }
 
 
-            if ((int)Config::get('enable_auto_clean_unused_days')!=0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
+            if ((int)Config::get('enable_auto_clean_unused_days') != 0 && max($user->t, strtotime($user->reg_date)) + ((int)Config::get('enable_auto_clean_unused_days')*86400) < time() && $user->class == 0 && $user->money <= Config::get('auto_clean_min_money')) {
                 if (Config::get('enable_auto_clean_unused')=='true') {
                     $subject = Config::get('appName')."-您的帐号已经被删除了";
                     $to = $user->email;
@@ -814,7 +814,7 @@ class Job
                 }
             }
 
-            if ($user->class!=0 && (((Config::get('enable_account_expire_reset')=='true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset')=='true' && ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true)) && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
+            if ($user->class != 0 && (((Config::get('enable_account_expire_reset') == 'true' && strtotime($user->expire_in) < time()) ? $user->transfer_enable != Tools::toGB(Config::get('enable_account_expire_reset_traffic')) : true) && ((Config::get('enable_class_expire_reset') == 'true' && ($user->class != 0 && strtotime($user->class_expire) < time() && strtotime($user->class_expire) > 1420041600))? $user->transfer_enable != Tools::toGB(Config::get('enable_class_expire_reset_traffic')) : true)) && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
                 if (Config::get('enable_class_expire_reset')=='true') {
                     $user->transfer_enable = Tools::toGB(Config::get('enable_class_expire_reset_traffic'));
                     $user->u = 0;
@@ -834,16 +834,16 @@ class Job
                     }
                 }
 
-                $user->class=0;
+                $user->class = 0;
             }
 
-            if ($user->class!=0 && strtotime($user->class_expire)<time() && strtotime($user->class_expire) > 1420041600) {
-                $user->class=0;
+            if ($user->class != 0 && strtotime($user->class_expire) < time() && strtotime($user->class_expire) > 1420041600) {
+                $user->class = 0;
             }
 
             $user->save();
 
-            if ($user->class!=0 && (strtotime($user->class_expire) - time() < 259200) && (259240 <= strtotime($user->class_expire) - time()) && strtotime($user->class_expire) > 1420041600) {
+            if ($user->class != 0 && (strtotime($user->class_expire) - time() < 259200) && (259240 <= strtotime($user->class_expire) - time()) && strtotime($user->class_expire) > 1420041600) {
                 $subject = Config::get('appName')."-您的套餐将在3天后到期";
                 $to = $user->email;
                 $text = "您好，系统发现您的套餐将在 3 天后到期。如需继续使用本站服务，请登录用户中心续费；如果您已开启自动续费且余额充足，请忽略本邮件提醒。感谢您的再次使用。" ;
@@ -876,5 +876,149 @@ class Job
             }
         }
         // Radius ban end
+    }
+
+    public static function detectGFW()
+        {
+        //节点被墙检测
+        if (Config::get("enable_detect_gfw") == "true"){
+            $last_time = file_get_contents(BASE_PATH."/storage/last_detect_gfw_time");
+            for ($count = 1;$count <= 12;$count++){
+                if (time() - $last_time >= Config::get("detect_gfw_interval")){
+                    $file_interval = fopen(BASE_PATH."/storage/last_detect_gfw_time","w");
+                    fwrite($file_interval,time());
+                    fclose($file_interval);
+                    $nodes=Node::all();
+                    $adminUser = User::where("is_admin", "=", "1")->get();
+                    foreach ($nodes as $node){
+                        if ($node->node_ip == "" ||
+                        $node->node_ip == null ||
+                        file_exists(BASE_PATH."/storage/".$node->id."offline") == true){
+                            continue;
+                        }
+                        $api_url = Config::get("detect_gfw_url");
+                        $api_url = str_replace('{ip}',$node->node_ip,$api_url);
+                        $api_url = str_replace('{port}',Config::get('detect_gfw_port'),$api_url);
+                        //因为考虑到有v2ray之类的节点，所以不得不使用ip作为参数
+                        $result_tcping = false;
+                        $detect_time = Config::get("detect_gfw_count");
+                        for ($i = 1;$i <= $detect_time;$i++){
+                            $json_tcping = json_decode(file_get_contents($api_url), true);
+                            if (eval('return '.Config::get('detect_gfw_judge').';'){
+                                $result_tcping = true;
+                                break;
+                            }
+                        }
+                        if ($result_tcping == false){
+                            //被墙了
+                            echo($node->id.":false".PHP_EOL);
+                            //判断有没有发送过邮件
+                            if (file_exists(BASE_PATH."/storage/".$node->id.".gfw")){
+                                continue;
+                            }
+                            foreach ($adminUser as $user) {
+                                echo "Send gfw mail to user: ".$user->id."-";
+                                $subject = Config::get('appName')."-系统警告";
+                                $to = $user->email;
+                                $text = "管理员您好，系统发现节点 ".$node->name." 被墙了，请您及时处理。" ;
+                                try {
+                                    Mail::send($to, $subject, 'news/warn.tpl', [
+                                                                        "user" => $user,"text" => $text
+                                                                    ], [
+                                                                    ]);
+                                }
+                                catch (Exception $e) {
+                                    echo $e->getMessage();
+                                }
+                                if (Config::get('enable_cloudxns')=='true' && ($node->sort==0 || $node->sort==10)) {
+                                    $api=new Api();
+                                    $api->setApiKey(Config::get("cloudxns_apikey"));
+                                    //修改成自己API KEY
+                                    $api->setSecretKey(Config::get("cloudxns_apisecret"));
+                                    //修改成自己的SECERET KEY
+                                    $api->setProtocol(true);
+                                    $domain_json=json_decode($api->domain->domainList());
+                                    foreach ($domain_json->data as $domain) {
+                                        if (strpos($domain->domain, Config::get('cloudxns_domain'))!==false) {
+                                            $domain_id=$domain->id;
+                                        }
+                                    }
+                                    $record_json = json_decode($api->record->recordList($domain_id, 0, 0, 2000));
+                                    foreach ($record_json->data as $record) {
+                                        if (($record->host.".".Config::get('cloudxns_domain')) == $node->server) {
+                                            $record_id = $record->record_id;
+                                            $Temp_node = Node::where('node_class', '<=', $node->node_class)->where(
+                                                                                       function ($query) use ($node) {
+                                                $query->where("node_group", "=", $node->node_group)
+                                                                                                   ->orWhere("node_group", "=", 0);
+                                            }
+                                            )->whereRaw('UNIX_TIMESTAMP()-`node_heartbeat`<300')->first();
+                                            if ($Temp_node != null) {
+                                                $api->record->recordUpdate($domain_id, $record->host, $Temp_node->server, 'CNAME', 55, 60, 1, '', $record_id);
+                                            }
+                                            $notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~域名解析被切换到了 ".$Temp_node->name." 上了喵~";
+                                        }
+                                    }
+                                } else {
+                                    $notice_text = "喵喵喵~ ".$node->name." 节点被墙了喵~";
+                                }
+                            }
+                            $file_node = fopen(BASE_PATH."/storage/".$node->id.".gfw", "w+");
+                            fclose($file_node);
+                        } else {
+                            //没有被墙
+                            echo($node->id.":true".PHP_EOL);
+                            if (file_exists(BASE_PATH."/storage/".$node->id.".gfw") == false){
+                                continue;
+                            }
+                            foreach ($adminUser as $user) {
+                                echo "Send gfw mail to user: ".$user->id."-";
+                                $subject = Config::get('appName')."-系统提示";
+                                $to = $user->email;
+                                $text = "管理员您好，系统发现节点 ".$node->name." 溜出墙了。" ;
+                                try {
+                                    Mail::send($to, $subject, 'news/warn.tpl', [
+                                                                    "user" => $user,"text" => $text
+                                                                ], [
+                                                                ]);
+                                }
+                                catch (Exception $e) {
+                                    echo $e->getMessage();
+                                }
+                                if (Config::get('enable_cloudxns') == 'true' && ($node->sort == 0 || $node->sort == 10)) {
+                                    $api=new Api();
+                                    $api->setApiKey(Config::get("cloudxns_apikey"));
+                                    //修改成自己API KEY
+                                    $api->setSecretKey(Config::get("cloudxns_apisecret"));
+                                    //修改成自己的SECERET KEY
+                                    $api->setProtocol(true);
+                                    $domain_json=json_decode($api->domain->domainList());
+                                    foreach ($domain_json->data as $domain) {
+                                        if (strpos($domain->domain, Config::get('cloudxns_domain')) !== false) {
+                                            $domain_id=$domain->id;
+                                        }
+                                    }
+                                    $record_json=json_decode($api->record->recordList($domain_id, 0, 0, 2000));
+                                    foreach ($record_json->data as $record) {
+                                        if (($record->host.".".Config::get('cloudxns_domain')) == $node->server) {
+                                            $record_id=$record->record_id;
+                                            $api->record->recordUpdate($domain_id, $record->host, $node->getNodeIp(), 'A', 55, 600, 1, '', $record_id);
+                                        }
+                                    }
+                                    $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~域名解析被切换回来了喵~";
+                                } else {
+                                    $notice_text = "喵喵喵~ ".$node->name." 节点恢复了喵~";
+                                }
+                            }
+                            unlink(BASE_PATH."/storage/".$node->id.".gfw");
+                        }
+                    }
+                    break;
+                } else {
+                    echo($node->id."interval skip".PHP_EOL);
+                    sleep(3);
+                }
+            }
+        }
     }
 }
