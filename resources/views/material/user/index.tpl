@@ -48,10 +48,10 @@
 										<nav class="tab-nav margin-top-no">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;ShadowsocksR</a>
+													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;Shadowsocks</a>
+													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
 												</li>
 										</nav>
 										{if $user->class!=0}
@@ -68,21 +68,13 @@
 													</nav>
 													<div class="tab-pane fade active in" id="all_ssr_info">
 														{$user = URL::getSSRConnectInfo($pre_user)}
-														{$ssr_url_all = URL::getAllUrl($pre_user, 0, 0, 1)}
-														{$ssr_url_all_mu = URL::getAllUrl($pre_user, 1, 0, 1)}
 
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all}">复制个人端口节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=0&is_ss=0">下载个人端口节点信息配置</a></p>
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">复制公共端口节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=123&is_ss=0">下载公共端口节点信息配置</a></p>
-
-															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;修改为 SS 模式</button>
+															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;修改为 SS/SSD 模式</button>
 														</dl>
 														{else}
-															<p><a class="copy-text" data-clipboard-text="{$ssr_url_all_mu}">复制公共端口节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=1&is_ss=0">下载公共端口节点信息配置</a></p>
+															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
 														{/if}
 													</div>
 												</div>
@@ -96,21 +88,13 @@
 													</nav>
 													<div class="tab-pane fade active in" id="all_ss_info">
 														{$user = URL::getSSConnectInfo($pre_user)}
-														{$ss_url_all = URL::getAllUrl($pre_user, 0, 1)}
-														{$ss_url_all_mu = URL::getAllUrl($pre_user, 1, 1)}
-														{$ss_url_all_win = URL::getAllUrl($pre_user, 0, 2, 1)}
 
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
-															<p><a class="copy-text" data-clipboard-text="{$ss_url_all_win}">复制节点信息配置</a></p>
-															<p><a href="/user/getpcconf?is_mu=0&is_ss=1">下载节点信息配置</a></p><br>
-
 															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
 														</dl>
 														{else}
-															<p>您目前的加密方式、协议、混淆为 SSR 模式</p><br>
-
-															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;切换为 SS 模式</button>
+															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;切换为 SS/SSD 模式</button>
 														{/if}
 													</div>
 												</div>
@@ -131,6 +115,13 @@
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=1">点击拷贝</button>
 											<p><a href="Shadowrocket://add/sub://{$ssr_url_1}?remarks=Dler%20Cloud" target="_blank"><span class="icon">check</span>&nbsp;Shadwrocket：一键订阅</a></p>
 											<p><a href="quantumult://configuration?server={$ssr_url_1}&filter={$filterUrl}&rejection={$rejectUrl}" target="_blank"><span class="icon">check</span>&nbsp;Quantumult：一键订阅</a></p>
+
+
+											{if URL::SSCanConnect($user)}
+											<p>SSD 个人端口订阅地址</p>
+											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=3</code></p>
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button>
+											{/if}
 										</div>
 
 										<div class="card-action">

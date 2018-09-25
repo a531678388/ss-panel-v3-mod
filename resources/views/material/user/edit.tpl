@@ -128,14 +128,14 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">加密方式</p>
-										<p>注意：SS 和 SSR 支持的加密方式有所不同，请根据实际情况来进行选择！</p>
+										<p>注意：SS/SSD 和 SSR 支持的加密方式有所不同，请根据实际情况来进行选择！</p>
 										<p>当前加密方式：{$user->method}</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="method">加密方式</label>
 											<select id="method" class="form-control">
 												{$method_list = $config_service->getSupportParam('method')}
 												{foreach $method_list as $method}
-													<option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS{else}SS/SSR{/if}] {$method}</option>
+													<option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSD/SSR{/if}] {$method}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -143,7 +143,7 @@
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="method-update" ><span class="icon">check</span>&nbsp;提交修改</button>
+											<button class="btn btn-flat waves-attach" id="method-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
@@ -155,14 +155,15 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">协议&混淆</p>
-										<p>当前协议：{$user->protocol}</p>
-										<p>注意：如果您使用 SS 客户端此处请直接设置为：origin</p>
+										<p>当前协议：<code id="ajax-user-protocol">{$user->protocol}</code></p>
+										<p>注意：如果您使用 SS/SSD 客户端此处请直接设置为：origin</p>
+										<p>注意：如果需要兼容 SS/SSD 请选择带 _compatible 的兼容选项</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="protocol">协议</label>
 											<select id="protocol" class="form-control">
 												{$protocol_list = $config_service->getSupportParam('protocol')}
 												{foreach $protocol_list as $protocol}
-													<option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSR{else}SSR{/if}] {$protocol}</option>
+													<option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if}] {$protocol}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -170,14 +171,14 @@
 									</div>
 
 									<div class="card-inner">
-										<p>当前混淆方式：{$user->obfs}</p>
-										<p>注意：SS 和 SSR 支持的混淆有所不同，请根据实际情况来进行选择！</p>
+										<p>当前混淆方式：<code id="ajax-user-obfs">{$user->obfs}</code></p>
+										<p>注意：SS/SSD 和 SSR 支持的混淆有所不同，请根据实际情况来进行选择！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obfs">混淆方式</label>
 											<select id="obfs" class="form-control">
 												{$obfs_list = $config_service->getSupportParam('obfs')}
 												{foreach $obfs_list as $obfs}
-													<option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS{/if}{/if}] {$obfs}</option>
+													<option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if}] {$obfs}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -185,7 +186,7 @@
 
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交修改</button>
+											<button class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
 								</div>
@@ -320,7 +321,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">每日流量报告及公告</p>
-										<p>当前设置：{if $user->sendDailyMail==1} 接收 {else} 不接收 {/if}</p>
+										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}<mail></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
 											<select id="mail" class="form-control">
@@ -497,11 +498,13 @@ $(".copy-text").click(function () {
                 dataType: "json",
                 data: {
                     protocol: $("#protocol").val(),
-					obfs: $("#obfs").val()
+					obfs: $("#obfs").val(),
                 },
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+						$("#ajax-user-protocol").html($("#protocol").val());
+						$("ajax-user-obfs").html($("#obfs").val());
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
@@ -676,6 +679,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
+                        $("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();

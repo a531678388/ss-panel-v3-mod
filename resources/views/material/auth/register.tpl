@@ -120,7 +120,7 @@
 												<div class="col-md-10 col-md-push-1">
 													<div class="checkbox switch">
 														<label for="surge_user">
-															<input class="access-hide" id="surge_user" name="surge_user" type="checkbox"><span class="switch-toggle"></span>Surge / Surfboard 用户
+															<input class="access-hide" id="surge_user" name="surge_user" type="checkbox"><span class="switch-toggle"></span>Surge / Surfboard 用户（SS 模式）
 														</label>
 													</div>
 												</div>

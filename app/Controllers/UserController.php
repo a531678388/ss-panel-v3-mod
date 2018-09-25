@@ -765,7 +765,7 @@ class UserController extends BaseController
         $userloginip=array();
 
         foreach ($totallogin as $single) {
-            //if(isset($useripcount[$single->userid]))
+            //if (isset($useripcount[$single->userid]))
             {
                 if (!isset($userloginip[$single->ip])) {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
@@ -777,16 +777,16 @@ class UserController extends BaseController
 
         foreach($total as $single)
         {
-            //if(isset($useripcount[$single->userid]))
+            //if (isset($useripcount[$single->userid]))
             {
                 $single->ip = Tools::getRealIp($single->ip);
                 $is_node = Node::where("node_ip", $single->ip)->first();
-                if($is_node) {
+                if ($is_node) {
                     continue;
                 }
 
 
-                if(!isset($userip[$single->ip]))
+                if (!isset($userip[$single->ip]))
                 {
                     //$useripcount[$single->userid]=$useripcount[$single->userid]+1;
                     $location=$iplocation->getlocation($single->ip);
@@ -1096,7 +1096,7 @@ class UserController extends BaseController
         $user->money = $user->money - $price;
         $user->save();
 
-        if($disableothers == 1){
+        if ($disableothers == 1){
             $boughts = Bought::where("userid", $user->id)->get();
             foreach($boughts as $disable_bought){
                 $disable_bought->renew = 0;
@@ -1429,18 +1429,18 @@ class UserController extends BaseController
         $user->save();
 
         if (!URL::SSCanConnect($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
+            $res['ret'] = 1;
+            $res['msg'] = "当前为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
         if (!URL::SSRCanConnect($user)) {
-            $res['ret'] = 0;
-            $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
+            $res['ret'] = 1;
+            $res['msg'] = "当前为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        $res['ret'] = 0;
+        $res['ret'] = 1;
         $res['msg'] = "设置成功，您可自由选用客户端来连接。";
         return $this->echoJson($response, $res);
     }
@@ -1660,7 +1660,7 @@ class UserController extends BaseController
             return $this->echoJson($response, $res);
         }
 
-        if(!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
+        if (!URL::SSCanConnect($user) && !URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "您这样设置之后，就没有客户端能连接上了，所以系统拒绝了您的设置，请您检查您的设置之后再进行操作。";
             return $this->echoJson($response, $res);
@@ -1668,13 +1668,13 @@ class UserController extends BaseController
 */
         $user->updateMethod($method);
 
-        if(!URL::SSCanConnect($user)) {
+        if (!URL::SSCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SSR 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
         }
 
-        if(!URL::SSRCanConnect($user)) {
+        if (!URL::SSRCanConnect($user)) {
             $res['ret'] = 0;
             $res['msg'] = "已修改为 SS 模式，请您自行更换客户端。";
             return $this->echoJson($response, $res);
