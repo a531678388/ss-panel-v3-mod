@@ -290,10 +290,12 @@
         var $type = $(this).attr('type')
         if ($type == 2) {
             $('.textShow').html('手机端长按二维码保存到手机<br>点击二维码进入扫一扫选择图片支付');
-            var pay_url = $wxpayUrl;
+            if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $wxpayUrl[$pay_type];
+            else var pay_url = $wxpayUrl;
         } else {
             $('.textShow').html('手机端点击二维码即可转跳支付宝支付');
-            var pay_url = $alipayUrl;
+            if ('{$QRcodeUrl}'.indexOf('|') > 0) var pay_url = $alipayUrl[$pay_type];
+            else var pay_url = $alipayUrl;
         }
         $.ajax({
             type: "GET",
@@ -330,7 +332,7 @@
         function checkPayTime(id) {
             $.ajax({
                 type: "GET",
-                url: "CheckAliPay",
+                url: "CheckAliPay?" + Math.random(),
                 dataType: "json",
                 data: {
                     id: id
@@ -400,6 +402,6 @@
             }
         }
     });
-	{/if}
+    {/if}
 })
 </script>
