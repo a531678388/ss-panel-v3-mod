@@ -444,8 +444,8 @@ class LinkController extends BaseController
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
             if (substr($item['remark'],-3,3) != "SSR") {
-                if ($item['remark'] == "HK_IPLC_SS") {
-                    $item['remark'] = "HK_IPLC";
+                if ($item['remark'] == "香港 - IPLC | Media | SS") {
+                    $item['remark'] = "香港 - IPLC | Media";
                 }
             }
             if (URL::getSurgeObfs($item) != "") {

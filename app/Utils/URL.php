@@ -490,8 +490,8 @@ class URL
         }
 
         if (substr($node_name,-2,2) != "SS") {
-            if ($node_name == "HK_IPLC_SSR") {
-                $node_name = "HK_IPLC";
+            if ($node_name == "香港 - IPLC | Media | SSR") {
+                $node_name = "香港 - IPLC | Media";
 			}
 		
         	if ($relay_rule != null && $is_mu != 0) {
