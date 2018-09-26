@@ -179,7 +179,7 @@ card-heading {
 																						</div>
 																					{else}
 																						<div class="node-info-access" >
-																						 <p>您当前的套餐无法使用{$single_classes['desc']},请<a href="/user/shop">点击这里</a>购买相应套餐.</p>
+																						 <p>您当前无法使用 {$single_classes['desc']} 节点，请到 <a href="/user/shop">商店</a> 购买相应套餐</p>
 																						 </div>
 																					{/if}
 																					</div>
