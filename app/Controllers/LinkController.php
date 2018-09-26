@@ -443,8 +443,8 @@ class LinkController extends BaseController
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
-            if (substr($item['remark'],-3,3) != "SSR") {
-                if ($item['remark'] == "香港 - IPLC | Media | SS") {
+            if (preg_match("/$IPLC/i",$node->name) {
+                if ($item['remark'] == "香港 - IPLC | Media - SS") {
                     $item['remark'] = "香港 - IPLC | Media";
                 }
             }
