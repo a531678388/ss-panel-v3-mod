@@ -1020,9 +1020,7 @@ class UserController extends BaseController
         $coupon = trim($coupon);
         $code = $coupon;
         $shop = $request->getParam('shop');
-
         $disableothers = $request->getParam('disableothers');
-
         $autorenew = $request->getParam('autorenew');
 
         $shop = Shop::where("id", $shop)->where("status", 1)->first();

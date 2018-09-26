@@ -16,7 +16,7 @@ class URL
     */
     public static function CanMethodConnect($method) {
         $ss_aead_method_list = Config::getSupportParam('ss_aead_method');
-        if(in_array($method, $ss_aead_method_list)) {
+        if (in_array($method, $ss_aead_method_list)) {
             return 2;
         }
         return 3;
@@ -28,8 +28,8 @@ class URL
     * 3 Both can
     */
     public static function CanProtocolConnect($protocol) {
-        if($protocol != 'origin') {
-            if(strpos($protocol, '_compatible') === FALSE) {
+        if ($protocol != 'origin') {
+            if (strpos($protocol, '_compatible') === FALSE) {
                 return 1;
             }else{
                 return 3;
@@ -47,18 +47,18 @@ class URL
     * 5 Both can, But ss need set obfs to plain
     */
     public static function CanObfsConnect($obfs) {
-        if($obfs != 'plain') {
+        if ($obfs != 'plain') {
             //SS obfs only
             $ss_obfs = Config::getSupportParam('ss_obfs');
-            if(in_array($obfs, $ss_obfs)) {
-                if(strpos($obfs, '_compatible') === FALSE) {
+            if (in_array($obfs, $ss_obfs)) {
+                if (strpos($obfs, '_compatible') === FALSE) {
                     return 2;
                 }else{
                     return 4;//SSR need origin plain
                 }
             }else{
                 //SSR obfs only
-                if(strpos($obfs, '_compatible') === FALSE) {
+                if (strpos($obfs, '_compatible') === FALSE) {
                     return 1;
                 }else{
                     return 5;//SS need plain
@@ -71,7 +71,7 @@ class URL
 
 
     public static function SSCanConnect($user, $mu_port = 0) {
-        if($mu_port != 0) {
+        if ($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
 
             if ($mu_user == null) {
@@ -81,7 +81,7 @@ class URL
             return URL::SSCanConnect($mu_user);
         }
 
-        if(URL::CanMethodConnect($user->method) >= 2 && URL::CanProtocolConnect($user->protocol) >= 2 && URL::CanObfsConnect($user->obfs) >= 2) {
+        if (URL::CanMethodConnect($user->method) >= 2 && URL::CanProtocolConnect($user->protocol) >= 2 && URL::CanObfsConnect($user->obfs) >= 2) {
             return true;
         }else{
             return false;
@@ -89,7 +89,7 @@ class URL
     }
 
     public static function SSRCanConnect($user, $mu_port = 0) {
-        if($mu_port != 0) {
+        if ($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
 
             if ($mu_user == null) {
@@ -99,7 +99,7 @@ class URL
             return URL::SSRCanConnect($mu_user);
         }
 
-        if(URL::CanMethodConnect($user->method) != 2 && URL::CanProtocolConnect($user->protocol) != 2 && URL::CanObfsConnect($user->obfs) != 2) {
+        if (URL::CanMethodConnect($user->method) != 2 && URL::CanProtocolConnect($user->protocol) != 2 && URL::CanObfsConnect($user->obfs) != 2) {
             return true;
         }else{
             return false;
@@ -108,12 +108,12 @@ class URL
 
     public static function getSSConnectInfo($user) {
         $new_user = clone $user;
-        if(URL::CanObfsConnect($new_user->obfs) == 5) {
+        if (URL::CanObfsConnect($new_user->obfs) == 5) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
 
-        if(URL::CanProtocolConnect($new_user->protocol) == 3) {
+        if (URL::CanProtocolConnect($new_user->protocol) == 3) {
             $new_user->protocol = 'origin';
             $new_user->protocol_param = '';
         }
@@ -126,7 +126,7 @@ class URL
 
     public static function getSSRConnectInfo($user) {
         $new_user = clone $user;
-        if(URL::CanObfsConnect($new_user->obfs) == 4) {
+        if (URL::CanObfsConnect($new_user->obfs) == 4) {
             $new_user->obfs = 'plain';
             $new_user->obfs_param = '';
         }
@@ -160,7 +160,7 @@ class URL
             )->where("type", "1")->where("node_class", "<=", $user->class)->orderBy("name")->get();
         }
 
-        //if($is_mu) {
+        //if ($is_mu) {
             if ($user->is_admin) {
                 if ($is_mu != 0 && $is_mu != 1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
@@ -206,12 +206,12 @@ class URL
                     }
 
                     $item = URL::getItem($user, $node, 0, $relay_rule_id, $is_ss, $is_mu);
-                    if($item != null) {
+                    if ($item != null) {
                         array_push($return_array, $item);
                     }
                 }else{
                     $item = URL::getItem($user, $node, 0, 0, $is_ss, $is_mu);
-                    if($item != null) {
+                    if ($item != null) {
                         array_push($return_array, $item);
                     }
                 }
@@ -232,12 +232,12 @@ class URL
                         }
 
                         $item = URL::getItem($user, $node, $mu_node->server, $relay_rule_id, $is_ss, $is_mu);
-                        if($item != null) {
+                        if ($item != null) {
                             array_push($return_array, $item);
                         }
                     }else{
                         $item = URL::getItem($user, $node, $mu_node->server, 0, $is_ss, $is_mu);
-                        if($item != null) {
+                        if ($item != null) {
                             array_push($return_array, $item);
                         }
                     }
@@ -266,11 +266,11 @@ class URL
     public static function getItemUrl($item, $is_ss) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
 
-        if(!$is_ss) {
+        if (!$is_ss) {
             $ssurl = $item['address'].":".$item['port'].":".$item['protocol'].":".$item['method'].":".$item['obfs'].":".Tools::base64_url_encode($item['passwd'])."/?obfsparam=".Tools::base64_url_encode($item['obfs_param'])."&protoparam=".Tools::base64_url_encode($item['protocol_param'])."&remarks=".Tools::base64_url_encode($item['remark'])."&group=".Tools::base64_url_encode($item['group']);
             return "ssr://".Tools::base64_url_encode($ssurl);
         }else{
-            if($is_ss == 2) {
+            if ($is_ss == 2) {
                 $personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info);
 
@@ -280,14 +280,14 @@ class URL
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info)."@".$item['address'].":".$item['port'];
 
                 $plugin = '';
-                if(in_array($item['obfs'], $ss_obfs_list)) {
-                    if(strpos($item['obfs'], 'http') !== FALSE) {
+                if (in_array($item['obfs'], $ss_obfs_list)) {
+                    if (strpos($item['obfs'], 'http') !== FALSE) {
                         $plugin .= "simple-obfs;obfs=http";
                     }else{
                         $plugin .= "simple-obfs;obfs=tls";
                     }
 
-                    if($item['obfs_param'] != '') {
+                    if ($item['obfs_param'] != '') {
                         $plugin .= ";obfs-host=".$item['obfs_param'];
                     }
 
@@ -357,26 +357,41 @@ class URL
         $array_all['traffic_used'] = Tools::flowToGB($user->u + $user->d);
         $array_all['traffic_total'] = Tools::flowToGB($user->transfer_enable);
         $array_all['expiry'] = $user->class_expire;
+
         $array_server = array();
         $nodes = Node::where("type","1")->where(function ($func){
         $func->where("sort", "=", 0)->orwhere("sort", "=", 9)->orwhere("sort", "=", 10);
         })->get();
         foreach($nodes as $node){
-            if($node->node_group != 0 && $node->node_group != $user->group){
+            if ($node->node_group != 0 && $node->node_group != $user->group){
                 continue;
             }
-            if($node->node_class > $user->class){
+            if ($node->node_class > $user->class){
                 continue;
             }
             $server['id'] = $node->id;
             $server['server'] = $node->server;
-            $server['remarks'] = $node->name;
-            $server['ratio'] = $node->traffic_rate;
+            //判断是否为中转节点
+            $relay_rule = Relay::where('source_node_id', $node->id)->where(
+                function ($query) use ($user) {
+                    $query->Where("user_id", "=", $user->id)
+                        ->orWhere("user_id", "=", 0);
+                }
+            )->orderBy('priority','DESC')->orderBy('id')->first();
+            if ($relay_rule != null) {
+                $server['remarks'] = $node->name.' => '.$relay_rule->dist_node()->name;
+                $server['ratio'] = $node->traffic_rate + $relay_rule->dist_node()->traffic_rate;
+            }
+            else{
+                $server['remarks'] = $node->name;
+                $server['ratio'] = $node->traffic_rate;
+            }
             array_push($array_server,$server);
         }
+
         $array_all['servers'] = $array_server;
         $json_all = json_encode($array_all);  
-        if($base64){
+        if ($base64){
             return "ssd://".base64_encode($json_all);
         }
         else{
@@ -387,14 +402,14 @@ class URL
     public static function getJsonObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = "";
-        if(in_array($item['obfs'], $ss_obfs_list)) {
-            if(strpos($item['obfs'], 'http') !== FALSE) {
+        if (in_array($item['obfs'], $ss_obfs_list)) {
+            if (strpos($item['obfs'], 'http') !== FALSE) {
                 $plugin .= "obfs-local";
             }else{
                 $plugin .= "obfs-local";
             }
 
-            if($item['obfs_param'] != '') {
+            if ($item['obfs_param'] != '') {
                 $plugin .= "--obfs-host ".$item['obfs_param'];
             }
         }
@@ -405,14 +420,14 @@ class URL
     public static function getSurgeObfs($item) {
         $ss_obfs_list = Config::getSupportParam('ss_obfs');
         $plugin = "";
-        if(in_array($item['obfs'], $ss_obfs_list)) {
-            if(strpos($item['obfs'], 'http') !== FALSE) {
+        if (in_array($item['obfs'], $ss_obfs_list)) {
+            if (strpos($item['obfs'], 'http') !== FALSE) {
                 $plugin .= "obfs=http";
             }else{
                 $plugin .= "obfs=tls";
             }
 
-            if($item['obfs_param'] != '') {
+            if ($item['obfs_param'] != '') {
                 $plugin .= ",obfs-host=".$item['obfs_param'];
             }
         }
@@ -448,7 +463,7 @@ class URL
             $node_name .= " - ".$relay_rule->dist_node()->name;
         }
 
-        if($mu_port != 0) {
+        if ($mu_port != 0) {
             $mu_user = User::where('port', '=', $mu_port)->where("is_multi_user", "<>", 0)->first();
 
             if ($mu_user == null) {
@@ -465,12 +480,12 @@ class URL
         }
 
         if ($is_ss) {
-            if(!URL::SSCanConnect($user)) {
+            if (!URL::SSCanConnect($user)) {
                 return;
             }
             $user = URL::getSSConnectInfo($user);
         }else{
-            if(!URL::SSRCanConnect($user)) {
+            if (!URL::SSRCanConnect($user)) {
                 return;
             }
             $user = URL::getSSRConnectInfo($user);
@@ -498,7 +513,7 @@ class URL
             	$return_array['protocol_param'] = $user->protocol_param;
             	$return_array['obfs_param'] = $user->obfs_param;
             	$return_array['group'] = Config::get('appName');
-			if($mu_port != 0 && $is_mu != 0) {
+			if ($mu_port != 0 && $is_mu != 0) {
 				$return_array['group'] .= '';
 			}
 			return $return_array;
@@ -511,7 +526,7 @@ class URL
     }
 
     public static function getUserTraffic($user){
-        if($user->class !=0){
+        if ($user->class !=0){
             $ssurl = "flow.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
         }else{
             $ssurl = "flow.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("已到期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
@@ -520,7 +535,7 @@ class URL
     }
   
     public static function getUserClassExpiration($user){
-        if($user->class !=0){
+        if ($user->class !=0){
             $ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("到期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
         }else{
             $ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("已到期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
