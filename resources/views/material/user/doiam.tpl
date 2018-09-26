@@ -1,5 +1,5 @@
 <div class="card-inner">
-	<p class="card-heading">余额:{$user->money}</p>
+	<p class="card-heading">余额：{$user->money}</p>
 	<nav class="tab-nav margin-top-no">
 		<ul class="nav nav-list">
 			{if $enabled['alipay']}
