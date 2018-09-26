@@ -427,7 +427,6 @@ class UserController extends BaseController
             $relay_rules = array();
         }
 
-        $node_prefix = array();
         $node_method = array();
         $a = 0;
         $node_order = array();
@@ -436,7 +435,11 @@ class UserController extends BaseController
         $node_heartbeat = array();
         $node_bandwidth = array();
         $node_muport = array();
+        $node_classes = array();
         $node_latestload = array();
+
+        array_push($node_classes, array('level' => 1, 'desc' => "Basis 线路", 'nodes' => array(), 'style' => "card-heading-vip1", 'access' => 0));
+        array_push($node_classes, array('level' => 2, 'desc' => "Advanced 线路", 'nodes' => array(), 'style' => "card-heading-vip2", 'access' => 0));
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
@@ -451,89 +454,99 @@ class UserController extends BaseController
 
         $ports_count += 1;
 
-        foreach ($nodes as $node) {
-            if ((($user->class >= $node->node_class && ($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && (!$node->isNodeTrafficOut())) {
-                if ($node->sort == 9) {
-                    $mu_user = User::where('port', '=', $node->server)->first();
-                    $mu_user->obfs_param = $this->user->getMuMd5();
-                    array_push($node_muport, array('server' => $node,'user' => $mu_user));
-                    continue;
-                }
-
-                $temp = explode(" - ", $node->name);
-                if (!isset($node_prefix[$temp[0]])) {
-                    $node_prefix[$temp[0]] = array();
-                    $node_order[$temp[0]] = $a;
-                    $node_alive[$temp[0]] = 0;
-
-                    if (isset($temp[1])) {
-                        $node_method[$temp[0]] = $temp[1];
-                    } else {
-                        $node_method[$temp[0]] = "";
-                    }
-
-                    $a++;
-                }
-
-
-                if ($node->sort == 0||$node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
-                    $node_tempalive = $node->getOnlineUserCount();
-                    $node_prealive[$node->id] = $node_tempalive;
-                    if ($node->isNodeOnline() !== null) {
-                        if ($node->isNodeOnline() === false) {
-                            $node_heartbeat[$temp[0]] = "离线";
-                        } else {
-                            $node_heartbeat[$temp[0]] = "在线";
-                        }
-                    } else {
-                        $node_heartbeat[$temp[0]]="暂无数据";
-                    }
-
-                    if ($node->node_bandwidth_limit==0) {
-                        $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ∞";
-                    } else {
-                        $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ".(int)($node->node_bandwidth_limit / 1024 / 1024 / 1024)." GB";
-                    }
-
-                    if ($node_tempalive != "暂无数据") {
-                        $node_alive[$temp[0]] = $node_alive[$temp[0]]+$node_tempalive;
-                    }
-                } else {
-                    $node_prealive[$node->id] = "暂无数据";
-                    if (!isset($node_heartbeat[$temp[0]])) {
-                        $node_heartbeat[$temp[0]] = "暂无数据";
-                    }
-                }
-
-                if (isset($temp[1])) {
-                    if (strpos($node_method[$temp[0]], $temp[1]) === false) {
-                        $node_method[$temp[0]] = $node_method[$temp[0]]." ".$temp[1];
-                    }
-                }
-
-                if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
-                    $node_latestload[$temp[0]] = ((float)explode(" ", $node_loadtemp)[0]) * 100;
-                } else {
-                    $node_latestload[$temp[0]] = null;
-                }
-
-
-
-                array_push($node_prefix[$temp[0]], $node);
+        foreach ($node_classes as &$single_classes) {
+            if ($user->class >= $single_classes["level"]) {
+                $single_classes["access"]=1;
             }
+
+
+          $node_prefix = array();
+          foreach ($nodes as $node) {
+              if (($node->node_class == $single_classes['level']) && ((($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && (!$node->isNodeTrafficOut())) {
+                  if ($node->sort == 9) {
+                      $mu_user = User::where('port', '=', $node->server)->first();
+                      $mu_user->obfs_param = $this->user->getMuMd5();
+                      array_push($node_muport, array('server' => $node,'user' => $mu_user));
+                      continue;
+                  }
+
+                  $temp = explode(" - ", $node->name);
+                  if (!isset($node_prefix[$temp[0]])) {
+                      $node_prefix[$temp[0]] = array();
+                      $node_order[$temp[0]] = $a;
+                      $node_alive[$temp[0]] = 0;
+
+                      if (isset($temp[1])) {
+                          $node_method[$temp[0]] = $temp[1];
+                      } else {
+                          $node_method[$temp[0]] = "";
+                      }
+
+                      $a++;
+                  }
+
+
+                  if ($node->sort == 0||$node->sort == 7 || $node->sort == 8 || $node->sort == 10 || $node->sort == 11) {
+                      $node_tempalive = $node->getOnlineUserCount();
+                      $node_prealive[$node->id] = $node_tempalive;
+                      if ($node->isNodeOnline() !== null) {
+                          if ($node->isNodeOnline() === false) {
+                              $node_heartbeat[$temp[0]] = "离线";
+                          } else {
+                              $node_heartbeat[$temp[0]] = "在线";
+                          }
+                      } else {
+                          $node_heartbeat[$temp[0]]="暂无数据";
+                      }
+
+                      if ($node->node_bandwidth_limit==0) {
+                          $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ∞";
+                      } else {
+                          $node_bandwidth[$temp[0]]=(int)($node->node_bandwidth / 1024 / 1024 / 1024)." GB / ".(int)($node->node_bandwidth_limit / 1024 / 1024 / 1024)." GB";
+                      }
+
+                      if ($node_tempalive != "暂无数据") {
+                          $node_alive[$temp[0]] = $node_alive[$temp[0]]+$node_tempalive;
+                      }
+                  } else {
+                      $node_prealive[$node->id] = "暂无数据";
+                      if (!isset($node_heartbeat[$temp[0]])) {
+                          $node_heartbeat[$temp[0]] = "暂无数据";
+                      }
+                  }
+
+                  if (isset($temp[1])) {
+                      if (strpos($node_method[$temp[0]], $temp[1]) === false) {
+                          $node_method[$temp[0]] = $node_method[$temp[0]]." ".$temp[1];
+                      }
+                  }
+
+                  if ($node_loadtemp=$node->getNodeLoad()[0]['load']){
+                      $node_latestload[$temp[0]] = ((float)explode(" ", $node_loadtemp)[0]) * 100;
+                  } else {
+                      $node_latestload[$temp[0]] = null;
+                  }
+
+
+
+                  array_push($node_prefix[$temp[0]], $node);
+               }
+            }
+
+            $single_classes["nodes"]=$node_prefix;
         }
-        $node_prefix = (object)$node_prefix;
+        $node_classes = (object)$node_classes;
         $node_order = (object)$node_order;
         $tools = new Tools();
         return $this->view()
         ->assign('relay_rules', $relay_rules)
-        ->assign('node_class', $node_class)
         ->assign('node_isv6', $node_isv6)
         ->assign('tools', $tools)
         ->assign('node_method', $node_method)
         ->assign('node_muport', $node_muport)
         ->assign('node_bandwidth', $node_bandwidth)
         ->assign('node_heartbeat', $node_heartbeat)
+        ->assign('node_classes', $node_classes)
         ->assign('node_prefix', $node_prefix)
         ->assign('node_prealive', $node_prealive)
         ->assign('node_order', $node_order)
