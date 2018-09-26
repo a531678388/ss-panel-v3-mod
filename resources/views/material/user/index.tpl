@@ -20,18 +20,9 @@
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">Dler CLoud</p>
+										<p class="card-heading">Dler Cloud</p>
+										{if $user->class!=0}
 										<p><a href="https://t.me/dlercloud_talk" target="_blank">交流群组</a> | <a href="https://t.me/dlercloud_news" target="_blank">公告面板</a> | <a href="https://t.me/DlerCloud_bot" target="_blank">Telegram bot</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
-									</div>
-								</div>
-							</div>
-
-							<div class="card">
-								<div class="card-main">
-									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">动态公告（<a href="/user/announcement"/>更多</a>）</p>
-										{if $ann != null}
-										<p>{$ann->content}</p>
 										{/if}
 									</div>
 								</div>
@@ -160,6 +151,17 @@
 						</div>
 
 						<div class="col-lg-6 col-md-6">
+							
+							<div class="card">
+								<div class="card-main">
+									<div class="card-inner margin-bottom-no">
+										<p class="card-heading">动态公告（<a href="/user/announcement"/>更多</a>）</p>
+										{if $ann != null}
+										<p>{$ann->content}</p>
+										{/if}
+									</div>
+								</div>
+							</div>
 
 							<div class="card">
 								<div class="card-main">
