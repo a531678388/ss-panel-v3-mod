@@ -31,7 +31,7 @@ class DailyMail
         foreach ($users as $user) {
             $lastday_total += (($user->u+$user->d)-$user->last_day_t);
             
-            if ($user->sendDailyMail==1) {
+            if ($user->sendDailyMail == 1) {
                 echo "Send daily mail to user: ".$user->id;
                 $subject = Config::get('appName')." - 流量报告以及公告";
                 $to = $user->email;
