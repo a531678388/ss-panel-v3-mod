@@ -49,30 +49,6 @@ use App\Services\Mail;
 
 class DoiAMPay{
 
-    protected $enabled = [
-        'wepay'=>1, // 1 启用 0 关闭
-        'alipay'=>1, // 1 启用 0 关闭
-        'qqpay'=>1, // 1 启用 0 关闭
-        ];
-
-    protected $data = [
-        'wepay'=>[
-            'mchid' => 1537992686,   // 商户号
-            'phone' => 18581780666, //手机号
-            'token' => "7nHX0Dqy9AXSH3CknsgrWjESeM0grxx2" // 安全验证码
-        ],
-        'alipay'=>[
-            'mchid' => 1537990982,   // 商户号
-            'phone' => 18581780666, //手机号
-            'token' => "9ylzWjrKa909YRzqXTd2w2adLR8vt1T0" // 安全验证码
-        ],
-        'qqpay'=>[
-            'mchid' => 1511606539,   // 商户号
-            'phone' => 17088884666, //手机号
-            'token' => "yKgdXms8n4HS8DGW5YmItOxSwzsw3lmz" // 安全验证码
-        ],
-    ];
-
     public function smarty()
     {
         $this->smarty = View::getSmarty();
@@ -84,26 +60,20 @@ class DoiAMPay{
         return $this->smarty();
     }
 
-    public function route_home($request, $response, $args){
-        $pageNum = 1;
-        if (isset($request->getQueryParams()["page"])) {
-            $pageNum = $request->getQueryParams()["page"];
-        }
-        $codes = Code::where('type', '<>', '-2')->where('userid', '=', Auth::getUser()->id)->orderBy('id', 'desc')->paginate(15, ['*'], 'page', $pageNum);
-        $codes->setPath('/user/code');
-        return $this->view()->assign('codes', $codes)->assign('enabled',$this->enabled)->display('user/doiam.tpl');
+    public static function render(){
+        return View::getSmarty()->assign("enabled",Config::get("doiampay")['enabled'])->fetch("user/doiam.tpl");
     }
-    public function handel($request, $response, $args){
+    public function handle($request, $response, $args){
         $type = $request->getParam('type');
         $price = $request->getParam('price');
-        if($this->enabled[$type]==0){
+        if(Config::get("doiampay")['enabled'][$type]==0){
             return json_encode(['errcode'=>-1,'errmsg'=>"非法的支付方式."]);
         }
         if($price <= 0){
             return json_encode(['errcode'=>-1,'errmsg'=>"非法的金额."]);
         }
         $user = Auth::getUser();
-        $settings = $this->data[$type];
+        $settings = Config::get("doiampay")['mchdata'][$type];
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
@@ -115,6 +85,7 @@ class DoiAMPay{
             'mchid' => $settings['mchid'],
             'subject' => Config::get("appName")."充值".$price."元",
             'body' => Config::get("appName")."充值".$price."元",
+            'type' => 'Mod',
         ];
         $data = DoiAM::sign($data,$settings['token']);
         $ret = DoiAM::post("https://api.daimiyun.cn/v2/".$type."/create",$data);
@@ -133,23 +104,23 @@ class DoiAMPay{
     public function status($request, $response, $args){
         return json_encode(Paylist::find($_POST['pid']));
     }
-    public function handel_return($request, $response, $args){
+    public function handle_return($request, $response, $args){
         $money = $_GET['money'];
          echo "您已经成功支付 $money 元,正在跳转..";
          echo <<<HTML
 <script>
-    location.href="/user/doiam";
+    location.href="/user/code";
 </script>
 HTML;
         return;
     }
-    public function handel_callback($request, $response, $args){
+    public function handle_callback($request, $response, $args){
         $order_data = $_POST;
         $status    = $order_data['status'];         //获取传递过来的交易状态
         $invoiceid = $order_data['out_trade_no'];     //订单号
         $transid   = $order_data['trade_no'];       //转账交易号
         $amount    = $order_data['money'];          //获取递过来的总价格
-        if(!DoiAM::checksign($_POST,$this->data[$args['type']]['token'])){
+        if(!DoiAM::checksign($_POST,Config::get("doiampay")['mchdata'][$args['type']]['token'])){
             return (json_encode(array('errcode'=>2333)));
         }
         if ($status == 'success') {
@@ -162,6 +133,26 @@ HTML;
             $user = User::find($p->userid);
             $user->money += $p->total;
             $user->save();
+            $codeq=new Code();
+            $codeq->code=['wepay' => "微信" , 'qqpay' => 'QQ支付','alipay' => "支付宝"][$args['type']]."充值";
+            $codeq->isused=1;
+            $codeq->type=-1;
+            $codeq->number=$p->total;
+            $codeq->usedatetime=date("Y-m-d H:i:s");
+            $codeq->userid=$user->id;
+            $codeq->save();
+            if ($user->ref_by!=""&&$user->ref_by!=0&&$user->ref_by!=null) {
+                $gift_user=User::where("id", "=", $user->ref_by)->first();
+                $gift_user->money=($gift_user->money+($codeq->number*(Config::get('code_payback')/100)));
+                $gift_user->save();
+                $Payback=new Payback();
+                $Payback->total=$codeq->number;
+                $Payback->userid=$user->id;
+                $Payback->ref_by=$user->ref_by;
+                $Payback->ref_get=$codeq->number*(Config::get('code_payback')/100);
+                $Payback->datetime=time();
+                $Payback->save();
+            }
             return json_encode(['errcode'=>0]);
         }else{
             return '';
@@ -193,17 +184,17 @@ class DoiAM{
         return $array['sign']==$new['sign'];
     }
     public static function post($url, $data = null){
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        if (!empty($data)){
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($curl);
-        curl_close($curl);
-        return $output;
+    	$curl = curl_init();
+    	curl_setopt($curl, CURLOPT_URL, $url);
+    	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    	curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+    	if (!empty($data)){
+    	curl_setopt($curl, CURLOPT_POST, 1);
+    	curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    	}
+    	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    	$output = curl_exec($curl);
+    	curl_close($curl);
+    	return $output;
     }
 }

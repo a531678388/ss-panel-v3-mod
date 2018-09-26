@@ -307,7 +307,7 @@
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_help">交易</a>
 						<ul class="menu-collapse collapse in" id="ui_menu_help">
 							<li>
-								<a href="/user/doiam">
+								<a href="/user/code">
 									<i class="icon icon-lg">code</i>&nbsp;在线充值
 								</a>
 							</li>

@@ -1,140 +1,46 @@
-{include file='user/main.tpl'}
-	<main class="content">
-		<div class="content-header ui-content-header">
-			<div class="container">
-				<h1 class="content-heading">充值</h1>
-			</div>
-		</div>
-		<div class="container">
-			<section class="content-inner margin-top-no">
-				<div class="row">
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<p class="card-heading">充值</p>
-										您的余额:{$user->money}
-										<h5>支付方式:</h5>
-										<nav class="tab-nav margin-top-no">
-											<ul class="nav nav-list">
-												{if $enabled['wepay']}
-													<li class="active">
-														<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付</a>
-													</li>
-												{/if}
-												{if $enabled['alipay']}
-													<li{if $enabled['wepay']==0} class="active" {/if}>
-														<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="alipay">支付宝</a>
-													</li>
-												{/if}
-												{if $enabled['qqpay']}
-													<li{if $enabled['wepay']==0 and $enabled['alipay']==0} class="active" {/if}>
-														<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="qqpay">QQ支付</a>
-													</li>
-												{/if}
-											</ul>
-											<div class="tab-nav-indicator"></div>
-										</nav>
-										<div class="form-group form-group-label">
-											<label class="floating-label" for="amount">金额</label>
-											<input class="form-control" id="amount" type="text">
-										</div>
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="code-update" ><span class="icon">check</span>&nbsp;充值</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-12 col-md-12">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<div class="card-table">
-											<div class="table-responsive">
-												{$codes->render()}
-												<table class="table table-hover">
-													<tr>
-														<th>ID</th>
-														<th>代码</th>
-														<th>类型</th>
-														<th>操作</th>
-														<th>使用时间</th>
-
-													</tr>
-													{foreach $codes as $code}
-														{if $code->type!=-2}
-															<tr>
-																<td>#{$code->id}</td>
-																<td>{$code->code}</td>
-																{if $code->type==-1}
-																<td>金额充值</td>
-																{/if}
-																{if $code->type==10001}
-																<td>流量充值</td>
-																{/if}
-																{if $code->type==10002}
-																<td>用户续期</td>
-																{/if}
-																{if $code->type>=1&&$code->type<=10000}
-																<td>等级续期 - 等级{$code->type}</td>
-																{/if}
-																{if $code->type==-1}
-																<td>充值 {$code->number} 元</td>
-																{/if}
-																{if $code->type==10001}
-																<td>充值 {$code->number} GB 流量</td>
-																{/if}
-																{if $code->type==10002}
-																<td>延长账户有效期 {$code->number} 天</td>
-																{/if}
-																{if $code->type>=1&&$code->type<=10000}
-																<td>延长等级有效期 {$code->number} 天</td>
-																{/if}
-																<td>{$code->usedatetime}</td>
-															</tr>
-														{/if}
-													{/foreach}
-												</table>
-												{$codes->render()}
-											</div>
-										</div>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
-					{include file='dialog.tpl'}
-				</div>
-			</section>
-		</div>
-	</main>
-{include file='user/footer.tpl'}
-<script src=" /assets/public/js/jquery.qrcode.min.js "></script>
-<script>
-	{if $enabled['wepay']}
-		var type = "wepay";
-	{else}
-		{if $enabled['alipay']}
-			var type = "alipay";
-		{else}
-			{if $enabled['qqpay']}
-				var type = "qqpay";
+<div class="card-inner">
+	<p class="card-heading">充值</p>
+	您的余额:{$user->money}
+	<h5>支付方式:</h5>
+	<nav class="tab-nav margin-top-no">
+		<ul class="nav nav-list">
+			{if $enabled['alipay']}
+				<li class="active">
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="alipay">支付宝</a>
+				</li>
 			{/if}
-		{/if}
-	{/if}
+			{if $enabled['wepay']}
+				<li>
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付</a>
+				</li>
+			{/if}
+			{if $enabled['qqpay']}
+				<li>
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="qqpay">QQ支付</a>
+				</li>
+			{/if}
+		</ul>
+		<div class="tab-nav-indicator"></div>
+	</nav>
+	<div class="form-group form-group-label">
+		<label class="floating-label" for="amount">金额</label>
+		<input class="form-control" id="amount" type="text">
+	</div>
+</div>
+<div class="card-action">
+	<div class="card-action-btn pull-left">
+		<button class="btn btn-flat waves-attach" id="submit" ><span class="icon">check</span>&nbsp;充值</button>
+	</div>
+</div>
+<script>
+	var type = "wepay";
 	var pid = 0;
+window.onload = function(){
+	$('body').append("<script src=\" \/assets\/public\/js\/jquery.qrcode.min.js \"><\/script>");
 	$(".type").click(function(){
 		type = $(this).data("pay");
 	});
-	$("#code-update").click(function(){
+	$("#submit").click(function(){
 		var price = parseFloat($("#amount").val());
 		console.log("将要使用"+type+"方法充值"+price+"元")
 		if(isNaN(price)){
@@ -157,19 +63,18 @@
 				}
 				if(data.errcode==0){
 					pid = data.pid;
-					if(type=="wepay"){
-						$("#result").modal();
-						$("#msg").html('<div class="text-center">扫描二维码支付.<div id="qrcode"></div></div>');
-						$("#qrcode").qrcode({
-							"text": data.code
-						});
-					}else if(type=="alipay"){
+					if(type=="alipay"){
 						$("#result").modal();
 						$("#msg").html("正在跳转到支付宝..."+data.code);
+					}else if(type=="wepay"){
+						$("#result").modal();
+						$("#msg").html('<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>');
+						$("#dmy").qrcode({
+							"text": data.code});
 					}else if(type=="qqpay"){
 						$("#result").modal();
-						$("#msg").html('<div class="text-center">扫描二维码支付.<div id="qrcode"></div></div>');
-						$("#qrcode").qrcode({
+						$("#msg").html('<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>');
+						$("#dmy").qrcode({
 							"text": data.code
 						});
 					}
@@ -195,6 +100,7 @@
 			});
 			tid = setTimeout(f, 1000);
 		}
-		setTimeout(f, 1000);
+		setTimeout(f, 2000);
 	});
+}
 </script>
