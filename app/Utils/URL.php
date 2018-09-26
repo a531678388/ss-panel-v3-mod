@@ -490,7 +490,7 @@ class URL
         }
 
         if (preg_match("/$IPLC/i",$node->name) {
-            if ($node_name == "香港 - IPLC | Media - SSR") {
+            if ($node_name == "香港 - IPLC - SSR | Media") {
                 $node_name = "香港 - IPLC | Media";
 			}
 		
