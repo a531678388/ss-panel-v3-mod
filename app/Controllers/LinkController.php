@@ -456,16 +456,12 @@ class LinkController extends BaseController
 
             $proxy_name .= ",".$item['remark'];
 
-            if (substr($item['remark'],0,2) == "深圳") {
-            	if (substr($item['remark'],0,2) == "上海") {
-                    $domestic_name .= ",".$item['remark'];
-                }
+            if (substr($item['remark'],-5,5) == "Relay") {
+            	$domestic_name .= ",".$item['remark'];
             }
-            if (substr($item['remark'],-2,2) != "游戏") {
-                if (substr($item['remark'],0,2) == "深圳") {
-            		if (substr($item['remark'],0,2) == "上海") {
-                    	$auto_name .= ",".$item['remark'];
-                    }
+            if (substr($item['remark'],-5,5) != "Gamer") {
+                if (substr($item['remark'],-2,2) != "Relay") {
+                    $auto_name .= ",".$item['remark'];
                 }
             }
         }
