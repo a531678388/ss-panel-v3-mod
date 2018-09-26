@@ -21,7 +21,7 @@
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
 										<p class="card-heading">Dler Cloud</p>
-										{if $user->class!=0}
+										{if $user->class != 0}
 										<p><a href="https://t.me/dlercloud_talk" target="_blank">官方交流群组</a> | <a href="https://t.me/dlercloud_news" target="_blank">官方公告面板</a> | <a href="https://t.me/Licensess" target="_blank">流媒体合租</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
 										{/if}
 									</div>
@@ -45,7 +45,7 @@
 													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;当前账户为SS/SSD 模式</a>
 												</li>
 										</nav>
-										{if $user->class!=0}
+										{if $user->class != 0}
 										<div class="card-inner">
 											<div class="tab-content">
 												<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr">
@@ -62,10 +62,10 @@
 
 														{if URL::SSRCanConnect($user)}
 														<dl class="dl-horizontal">
-															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">autorenew</span>&nbsp;切换为 SS/SSD 模式</button>
+															<button id="mode-ss" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;切换为 SS/SSD 模式</button>
 														</dl>
 														{else}
-															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">autorenew</span>&nbsp;切换为 SSR 模式</button>
+															<button id="mode-ssr" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
 														{/if}
 													</div>
 												</div>
@@ -82,10 +82,10 @@
 
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
-															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">autorenew</span>&nbsp;切换为 SSR 模式</button>
+															<button id="mode-ssr" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
 														</dl>
 														{else}
-															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">autorenew</span>&nbsp;切换为 SS/SSD 模式</button>
+															<button id="mode-ss" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;切换为 SS/SSD 模式</button>
 														{/if}
 													</div>
 												</div>
@@ -309,8 +309,8 @@
 											{if $user->isAbleToCheckin() }
 											{if $user->class !=0}
 												<p id="checkin-btn">
-														<button id="checkin" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;签到</button>
-													</p>
+													<button id="checkin" class="btn btn-brand btn-flat waves-attach"><span class="icon">check</span>&nbsp;签到</button>
+												</p>
 											{else}
 												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">close</span>&nbsp;未购买不能签到</a></p>
 											{/if}
