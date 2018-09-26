@@ -13,7 +13,7 @@
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
-				<h1 class="content-heading">当前余额：{$user->money} 元</h1>
+				<h1 class="content-heading">充值</h1>
 
 
 			</div>
@@ -41,7 +41,6 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">充值码</p>
-										<i class="icon icon-lg">view_compact</i>&nbsp;仪表盘
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="code">充值码</label>
 											<input class="form-control" id="code" type="text">
@@ -113,20 +112,6 @@
 										</div>
 									</div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div aria-hidden="true" class="modal modal-va-middle fade" id="readytopay" role="dialog" tabindex="-1">
-						<div class="modal-dialog modal-xs">
-							<div class="modal-content">
-								<div class="modal-heading">
-									<a class="modal-close" data-dismiss="modal">×</a>
-									<h2 class="modal-title">正在连接支付宝</h2>
-								</div>
-								<div class="modal-inner">
-									<p id="title">正在处理...</p>
-                                   <img src="/images/qianbai-2.png" height="200" width="200" />
 								</div>
 							</div>
 						</div>
