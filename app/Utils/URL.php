@@ -489,8 +489,8 @@ class URL
             $user = URL::getSSRConnectInfo($user);
         }
 
-        if (preg_match("/$IPLC/i",$node->name) {
-            if ($node_name == "香港 - IPLC - SSR | Media") {
+        if (substr($node_name,-2,2) != "SS") {
+            if ($node_name == "香港 - IPLC | Media - SSR") {
                 $node_name = "香港 - IPLC | Media";
 			}
 		
