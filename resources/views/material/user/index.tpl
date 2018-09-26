@@ -39,26 +39,62 @@
 										<nav class="tab-nav margin-top-no">
 											<ul class="nav nav-list">
 												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
+													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;当前账户为 SSR 模式</a>
 												</li>
 												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
+													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;当前账户为SS/SSD 模式</a>
 												</li>
 										</nav>
 										{if $user->class!=0}
-										<div class="card-action">
-											{$pre_user = URL::cloneUser($user)}
-											{if URL::SSRCanConnect($pre_user) && }
-												<dl class="dl-horizontal">
-												<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;切换为 SS/SSD 模式</button>
-												</dl>
-											{else}
-												<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
-											{/if}
+										<div class="card-inner">
+											<div class="tab-content">
+												<div class="tab-pane fade {if $ssr_prefer}active in{/if}" id="all_ssr">
+													{$pre_user = URL::cloneUser($user)}
+													<nav class="tab-nav margin-top-no">
+														<ul class="nav nav-list">
+															<li class="active">
+																<a class="waves-attach" data-toggle="tab" href="#all_ssr_info"><i class="icon icon-lg">info_outline</i>&nbsp;</a>
+															</li>
+														</ul>
+													</nav>
+													<div class="tab-pane fade active in" id="all_ssr_info">
+														{$user = URL::getSSRConnectInfo($pre_user)}
+
+														{if URL::SSRCanConnect($user)}
+														<dl class="dl-horizontal">
+															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">autorenew</span>&nbsp;切换为 SS/SSD 模式</button>
+														</dl>
+														{else}
+															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">autorenew</span>&nbsp;切换为 SSR 模式</button>
+														{/if}
+													</div>
+												</div>
+												<div class="tab-pane fade {if !$ssr_prefer}active in{/if}" id="all_ss">
+													<nav class="tab-nav margin-top-no">
+														<ul class="nav nav-list">
+															<li class="active">
+																<a class="waves-attach" data-toggle="tab" href="#all_ss_info"><i class="icon icon-lg">info_outline</i>&nbsp;</a>
+															</li>
+														</ul>
+													</nav>
+													<div class="tab-pane fade active in" id="all_ss_info">
+														{$user = URL::getSSConnectInfo($pre_user)}
+
+														{if URL::SSCanConnect($user)}
+														<dl class="dl-horizontal">
+															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">autorenew</span>&nbsp;切换为 SSR 模式</button>
+														</dl>
+														{else}
+															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">autorenew</span>&nbsp;切换为 SS/SSD 模式</button>
+														{/if}
+													</div>
+												</div>
+											</div>
 										</div>
+
 										<div class="card-action">
 											<p class="card-heading">订阅地址</p>
-											{if URL::SSRCanConnect($pre_user)}
+											{if URL::SSRCanConnect($user)}
 											<p>SSR 个人端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=0">点击拷贝</button>
@@ -72,16 +108,17 @@
 											<p><a href="quantumult://configuration?server={$ssr_url_1}&filter={$filterUrl}&rejection={$rejectUrl}" target="_blank"><span class="icon">check</span>&nbsp;Quantumult：一键订阅</a></p>
 											<br>
 											<br>
-											{if URL::SSCanConnect($pre_user)}
+											{if URL::SSCanConnect($user)}
 											<p>SSD 个人端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=3</code></p>
-											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button><br>
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button>
+											<br>
 											{/if}
 										</div>
 
 										<div class="card-action">
 											<p class="card-heading">托管地址</p>
-											{if URL::SSCanConnect($pre_user)}
+											{if URL::SSCanConnect($user)}
 											<p>Surge / Surfboard 个人端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=0">点击拷贝</button>
@@ -92,7 +129,8 @@
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1&mitm=0">点击拷贝</button>
 											<p><a href="surge:///install-config?url={$ss_url_1}" target="_blank"><span class="icon">check</span>&nbsp;Surge / Surfboard：一键托管</a></p>
 											<br>
-											{if URL::SSCanConnect($pre_user)}
+											<br>
+											{if URL::SSCanConnect($user)}
 											<p>Surge 个人端口托管地址（MitM）</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=1">点击拷贝</button>
@@ -124,11 +162,11 @@
 						</div>
 
 						<div class="col-lg-6 col-md-6">
-							
+
 							<div class="card">
 								<div class="card-main">
 									<div class="card-inner margin-bottom-no">
-										<p class="card-heading">动态公告（<a href="/user/announcement"/>更多</a>）</p>
+										<p class="card-heading">公告（<a href="/user/announcement"/>更多</a>）</p>
 										{if $ann != null}
 										<p>{$ann->content}</p>
 										{/if}
@@ -427,7 +465,7 @@ $(".reset-link").click(function () {
 	window.setTimeout("location.href='/user/url_reset'", {$config['jump_delay']});
 });
 
-{if $user->transfer_enable-($user->u + $user->d) == 0}	
+{if $user->transfer_enable-($user->u+$user->d) == 0}	
 window.onload = function() {	
     $("#result").modal();	
     $("#msg").html("您的流量已经用完或套餐已经过期");	
