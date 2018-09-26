@@ -27,8 +27,11 @@ class Pay
         }
         return null;
     }
-
-
+    /**
+      * DoiamPay
+      * @param  User   $user User
+      * @return String       HTML
+      */
     private static function spay_html($user)
     {
         return '
@@ -50,11 +53,6 @@ class Pay
 ';
     }
 
-    /**
-      * DoiamPay
-      * @param  User   $user User
-      * @return String       HTML
-      */
      public static function doiampay_html(User $user){
          return \App\Utils\DoiAMPay::render();
      }
