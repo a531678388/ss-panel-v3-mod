@@ -320,8 +320,8 @@
 							<div class="card-main">
 								<div class="card-inner">
 									<div class="card-inner">
-										<p class="card-heading">每日流量报告及公告</p>
-										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}<mail></p>
+										<p class="card-heading">每日流量使用情况</p>
+										<p>当前状态：<code id="ajax-mail">{if $user->sendDailyMail==1}接收{else}不接收{/if}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
 											<select id="mail" class="form-control">
@@ -329,7 +329,6 @@
 												<option value="0">不接收</option>
 											</select>
 										</div>
-
 									</div>
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
@@ -679,7 +678,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-                        $("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
+						$("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();

@@ -22,7 +22,7 @@
 									<div class="card-inner margin-bottom-no">
 										<p class="card-heading">Dler Cloud</p>
 										{if $user->class!=0}
-										<p><a href="https://t.me/dlercloud_talk" target="_blank">交流群组</a> | <a href="https://t.me/dlercloud_news" target="_blank">公告面板</a> | <a href="https://t.me/DlerCloud_bot" target="_blank">Telegram bot</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
+										<p><a href="https://t.me/dlercloud_talk" target="_blank">官方交流群组</a> | <a href="https://t.me/dlercloud_news" target="_blank">官方公告面板</a> | <a href="https://t.me/Licensess" target="_blank">流媒体合租</a> | <a href="/client.html" target="_blank">软件中心</a> | <a href="https://docs.lhie1.com/black-hole" target="_blank">文档中心</a></p>
 										{/if}
 									</div>
 								</div>
