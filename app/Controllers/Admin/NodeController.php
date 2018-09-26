@@ -276,11 +276,14 @@ class NodeController extends AdminController
                     $sort = 'PAC PLUS PLUS(HTTPS 代理生成 PAC文件)';
                     break;
                 case 9:
-                    $sort = 'Shadowsocks - 单端口多用户';
+                    $sort = 'Shadowsocks - 公共端口';
                     break;
                 case 10:
                     $sort = 'Shadowsocks - 中转';
                     break;
+                case 11:
+                  $sort = 'V2Ray 节点';
+                  break;
                 default:
                     $sort = '系统保留';
             }

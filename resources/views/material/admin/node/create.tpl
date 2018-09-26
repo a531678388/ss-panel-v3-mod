@@ -127,7 +127,7 @@
                                                     <option value="8">PAC PLUS PLUS(HTTPS 代理生成 PAC文件)</option>
                                                     <option value="9">Shadowsocks 公共端口</option>
                                                     <option value="10" selected="selected">Shadowsocks 中转</option>
-                                                    <option value="11" selected="selected">V2Ray</option>
+                                                    <option value="11">V2Ray</option>
                                                 </select>
                                             </div>
                                     </div>
