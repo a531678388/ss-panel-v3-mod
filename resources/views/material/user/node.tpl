@@ -132,7 +132,7 @@ card-heading {
                                                                               {$relay_rule = $tools->pick_out_relay_rule($node->id, $user->port, $relay_rules)}
                                                                           {/if}
 
-                                                                          {if $node->mu_only != 1}
+                                                                          {if $node->mu_only != 1 && $node->sort != 11}
                                                                           <div class="card">
                                                                               <div class="card-main">
                                                                                   <div class="card-inner">
@@ -197,6 +197,57 @@ card-heading {
 
 
 
+                                                                          {if $node->sort == 11 && $single_classes['access'] == 1}
+																		                                          {assign var=server_explode value=";"|explode:$node->server}
+																		                                          <div class="card">
+																			                                            <div class="card-main">
+																				                                              <div class="card-inner">
+                                                                                          <p class="node-info-access" >
+																						                                              <a href="javascript:void(0);" >{$node->name}</a>
+																					                                                </p>
+
+																				                                                  <p>地址：<span class="label label-brand-accent">
+                                                                                          {$server_explode[0]}
+																				                                                  </span></p>
+
+																				                                                  <p>端口：<span class="label label-brand-red">
+																				                                                  {$server_explode[1]}
+																				                                                  </span></p>
+
+																				                                                  <p>协议：<span class="label label-brand-accent">
+																				                                                  {$server_explode[2]}
+																				                                                  </span></p>
+
+																				                                                  <p>协议参数：<span class="label label-green">
+																				                                                  {$server_explode[0]}
+																				                                                  </span></p>
+
+																				                                                  <p>用户 UUID：<span class="label label-brand">
+																				                                                  {$user->getUuid()}
+																				                                                  </span></p>
+
+																				                                                  <p>流量比例：<span class="label label-red">
+																				                                                  {$node->traffic_rate}
+																				                                                  </span></p>
+
+																				                                                  <p>AlterId：<span class="label label-green">
+																				                                                  {$server_explode[3]}
+																				                                                  </span></p>
+
+																				                                                  <p>Level：<span class="label label-brand">
+																				                                                  {$server_explode[4]}
+																				                                                  </span></p>
+
+																				                                                  <p>VMess链接：
+																				                                                  <a class="copy-text" data-clipboard-text="{URL::getV2Url($user, $node)}">点击复制</a>
+																				                                                  </p>
+
+																				                                                  <p>{$node->info}</p>
+																				                                              </div>
+																			                                            </div>
+																		                                          </div>
+																	                                        {/if}
+
                                                                           {if ($node->sort == 0 || $node->sort == 10) && $node->custom_rss == 1 && $node->mu_only != -1 && $single_classes['access'] == 1}
                                                                               {foreach $node_muport as $single_muport}
 
@@ -224,29 +275,28 @@ card-heading {
 
                                                                                           <p>地址：<span class="label label-brand-accent">
                                                                                           {$node->server}
-
                                                                                           </span></p>
 
                                                                                           <p>端口：<span class="label label-brand-red">
-                                                                                              {$single_muport['user']['port']}
+                                                                                          {$single_muport['user']['port']}
                                                                                           </span></p>
 
                                                                                           <p>加密方式：<span class="label label-brand">
-                                                                                              {$single_muport['user']['method']}
+                                                                                          {$single_muport['user']['method']}
                                                                                           </span></p>
 
                                                                                           <p>协议：<span class="label label-brand-accent">
-                                                                                              {$single_muport['user']['protocol']}
+                                                                                          {$single_muport['user']['protocol']}
                                                                                           </span></p>
 
                                                                                           {if $single_muport['user']['is_multi_user'] != 0}
                                                                                           <p>协议参数：<span class="label label-green">
-                                                                                              {$user->id}:{$user->passwd}
+                                                                                          {$user->id}:{$user->passwd}
                                                                                           </span></p>
                                                                                           {/if}
 
                                                                                           <p>混淆方式：<span class="label label-brand">
-                                                                                              {$single_muport['user']['obfs']}
+                                                                                          {$single_muport['user']['obfs']}
                                                                                           </span></p>
 
                                                                                           {if $single_muport['user']['is_multi_user'] == 1}
@@ -262,7 +312,6 @@ card-heading {
                                                                                           <p>{$node->info}</p>
 
                                                                                            </div>
-
                                                                                       </div>
                                                                                   </div>
                                                                               {/foreach}
