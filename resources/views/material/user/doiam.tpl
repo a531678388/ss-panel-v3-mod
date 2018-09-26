@@ -4,14 +4,14 @@
 	<h5>支付方式:</h5>
 	<nav class="tab-nav margin-top-no">
 		<ul class="nav nav-list">
-			{if $enabled['wepay']}
+			{if $enabled['alipay']}
 				<li class="active">
-					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付</a>
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="alipay">支付宝</a>
 				</li>
 			{/if}
-			{if $enabled['alipay']}
+			{if $enabled['wepay']}
 				<li>
-					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="alipay">支付宝</a>
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付</a>
 				</li>
 			{/if}
 			{if $enabled['qqpay']}
@@ -63,15 +63,14 @@ window.onload = function(){
 				}
 				if(data.errcode==0){
 					pid = data.pid;
-					if(type=="wepay"){
+					if(type=="alipay"){
+						$("#result").modal();
+						$("#msg").html("正在跳转到支付宝..."+data.code);
+					}else if(type=="wepay"){
 						$("#result").modal();
 						$("#msg").html('<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>');
 						$("#dmy").qrcode({
-							"text": data.code
-						});
-					}else if(type=="alipay"){
-						$("#result").modal();
-						$("#msg").html("正在跳转到支付宝..."+data.code);
+							"text": data.code});
 					}else if(type=="qqpay"){
 						$("#result").modal();
 						$("#msg").html('<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>');
