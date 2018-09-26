@@ -36,15 +36,6 @@
 										<p>请前往<a href="/client.html" target="_blank">「软件中心」</a>获取客户端</p> 
 										<p>请前往<a href="https://docs.lhie1.com/black-hole" target="_blank">「使用教程」</a>（<a href="https://github.com/lhie1/Document/blob/master/SUMMARY.md" target="_blank">备用地址</a>）观看使用教程</p> 
 										<p>请前往<a href="https://docs.lhie1.com/black-hole/tong-yong" target="_blank">「通用」</a>获得帮助与指导</p> 
-										<nav class="tab-nav margin-top-no">
-											<ul class="nav nav-list">
-												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;当前账户为 SSR 模式</a>
-												</li>
-												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;当前账户为SS/SSD 模式</a>
-												</li>
-										</nav>
 										{if $user->class != 0}
 										<div class="card-action">
 											<p class="card-heading">订阅地址</p>
