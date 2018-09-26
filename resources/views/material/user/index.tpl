@@ -120,9 +120,8 @@
 											{if URL::SSCanConnect($user)}
 											<p>SSD 个人端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=3</code></p>
-											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button>
+											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button><br>
 											{/if}
-											<br>
 										</div>
 
 										<div class="card-action">
@@ -131,20 +130,20 @@
 											<p>Surge / Surfboard 个人端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=0">点击拷贝</button>
-											<p><a href="surge:///install-config?url={$ss_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
+											<p><a href="surge:///install-config?url={$ss_url_0}" target="_blank"><span class="icon">check</span>&nbsp;Surge / Surfboard：一键托管</a></p>
 											{/if}
 											<p>Surge / Surfboard 公共端口托管地址</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1&mitm=0</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1&mitm=0">点击拷贝</button>
-											<p><a href="surge:///install-config?url={$ss_url_1}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
+											<p><a href="surge:///install-config?url={$ss_url_1}" target="_blank"><span class="icon">check</span>&nbsp;Surge / Surfboard：一键托管</a></p>
 											<br>
 											{if URL::SSCanConnect($user)}
-											<p>Surge / Surfboard 个人端口托管地址（MitM）</p>
+											<p>Surge 个人端口托管地址（MitM）</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=0&mitm=1">点击拷贝</button>
 											<p><a href="surge:///install-config?url={$ss_url_0_mitm}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
 											{/if}
-											<p>Surge / Surfboard 公共端口托管地址（MitM）</p>
+											<p>Surge 公共端口托管地址（MitM）</p>
 											<p><code>{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1&mitm=1</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ios_token}?is_ss=1&is_mu=1&mitm=1">点击拷贝</button>
 											<p><a href="surge:///install-config?url={$ss_url_1_mitm}" target="_blank"><span class="icon">check</span>&nbsp;Surge：一键托管</a></p>
