@@ -181,7 +181,7 @@ card-heading {
                                                                                       </div>
                                                                                    {else}
                                                                                       <div class="node-info-access" >
-                                                                                       <p>您的当前等级无法使用{$single_classes['desc']},请<a href="/user/shop">点击这里</a>购买相应套餐.</p>
+                                                                                       <p>您当前的套餐无法使用{$single_classes['desc']},请<a href="/user/shop">点击这里</a>购买相应套餐.</p>
                                                                                        </div>
 
                                                                                    {/if}
@@ -217,7 +217,7 @@ card-heading {
                                                                                       <div class="card-main">
                                                                                           <div class="card-inner">
                                                                                           <p  class="node-info-access"  >
-                                                                                              <a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - 单端口多用户 Shadowsocks - {$single_muport['server']->server} 端口</a>
+                                                                                              <a href="javascript:void(0);" onClick="urlChange('{$node->id}',{$single_muport['server']->server},{if $relay_rule != null}{$relay_rule->id}{else}0{/if})">{$prefix} {if $relay_rule != null} - {$relay_rule->dist_node()->name}{/if} - {$single_muport['server']->server} 端口</a>
                                                                                               <span class="label label-brand-accent">{$node->status}</span>
                                                                                           </p>
 
