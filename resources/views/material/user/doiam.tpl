@@ -1,7 +1,6 @@
 <div class="card-inner">
-	<p class="card-heading">充值</p>
-	您的余额:{$user->money}
-	<h5>支付方式:</h5>
+	<p class="card-heading">在线充值</p>
+	余额:{$user->money}
 	<nav class="tab-nav margin-top-no">
 		<ul class="nav nav-list">
 			{if $enabled['alipay']}
