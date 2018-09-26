@@ -471,7 +471,7 @@ class UserController extends BaseController
                       continue;
                   }
 
-                  $temp = explode(" - ", $node->name);
+                  $temp = explode(" | ", $node->name);
                   if (!isset($node_prefix[$temp[0]])) {
                       $node_prefix[$temp[0]] = array();
                       $node_order[$temp[0]] = $a;
