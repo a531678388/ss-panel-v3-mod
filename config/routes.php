@@ -80,17 +80,11 @@ $app->get('/tos', 'App\Controllers\HomeController:tos');
 $app->get('/staff', 'App\Controllers\HomeController:staff');
 $app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
-$app->get('/getOrderList', 'App\Controllers\HomeController:getOrderList');
-$app->get('/setOrder', 'App\Controllers\HomeController:setOrder');
 
 // User Center
 $app->group('/user', function () {
     $this->get('', 'App\Controllers\UserController:index');
     $this->get('/', 'App\Controllers\UserController:index');
-    $this->get('/CheckAliPay', 'App\Controllers\UserController:CheckAliPay');
-    $this->get('/NewAliPay', 'App\Controllers\UserController:NewAliPay');
-//    $this->get('/test', 'App\Controllers\UserController:AliPayTest');
-    $this->get('/AliPayDelete', 'App\Controllers\UserController:AliPayDelete');
     $this->post('/checkin', 'App\Controllers\UserController:doCheckin');
     $this->get('/node', 'App\Controllers\UserController:node');
     $this->get('/announcement', 'App\Controllers\UserController:announcement');
@@ -186,9 +180,6 @@ $app->group('/password', function () {
 $app->group('/admin', function () {
     $this->get('', 'App\Controllers\AdminController:index');
     $this->get('/', 'App\Controllers\AdminController:index');
-
-    $this->get('/editConfig', 'App\Controllers\AdminController:editConfig');
-    $this->post('/saveConfig', 'App\Controllers\AdminController:saveConfig');
     
     $this->get('/trafficlog', 'App\Controllers\AdminController:trafficLog');
     $this->post('/trafficlog/ajax', 'App\Controllers\AdminController:ajax_trafficLog');

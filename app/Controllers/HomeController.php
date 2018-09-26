@@ -110,28 +110,4 @@ class HomeController extends BaseController
     {
         Pay::callback($request);
     }
-
-    public function getOrderList($request, $response, $args)
-    {
-        $key = $request->getParam('key');
-        if (!$key || $key != Config::get('key')) {
-            $res['ret'] = 0;
-            $res['msg'] = "错误";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(['data' => AliPay::getList()]));
-    }
-
-    public function setOrder($request, $response, $args)
-    {
-        $key = $request->getParam('key');
-        $sn = $request->getParam('sn');
-        $url = $request->getParam('url');
-        if (!$key || $key != Config::get('key')) {
-            $res['ret'] = 0;
-            $res['msg'] = "错误";
-            return $response->getBody()->write(json_encode($res));
-        }
-        return $response->getBody()->write(json_encode(['res' => AliPay::setOrder($sn, $url)]));
-    }
 }

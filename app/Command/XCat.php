@@ -9,7 +9,6 @@ namespace App\Command;
 
 use App\Models\User;
 use App\Models\Relay;
-use App\Utils\AliPay;
 use App\Utils\Hash;
 use App\Utils\Tools;
 use App\Services\Config;
@@ -29,10 +28,6 @@ class XCat
 	public function boot()
 	{
 		switch ($this->argv[1]) {
-			case("alipay"):
-                return (new AliPay)->checkAliPay();
-            case("wxpay"):
-                return (new AliPay)->checkWxPay();
 			case("createAdmin"):
 				return $this->createAdmin();
 			case("resetTraffic"):
