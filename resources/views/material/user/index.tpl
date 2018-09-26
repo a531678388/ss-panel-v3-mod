@@ -44,16 +44,7 @@
 										<p>为您提供订阅地址和托管地址，包含了所有节点信息，方便您在诸多的服务器中快速添加，快速切换！</p>
 										<p>请前往<a href="/client.html" target="_blank">「软件中心」</a>获取客户端</p> 
 										<p>请前往<a href="https://docs.lhie1.com/black-hole" target="_blank">「使用教程」</a>（<a href="https://github.com/lhie1/Document/blob/master/SUMMARY.md" target="_blank">备用地址</a>）观看使用教程</p> 
-										<p>请前往<a href="https://docs.lhie1.com/black-hole/tong-yong" target="_blank">「通用」</a>获得帮助与指导</p> 
-										<nav class="tab-nav margin-top-no">
-											<ul class="nav nav-list">
-												<li {if $ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ssr"><i class="icon icon-lg">airplanemode_active</i>&nbsp;SSR</a>
-												</li>
-												<li {if !$ssr_prefer}class="active"{/if}>
-													<a class="waves-attach" data-toggle="tab" href="#all_ss"><i class="icon icon-lg">flight_takeoff</i>&nbsp;SS/SSD</a>
-												</li>
-										</nav>
+										<p>请前往<a href="https://docs.lhie1.com/black-hole/tong-yong" target="_blank">「通用」</a>获得帮助与指导</p>
 										{if $user->class!=0}
 										<div class="card-inner">
 											<div class="tab-content">
@@ -91,10 +82,10 @@
 
 														{if URL::SSCanConnect($user)}
 														<dl class="dl-horizontal">
-															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">check</span>&nbsp;切换为 SSR 模式</button>
+															<button class="btn btn-flat waves-attach" id="mode-ssr" ><span class="icon">autorenew</span>&nbsp;切换为 SSR 模式</button>
 														</dl>
 														{else}
-															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">check</span>&nbsp;切换为 SS/SSD 模式</button>
+															<button class="btn btn-flat waves-attach" id="mode-ss" ><span class="icon">autorenew</span>&nbsp;切换为 SS/SSD 模式</button>
 														{/if}
 													</div>
 												</div>
