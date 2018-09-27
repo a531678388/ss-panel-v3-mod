@@ -65,7 +65,7 @@
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=2</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=2">点击拷贝</button>
 											<p><a class="copy-text" data-clipboard-text="{URL::getAllVMessUrl($user)}">复制全部 VMess 链接</a></p>
-											<p><a href="quantumult://configuration?server=https://tgbot.lbyczf.com/v2rayN2quan?group=Fndroid&url={$v2_url}&filter={$filterUrl}&rejection={$rejectUrl}" target="_blank"><span class="icon">check</span>&nbsp;Quantumult：一键订阅</a></p>
+											<p><a href="quantumult://configuration?server=https://tgbot.lbyczf.com/v2rayN2quan?url={$v2_url}&filter={$filterUrl}&rejection={$rejectUrl}" target="_blank"><span class="icon">check</span>&nbsp;Quantumult：一键订阅</a></p>
 										</div>
 
 										<div class="card-action">
