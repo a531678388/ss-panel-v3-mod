@@ -80,7 +80,8 @@ class UserController extends BaseController
         $ssr_url_0 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=0');
         $ssr_url_1 = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=1');
 
-        $v2_url = Tools::base64_url_encode('https://tgbot.lbyczf.com/v2rayN2quan?group=Dler%20Cloud&url='.Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=2');
+        $v2_url = Tools::base64_url_encode(Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=2');
+        $v2_url_x = Tools::base64_url_encode('https://tgbot.lbyczf.com/v2rayN2quan?group=Dler%20Cloud&url='.Config::get('apiUrl').'/link/'.$ssr_sub_token.'?mu=2');
 
         $filterUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult.conf');
         $rejectUrl = Tools::base64_url_encode('https://raw.githubusercontent.com/lhie1/Rules/master/Quantumult/Quantumult_URL.conf');
@@ -107,6 +108,7 @@ class UserController extends BaseController
         ->assign("ssr_url_0", $ssr_url_0)
         ->assign("ssr_url_1", $ssr_url_1)
         ->assign("v2_url", $v2_url)
+        ->assign("v2_url_x", $v2_url_x)
         ->assign("filterUrl", $filterUrl)
         ->assign("rejectUrl", $rejectUrl)
         ->assign("ssr_sub_token", $ssr_sub_token)
