@@ -97,11 +97,6 @@
 																	{if $shop->user_class() != 0}
 																	<li>有效期：{$shop->class_expire()} 天</li>
 																	{/if}
-																	{if $shop->group() != 0}
-																	<li>解锁：SS/SSR/V2Ray 节点</li>
-																	{else if $shop->group() == 0}
-																	<li>解锁：SS/SSR 节点</li>
-																	{/if}
 																	{if $shop->reset() != 0}
 																	<li>每月重置一次流量</li>
 																	{/if}

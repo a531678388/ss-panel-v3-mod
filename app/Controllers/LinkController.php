@@ -210,11 +210,16 @@ class LinkController extends BaseController
                     $mitm = $request->getQueryParams()["mitm"];
                 }
 
+                $new = 0;
+                if (isset($request->getQueryParams()["new"])) {
+                    $new = $request->getQueryParams()["new"];
+                }
+
                 $already = $user->u + $user->d;
         		$still = $user->transfer_enable;
         		$userinfo = "upload=0; download=".$already.";total=".$still;
                 $newResponse = $response->withHeader('Content-type', ' application/octet-stream; charset=utf-8')->withHeader('Subscription-userinfo',$userinfo)->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')->withHeader('Content-Disposition', ' attachment; filename=Dler Cloud.conf');
-                $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss, $mitm));
+                $newResponse->getBody()->write(LinkController::GetIosConf($user, $is_mu, $is_ss, $mitm, $new));
                 return $newResponse;
             case 3:
                 $type = "PROXY";
@@ -426,19 +431,29 @@ class LinkController extends BaseController
     }
 
 
-    public static function GetIosConf($user, $is_mu = 0, $is_ss = 0, $mitm = 0)
+    public static function GetIosConf($user, $is_mu = 0, $is_ss = 0, $mitm = 0, $new = 0)
     {
         $proxy_name = "";
         $domestic_name = "";
         $auto_name = "";
         $proxy_group = "";
 
-        if ($mitm == 0) {
-        	$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        if (&new == 0) {
+        	if ($mitm == 0) {
+        		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        	} else {
+        		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        		$rules = $rule."\n\n".$mitm;
+        	}
         } else {
-        	$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        	$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
-        	$rules = $rule."\n\n".$mitm;
+        	if ($mitm == 0) {
+        		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
+        	} else {
+        		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
+        		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        		$rules = $rule."\n\n".$mitm;
+        	}
         }
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
@@ -508,7 +523,7 @@ PROXY = select,AUTO,DIRECT'.$proxy_name.'
 Domestic = select,DIRECT,PROXY'.$domestic_name.'
 Others = select,PROXY,DIRECT
 Apple = select,DIRECT,PROXY,AUTO
-Netflix & TVB & Spotify & YouTube = select,PROXY'.$proxy_name.'
+Media = select,PROXY'.$proxy_name.'
 AUTO = url-test'.$auto_name.',url = http://captive.apple.com,interval = 1200,tolerance = 300,timeout = 5
 
 '.$rules.'';

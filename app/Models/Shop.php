@@ -62,9 +62,6 @@ class Shop extends Model
                 case "class":
                     $content_text .= "套餐有效期 ".$content["class_expire"]." 天";
                     break;
-                case "user_group":
-                    $content_text .= "账号修改为 ".$value." 组";
-                    break;
                 case "reset":
                     $content_text .= "每 ".$value." 天重置一次流量";
                     break;
@@ -216,16 +213,6 @@ class Shop extends Model
         }
     }
 
-    public function user_group()
-    {
-        $content =  json_decode($this->attributes['content']);
-        if (isset($content->group)) {
-            return $content->group;
-        } else {
-            return 0;
-        }
-    }
-
     public function canBuy($user)
     {
         $content = json_decode($this->attributes['content'], true);
@@ -328,9 +315,6 @@ class Shop extends Model
                 case "class":
                     $user->class=$value;
                     $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
-                case "group":
-                    $user->node_group=$value;
-                    break;
                 case "speedlimit":
                     $user->node_speedlimit=$value;
                     break;
