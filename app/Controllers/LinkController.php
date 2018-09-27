@@ -439,19 +439,18 @@ class LinkController extends BaseController
         $proxy_group = "";
 
         if ($new == 0) {
-        	if ($mitm == 0) {
-        		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        	} else {
-        		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
-        		$rules = $rule."\n\n".$mitm;
-        	}
+            if ($mitm == 0) {
+        	   $rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+            } else {
+        	   $rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
+        	   $mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        	   $rules = $rule."\n\n".$mitm;
+            }
         } else {
-        	$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
-        	$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
-        	$rules = $rule."\n\n".$mitm;
+                $rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
+                $mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+                $rules = $rule."\n\n".$mitm;
         }
-    }
 
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
