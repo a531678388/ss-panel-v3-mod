@@ -224,6 +224,7 @@
           status: {required: true},
           node_speedlimit: {required: true},
           sort: {required: true},
+          dns_type: {required: true},
           node_bandwidth_limit: {required: true},
           bandwidthlimit_resetday: {required: true}
         },
