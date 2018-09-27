@@ -443,7 +443,6 @@ class LinkController extends BaseController
         		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
         	} else {
         		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        		usleep(200000)
         		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
         		$rules = $rule."\n\n".$mitm;
         	}
@@ -452,15 +451,9 @@ class LinkController extends BaseController
         		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
         	} else {
         		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
-        		usleep(200000)
-        		$url_rewrite = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20Rewrite.conf");
-        		usleep(200000)
-                $url_reject = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20REJECT.conf");
-                usleep(200000)
-                $header = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/Header%20Rewrite.conf");
-                usleep(200000)
+        		$other = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Other.conf");
         		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
-        		$rules = $rule."\n\n".$url_rewrite."\n".$url_reject."\n\n".$header."\n\n".$mitm;
+        		$rules = $rule."\n\n".$other."\n\n".$mitm;
         	}
         }
 
