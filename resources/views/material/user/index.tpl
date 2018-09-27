@@ -58,13 +58,14 @@
 											<p>SSD 个人端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=3</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=3">点击拷贝</button>
-											<br>
 											{/if}
+											<br>
+											<br>
 											{$v2_url_all = URL::getAllVMessUrl($user)}
 											<p>V2Ray 公共端口订阅地址</p>
 											<p><code>{$apiUrl}/link/{$ssr_sub_token}?mu=2</code></p>
 											<button class="copy-text btn btn-subscription" type="button" data-clipboard-text="{$apiUrl}/link/{$ssr_sub_token}?mu=2">点击拷贝</button>
-											<a class="copy-text" data-clipboard-text="{$v2_url_all}">复制全部 VMess 链接</a>
+											<p><a class="copy-text" data-clipboard-text="{$v2_url_all}">复制全部 VMess 链接</a></p>
 										</div>
 
 										<div class="card-action">
@@ -268,7 +269,7 @@
 												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">close</span>&nbsp;未购买不能签到</a></p>
 											{/if}
 											{else}
-												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">close</span>&nbsp;今天已签到过了</a></p>
+												<p><a class="btn btn-brand disabled btn-flat waves-attach" href="#"><span class="icon">close</span>&nbsp;今天已经签到过了</a></p>
 											{/if}
 										</div>
 									</div>
