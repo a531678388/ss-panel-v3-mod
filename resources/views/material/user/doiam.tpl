@@ -9,7 +9,7 @@
 			{/if}
 			{if $enabled['wepay']}
 				<li>
-					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付</a>
+					<a class="waves-attach waves-effect type" data-toggle="tab" href="#" data-pay="wepay">微信支付（维护中）</a>
 				</li>
 			{/if}
 			{if $enabled['qqpay']}
