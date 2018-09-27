@@ -28,6 +28,7 @@
 							<div class="card-main">
 								<div class="card-inner">
 									{$pmw}
+									<img src="https://raw.githubusercontent.com/lhie1/black-hole/master/Ali.png">
 								</div>
 							</div>
 						</div>
