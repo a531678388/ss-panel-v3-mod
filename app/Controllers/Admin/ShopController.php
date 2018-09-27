@@ -86,6 +86,10 @@ class ShopController extends AdminController
             $content["class_expire"] = $request->getParam('class_expire');
         }
 
+        if ($request->getParam('node_group') != 0) {
+            $content["node_group"] = $request->getParam('node_group');
+        }
+
         if ($request->getParam('reset') != 0) {
             $content["reset"] = $request->getParam('reset');
         }
@@ -193,6 +197,10 @@ class ShopController extends AdminController
 
         if ($request->getParam('class_expire') != 0) {
             $content["class_expire"] = $request->getParam('class_expire');
+        }
+
+        if ($request->getParam('node_group') != 0) {
+            $content["node_group"] = $request->getParam('node_group');
         }
 
         if ($request->getParam('reset') != 0) {

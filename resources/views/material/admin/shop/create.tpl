@@ -131,7 +131,6 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class">等级</label>
 									<input class="form-control" id="class" type="text" value="0">
@@ -140,6 +139,11 @@
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_expire">等级有效期天数</label>
 									<input class="form-control" id="class_expire" type="text" value="0">
+								</div>
+
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="node_group">分组</label>
+									<input class="form-control" id="node_group" type="text" value="0">
 								</div>
 							</div>
 						</div>
@@ -237,7 +241,7 @@
                 dataType: "json",
                 data: {
                     name: $("#name").val(),
-										auto_reset_bandwidth: auto_reset_bandwidth,
+					auto_reset_bandwidth: auto_reset_bandwidth,
                     price: $("#price").val(),
                     auto_renew: $("#auto_renew").val(),
                     group_limit: $("#group_limit").val(),
@@ -250,6 +254,7 @@
                     expire: $("#expire").val(),
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
+										node_group: $("#node_group").val(),
 										reset: $("#reset").val(),
 										reset_value: $("#reset_value").val(),
 										reset_exp: $("#reset_exp").val(),

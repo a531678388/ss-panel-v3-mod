@@ -798,10 +798,13 @@ class Job
                 }
 
                 $user->class = 0;
+                $user->node_group = 0;
+
             }
 
             if ($user->class != 0 && strtotime($user->class_expire) < time() && strtotime($user->class_expire) > 1420041600) {
                 $user->class = 0;
+                $user->node_group = 0;
             }
 
             $user->save();

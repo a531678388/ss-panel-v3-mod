@@ -143,6 +143,11 @@
 									<label class="floating-label" for="class_expire">等级有效期天数</label>
 									<input class="form-control" id="class_expire" type="text" value="{$shop->class_expire()}">
 								</div>
+
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="node_group">分组</label>
+									<input class="form-control" id="node_group" type="text" value="0">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -250,6 +255,7 @@
                     expire: $("#expire").val(),
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
+										node_group: $("#node_group").val(),
 										reset: $("#reset").val(),
 										reset_value: $("#reset_value").val(),
 										reset_exp: $("#reset_exp").val(),
