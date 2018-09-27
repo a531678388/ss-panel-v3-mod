@@ -160,7 +160,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="reset">每多少天</label>
-									<input class="form-control" id="reset" type="number" value="0">
+									<input class="form-control" id="reset" type="number" value="30">
 								</div>
 
 								<div class="form-group form-group-label">

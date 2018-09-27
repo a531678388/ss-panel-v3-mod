@@ -80,28 +80,30 @@
 																	<li>当前套餐速率</li>
 																	{/if}
 																	{if $shop->traffic_package() != 0}
-																	<li>在月度将会被重置</li>
+																	<li>套餐流量重置时流量包将重置</li>
 																	{/if}
 																	{if $shop->traffic_package() != 0}
-																	<li>流量与套餐同时失效</li>
+																	<li>套餐到期时流量包将清空</li>
 																	{/if}
 																	{if $shop->bandwidth() != 0}
-																	<li>{if $shop->traffic_package() != 0}这个月将在套餐基础额外增加 {$shop->bandwidth()}G 流量{else}每月 {$shop->bandwidth()}G 流量{/if}</li>
+																	<li>{if $shop->traffic_package() != 0}在下次流量重置前额外增加 {$shop->bandwidth()}G 流量{else}每月流量： {$shop->bandwidth()}G{/if}</li>
 																	{/if}
 																	{if $shop->node_speedlimit() != 0}
-																	<li>{$shop->node_speedlimit()}mbps 速率</li>
+																	<li>最高速率：{$shop->node_speedlimit()}Mbps</li>
 																	{/if}
 																	{if $shop->node_connector() != 0}
-																	<li>最多支持 {$shop->node_connector()}IP 同时在线</li>
-																	{/if}
-																	{if $shop->expire() != 0}
-																	<li>账号有效期添加 {$shop->expire()} 天</li>
+																	<li>同时在线 IP 数：{$shop->node_connector()}</li>
 																	{/if}
 																	{if $shop->user_class() != 0}
-																	<li>有效期 {$shop->class_expire()} 天</li>
+																	<li>有效期：{$shop->class_expire()} 天</li>
+																	{/if}
+																	{if $shop->user_node() != 0}
+																	<li>解锁：SS/V2Ray 节点}</li>
+																	{else}
+																	<li>解锁：SS 节点}</li>
 																	{/if}
 																	{if $shop->reset() != 0}
-																	<li>每 {$shop->reset()} 天重置一次流量</li>
+																	<li>每月重置一次流量</li>
 																	{/if}
 																	</ul></p>
 																	

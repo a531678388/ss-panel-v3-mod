@@ -63,7 +63,7 @@ class Shop extends Model
                     $content_text .= "套餐有效期 ".$content["class_expire"]." 天";
                     break;
                 case "group":
-                    $content_text .= "更改为 ".$value." 组";
+                    $content_text .= "账号修改为 ".$value." 组";
                     break;
                 case "reset":
                     $content_text .= "每 ".$value." 天重置一次流量";

@@ -188,7 +188,7 @@ public function apiregister($request, $response, $next)
 		$res['nodes'] = $temparray;
 	if (URL::SSRCanConnect($pre_user)) {
     $res['link'] = Config::get('apiUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=0';
-    } else if (URL::SSCanConnect($pre_user)) {
+    } elseif (URL::SSCanConnect($pre_user)) {
     $res['link'] = Config::get('apiUrl').'/link/'.LinkController::GenerateSSRSubCode($user->id, 0).'?mu=1';
     }
         return $response->getBody()->write(json_encode($res));
