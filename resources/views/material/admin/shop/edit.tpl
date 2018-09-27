@@ -255,7 +255,7 @@
                     expire: $("#expire").val(),
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
-										user_group: $("#user_group").val(),
+										group: $("#group").val(),
 										reset: $("#reset").val(),
 										reset_value: $("#reset_value").val(),
 										reset_exp: $("#reset_exp").val(),

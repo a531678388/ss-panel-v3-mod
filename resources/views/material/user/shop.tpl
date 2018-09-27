@@ -97,9 +97,9 @@
 																	{if $shop->user_class() != 0}
 																	<li>有效期：{$shop->class_expire()} 天</li>
 																	{/if}
-																	{if $shop->user_group() != 0}
+																	{if $shop->group() != 0}
 																	<li>解锁：SS/SSR/V2Ray 节点</li>
-																	{else if $shop->user_group() == 0}
+																	{else if $shop->group() == 0}
 																	<li>解锁：SS/SSR 节点</li>
 																	{/if}
 																	{if $shop->reset() != 0}
@@ -130,19 +130,9 @@
 																		<span class="icon" style="margin-left: 8px; margin-right: 8px">local_grocery_store</span>立即购买</a>
 																	<a class="btn btn-brand" style="background-color: #337ab7; padding-right: 16px; margin-left: 8px" href="/user/code">
 																		<span class="icon" style="margin-left: 8px; margin-right: 8px">local_gas_station</span>充值</a>
-
-
-
 																</div>
-
-
-
 															</div>
-
-
-
 													</div>
-
 												{/foreach}
 											</div>
 										</div>
