@@ -31,7 +31,7 @@ class URL
         if ($protocol != 'origin') {
             if (strpos($protocol, '_compatible') === FALSE) {
                 return 1;
-            }else{
+            } else {
                 return 3;
             }
         }
@@ -53,18 +53,18 @@ class URL
             if (in_array($obfs, $ss_obfs)) {
                 if (strpos($obfs, '_compatible') === FALSE) {
                     return 2;
-                }else{
+                } else {
                     return 4;//SSR need origin plain
                 }
-            }else{
+            } else {
                 //SSR obfs only
                 if (strpos($obfs, '_compatible') === FALSE) {
                     return 1;
-                }else{
+                } else {
                     return 5;//SS need plain
                 }
             }
-        }else{
+        } else {
             return 3;
         }
     }
@@ -83,7 +83,7 @@ class URL
 
         if (URL::CanMethodConnect($user->method) >= 2 && URL::CanProtocolConnect($user->protocol) >= 2 && URL::CanObfsConnect($user->obfs) >= 2) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -101,7 +101,7 @@ class URL
 
         if (URL::CanMethodConnect($user->method) != 2 && URL::CanProtocolConnect($user->protocol) != 2 && URL::CanObfsConnect($user->obfs) != 2) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -146,7 +146,7 @@ class URL
                         ->orwhere('sort', 10);
                 }
             )->where("type", "1")->orderBy("name")->get();
-        }else{
+        } else {
             $nodes = Node::where(
                 function ($query) {
                     $query->where('sort', 0)
@@ -164,10 +164,10 @@ class URL
             if ($user->is_admin) {
                 if ($is_mu != 0 && $is_mu != 1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where("type", "1")->get();
-                }else{
+                } else {
                     $mu_nodes = Node::where('sort', 9)->where("type", "1")->get();
                 }
-            }else{
+            } else {
                 if ($is_mu != 0 && $is_mu != 1){
                     $mu_nodes = Node::where('sort', 9)->where('server', '=', $is_mu)->where('node_class', '<=', $user->class)->where("type", "1")->where(
                         function ($query) use ($user) {
@@ -175,7 +175,7 @@ class URL
                                 ->orWhere("node_group", "=", 0);
                         }
                     )->get();
-                }else{
+                } else {
                     $mu_nodes = Node::where('sort', 9)->where('node_class', '<=', $user->class)->where("type", "1")->where(
                         function ($query) use ($user) {
                             $query->where("node_group", "=", $user->node_group)
@@ -209,7 +209,7 @@ class URL
                     if ($item != null) {
                         array_push($return_array, $item);
                     }
-                }else{
+                } else {
                     $item = URL::getItem($user, $node, 0, 0, $is_ss, $is_mu);
                     if ($item != null) {
                         array_push($return_array, $item);
@@ -235,7 +235,7 @@ class URL
                         if ($item != null) {
                             array_push($return_array, $item);
                         }
-                    }else{
+                    } else {
                         $item = URL::getItem($user, $node, $mu_node->server, 0, $is_ss, $is_mu);
                         if ($item != null) {
                             array_push($return_array, $item);
@@ -252,10 +252,8 @@ class URL
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
         if ($user->transfer_enable >0){
-        	if (URL::SSRCanConnect($user)){
             $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
             $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
-        	}
         }
         foreach($items as $item) {
             $return_url .= URL::getItemUrl($item, $is_ss).($enter == 0 ? ' ' : "\n");
@@ -269,13 +267,13 @@ class URL
         if (!$is_ss) {
             $ssurl = $item['address'].":".$item['port'].":".$item['protocol'].":".$item['method'].":".$item['obfs'].":".Tools::base64_url_encode($item['passwd'])."/?obfsparam=".Tools::base64_url_encode($item['obfs_param'])."&protoparam=".Tools::base64_url_encode($item['protocol_param'])."&remarks=".Tools::base64_url_encode($item['remark'])."&group=".Tools::base64_url_encode($item['group']);
             return "ssr://".Tools::base64_url_encode($ssurl);
-        }else{
+        } else {
             if ($is_ss == 2) {
                 $personal_info = $item['method'].':'.$item['passwd']."@".$item['address'].":".$item['port'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info);
 
                 $ssurl .= "#".rawurlencode(Config::get('appName')." - ".$item['remark'])."\n";
-            }else{
+            } else {
                 $personal_info = $item['method'].':'.$item['passwd'];
                 $ssurl = "ss://".Tools::base64_url_encode($personal_info)."@".$item['address'].":".$item['port'];
 
@@ -283,7 +281,7 @@ class URL
                 if (in_array($item['obfs'], $ss_obfs_list)) {
                     if (strpos($item['obfs'], 'http') !== FALSE) {
                         $plugin .= "simple-obfs;obfs=http";
-                    }else{
+                    } else {
                         $plugin .= "simple-obfs;obfs=tls";
                     }
 
@@ -482,7 +480,7 @@ class URL
                 return;
             }
             $user = URL::getSSConnectInfo($user);
-        }else{
+        } else {
             if (!URL::SSRCanConnect($user)) {
                 return;
             }
@@ -499,7 +497,7 @@ class URL
 				$return_array['method'] = 'aes-128-ctr';
 				$return_array['protocol'] = 'auth_aes128_md5';
 				$return_array['obfs'] = 'http_simple';
-			}else{
+			} else {
 				$return_array['port'] = $user->port;
 				$return_array['method'] = $user->method;
 				$return_array['protocol'] = $user->protocol;
@@ -524,18 +522,18 @@ class URL
     }
 
     public static function getUserTraffic($user){
-        if ($user->class !=0){
+        if ($user->class != 0){
             $ssurl = "flow.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("Dler Cloud - 剩余流量：".number_format(($user->transfer_enable-($user->u+$user->d))/$user->transfer_enable*100,2)."% ".$user->unusedTraffic())."&group=".Tools::base64_url_encode(Config::get('appName'));
-        }else{
+        } else {
             $ssurl = "flow.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("Dler Cloud - 已到期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
         }
         return "ssr://".Tools::base64_url_encode($ssurl);
     }
   
     public static function getUserClassExpiration($user){
-        if ($user->class !=0){
+        if ($user->class != 0){
             $ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("Dler Cloud - 到期时间：".$user->class_expire)."&group=".Tools::base64_url_encode(Config::get('appName'));
-        }else{
+        } else {
             $ssurl = "time.dlercloud.com:443:origin:none:plain:YnJlYWt3YWxs/?obfsparam=&protoparam=&remarks=".Tools::base64_url_encode("Dler Cloud - 已到期，请续费后使用")."&group=".Tools::base64_url_encode(Config::get('appName'));
         }
     return "ssr://".Tools::base64_url_encode($ssurl);
