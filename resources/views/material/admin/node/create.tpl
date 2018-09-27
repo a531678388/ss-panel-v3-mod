@@ -50,8 +50,8 @@
                                         <label for="dns_type">
                                             <label class="floating-label" for="dns_type">DNS 类型</label>
                                             <select id="dns_type" class="form-control" name="dns_type">
-                                                <option value="1">非使用节点</option>
-                                                <option value="1">静态 A 记录</option>
+                                                <option value="0">非使用节点</option>
+                                                <option value="1" selected="selected">静态 A 记录</option>
                                                 <option value="2">动态 CNAME 记录</option>
                                                 <option value="3">动态 A 记录</option>
                                             </select>

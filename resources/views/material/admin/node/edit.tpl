@@ -52,7 +52,7 @@
                                         <label for="dns_type">
                                             <label class="floating-label" for="dns_type">DNS 类型</label>
                                             <select id="dns_type" class="form-control" name="dns_type">
-                                                <option value="0" {if $node->dns_type==3}selected{/if}>非使用节点</option>
+                                                <option value="0" {if $node->dns_type==0}selected{/if}>非使用节点</option>
                                                 <option value="1" {if $node->dns_type==1}selected{/if}>静态 A 记录</option>
                                                 <option value="2" {if $node->dns_type==2}selected{/if}>动态 CNAME 记录</option>
                                                 <option value="3" {if $node->dns_type==3}selected{/if}>动态 A 记录</option>
