@@ -83,7 +83,7 @@ card-heading {
 								<div class="card-inner">
 									<h4>注意!</h4>
 									<p>请勿在任何地方公开节点地址！</p>
-									<p>所有游戏专线默认限速3mbps / 5倍流量计费</p>
+									<p>所有游戏节点默认限速3mbps / 5倍流量计费</p>
 									<p>国内（CN）节点默认为中转模式，如需使用回国模式请手动添加中转规则：起源：CN；目标：不中转；优先级大于 <code>0</code> 即可。</p>
 									<a href="javascript:void(0);" onClick="urlChange('guide',0,0,0)">如何查看节点的详细信息和二维码方法？请点我</a>
 								</div>
