@@ -494,6 +494,7 @@ class UserController extends BaseController
         ->assign('user', $user)
         ->assign('node_alive', $node_alive)
         ->assign('node_latestload', $node_latestload)
+        ->registerClass("URL", "App\Utils\URL")
         ->display('user/node.tpl');
     }
 
