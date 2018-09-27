@@ -29,12 +29,12 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="price">价格</label>
-									<input class="form-control" id="price" type="text" value="{$shop->price}">
+									<input class="form-control" id="price" type="number" value="{$shop->price}">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="auto_renew">自动续订天数（0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣）</label>
-									<input class="form-control" id="auto_renew" type="text" value="{$shop->auto_renew}">
+									<input class="form-control" id="auto_renew" type="number" value="{$shop->auto_renew}">
 								</div>
 
 
@@ -48,7 +48,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="group_limit">群组限制（不填即为所有群组可用，多个的话用英文半角逗号分割）</label>
-									<input class="form-control" id="group_limit" type="text" value="{$shop->group_limit()}">
+									<input class="form-control" id="group_limit" type="number" value="{$shop->group_limit()}">
 								</div>
 
 								<div class="form-group form-group-label">
@@ -66,7 +66,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_limit_content">等级限制内容（不填即为所有等级可用，多个的话用英文半角逗号分割）</label>
-									<input class="form-control" id="class_limit_content" type="text" value="{$shop->class_limit_content()}">
+									<input class="form-control" id="class_limit_content" type="number" value="{$shop->class_limit_content()}">
 								</div>
 							</div>
 						</div>
@@ -78,7 +78,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="bandwidth">流量（GB）</label>
-									<input class="form-control" id="bandwidth" type="text" value="{$shop->bandwidth()}">
+									<input class="form-control" id="bandwidth" type="number" value="{$shop->bandwidth()}">
 								</div>
 
 
@@ -107,12 +107,12 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="node_speedlimit">速度限制（0为不限制）</label>
-									<input class="form-control" id="node_speedlimit" type="text" value="{$shop->node_speedlimit()}">
+									<input class="form-control" id="node_speedlimit" type="number" value="{$shop->node_speedlimit()}">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="node_connector">同时连接 IP 数（0为不限制）</label>
-									<input class="form-control" id="node_connector" type="text" value="{$shop->node_connector()}">
+									<input class="form-control" id="node_connector" type="number" value="{$shop->node_connector()}">
 								</div>
 							</div>
 						</div>
@@ -124,7 +124,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="expire">账户有效期天数</label>
-									<input class="form-control" id="expire" type="text" value="{$shop->expire()}">
+									<input class="form-control" id="expire" type="number" value="{$shop->expire()}">
 								</div>
 							</div>
 						</div>
@@ -136,17 +136,17 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class">等级</label>
-									<input class="form-control" id="class" type="text" value="{$shop->user_class()}">
+									<input class="form-control" id="class" type="number" value="{$shop->user_class()}">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_expire">等级有效期天数</label>
-									<input class="form-control" id="class_expire" type="text" value="{$shop->class_expire()}">
+									<input class="form-control" id="class_expire" type="number" value="{$shop->class_expire()}">
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="node_group">分组</label>
-									<input class="form-control" id="node_group" type="text" value="0">
+									<label class="floating-label" for="user_group">分组</label>
+									<input class="form-control" id="user_group" type="number" value="{$shop->user_group()}">
 								</div>
 							</div>
 						</div>
@@ -255,7 +255,7 @@
                     expire: $("#expire").val(),
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
-										node_group: $("#node_group").val(),
+										user_group: $("#user_group").val(),
 										reset: $("#reset").val(),
 										reset_value: $("#reset_value").val(),
 										reset_exp: $("#reset_exp").val(),

@@ -29,12 +29,12 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="price">价格</label>
-									<input class="form-control" id="price" type="text" >
+									<input class="form-control" id="price" type="number" >
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="auto_renew">自动续订天数（0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣）</label>
-									<input class="form-control" id="auto_renew" type="text" value="0">
+									<input class="form-control" id="auto_renew" type="number" value="0">
 								</div>
 
 
@@ -47,7 +47,7 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="group_limit">群组限制（不填即为所有群组可用，多个的话用英文半角逗号分割）</label>
-									<input class="form-control" id="group_limit" type="text">
+									<input class="form-control" id="group_limit" type="number">
 								</div>
 
 								<div class="form-group form-group-label">
@@ -65,7 +65,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_limit_content">等级限制内容（不填即为所有等级可用，多个的话用英文半角逗号分割）</label>
-									<input class="form-control" id="class_limit_content" type="text">
+									<input class="form-control" id="class_limit_content" type="number">
 								</div>
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="bandwidth">流量（GB）</label>
-									<input class="form-control" id="bandwidth" type="text" value="0">
+									<input class="form-control" id="bandwidth" type="number" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
@@ -105,12 +105,12 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="node_speedlimit">速度限制（0为不限制）</label>
-									<input class="form-control" id="node_speedlimit" type="text" value="0">
+									<input class="form-control" id="node_speedlimit" type="number" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="node_connector">同时连接 IP 数（0为不限制）</label>
-									<input class="form-control" id="node_connector" type="text" value="0">
+									<input class="form-control" id="node_connector" type="number" value="0">
 								</div>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="expire">账户有效期天数</label>
-									<input class="form-control" id="expire" type="text" value="0">
+									<input class="form-control" id="expire" type="number" value="0">
 								</div>
 							</div>
 						</div>
@@ -133,17 +133,17 @@
 							<div class="card-inner">
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class">等级</label>
-									<input class="form-control" id="class" type="text" value="0">
+									<input class="form-control" id="class" type="number" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="class_expire">等级有效期天数</label>
-									<input class="form-control" id="class_expire" type="text" value="0">
+									<input class="form-control" id="class_expire" type="number" value="0">
 								</div>
 
 								<div class="form-group form-group-label">
-									<label class="floating-label" for="node_group">分组</label>
-									<input class="form-control" id="node_group" type="text" value="0">
+									<label class="floating-label" for="user_group">分组</label>
+									<input class="form-control" id="user_group" type="number" value="0">
 								</div>
 							</div>
 						</div>
@@ -254,7 +254,7 @@
                     expire: $("#expire").val(),
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
-										node_group: $("#node_group").val(),
+										user_group: $("#user_group").val(),
 										reset: $("#reset").val(),
 										reset_value: $("#reset_value").val(),
 										reset_exp: $("#reset_exp").val(),
