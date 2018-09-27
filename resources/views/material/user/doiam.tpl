@@ -1,6 +1,7 @@
 <div class="card-inner">
 	<p class="card-heading">余额：{$user->money}</p>
 	<img src="https://raw.githubusercontent.com/lhie1/black-hole/master/Ali.png">
+	
 	<nav class="tab-nav margin-top-no">
 		<ul class="nav nav-list">
 			{if $enabled['wepay']}
