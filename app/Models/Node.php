@@ -52,13 +52,6 @@ class Node extends Model
         }
     }
 
-    public function getNodeLoad()
-    {
-        $id = $this->attributes['id'];
-        $log = NodeInfoLog::where('node_id', $id)->orderBy('id', 'desc')->whereRaw('`log_time`%1800<60')->limit(48)->get();
-        return $log;
-    }
-
     public function getNodeAlive()
     {
         $id = $this->attributes['id'];
