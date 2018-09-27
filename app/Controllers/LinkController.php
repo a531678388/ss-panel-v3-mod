@@ -443,7 +443,7 @@ class LinkController extends BaseController
         		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
         	} else {
         		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/Rule.conf");
-        		$mitm = "[MITM]\n".file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
         		$rules = $rule."\n\n".$mitm;
         	}
         } else {
@@ -451,11 +451,11 @@ class LinkController extends BaseController
         		$rules = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
         	} else {
         		$rule = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/NewRule.conf");
-                $host = "[Host]\n".file_get_contents("https://github.com/lhie1/Rules/blob/master/Auto/HOST.conf");
-                $rewrite = "[URL Rewrite]\n".file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20REJECT.conf");
-                $header = "[Header Rewrite]\n".file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20Rewrite.conf");
-        		$mitm = "[MITM]\n".file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
-        		$rules = $rule."\n\n".$host."\n\n".$rewrite."\n\n".$header."\n\n".$mitm;
+        		$url_rewrite = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20Rewrite.conf");
+                $url_reject = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/URL%20REJECT.conf");
+                $header = file_get_contents("https://raw.githubusercontent.com/lhie1/Rules/master/Auto/Header%20Rewrite.conf");
+        		$mitm = file_get_contents("https://raw.githubusercontent.com/lhie1/black-hole/master/MitM.conf");
+        		$rules = $rule."\n\n".$url_rewrite."\n".$url_reject."\n\n".$header."\n\n".$mitm;
         	}
         }
 
