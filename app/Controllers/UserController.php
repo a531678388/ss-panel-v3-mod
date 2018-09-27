@@ -482,7 +482,6 @@ class UserController extends BaseController
         $tools = new Tools();
         return $this->view()
         ->assign('relay_rules', $relay_rules)
-        ->assign('node_isv6', $node_isv6)
         ->assign('tools', $tools)
         ->assign('node_method', $node_method)
         ->assign('node_muport', $node_muport)
