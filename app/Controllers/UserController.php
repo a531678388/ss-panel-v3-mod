@@ -390,7 +390,7 @@ class UserController extends BaseController
 
         array_push($node_classes, array('level' => 1, 'desc' => "SS/SSR - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
         array_push($node_classes, array('level' => 2, 'desc' => "SS/SSR - Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
-        array_push($node_classes, array('level' => 3, 'desc' => "V2Ray（Beta）", 'nodes' => array(), 'style' => "card-heading-V2Ray_node", 'access' => 0));
+        array_push($node_classes, array('level' => 1, 'desc' => "V2Ray（Beta）", 'nodes' => array(), 'style' => "card-heading-V2Ray_node", 'access' => 0));
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();

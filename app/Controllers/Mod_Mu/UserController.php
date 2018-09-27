@@ -20,20 +20,20 @@ class UserController extends BaseController
         $params = $request->getQueryParams();
 
         $node_id = $params['node_id'];
-        $node=new Node();
-        if($node_id=='0'){
-            $node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-            $node_id=$node->id;
-        }
-        else{
-            $node = Node::where("id", "=", $node_id)->first();
-            if ($node == null) {
-                $res = [
-                    "ret" => 0
-                ];
-                return $this->echoJson($response, $res);
-            }
-        }
+		$node=new Node();
+		if($node_id=='0'){
+			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
+			$node_id=$node->id;
+		}
+		else{
+			$node = Node::where("id", "=", $node_id)->first();
+			if ($node == null) {
+				$res = [
+					"ret" => 0
+				];
+				return $this->echoJson($response, $res);
+			}
+		}
         $node->node_heartbeat=time();
         $node->save();
 
@@ -101,10 +101,10 @@ class UserController extends BaseController
         $data = $request->getParam('data');
         $this_time_total_bandwidth = 0;
         $node_id = $params['node_id'];
-        if($node_id=='0'){
-            $node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-            $node_id=$node->id;
-        }
+		if($node_id=='0'){
+			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
+			$node_id=$node->id;
+		}
         $node = Node::find($node_id);
 
         if ($node == null) {
@@ -173,10 +173,10 @@ class UserController extends BaseController
 
         $data = $request->getParam('data');
         $node_id = $params['node_id'];
-        if($node_id=='0'){
-            $node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-            $node_id=$node->id;
-        }
+		if($node_id=='0'){
+			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
+			$node_id=$node->id;
+		}
         $node = Node::find($node_id);
 
         if ($node == null) {
@@ -213,10 +213,10 @@ class UserController extends BaseController
 
         $data = $request->getParam('data');
         $node_id = $params['node_id'];
-        if($node_id=='0'){
-            $node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
-            $node_id=$node->id;
-        }
+		if($node_id=='0'){
+			$node = Node::where("node_ip",$_SERVER["REMOTE_ADDR"])->first();
+			$node_id=$node->id;
+		}
         $node = Node::find($node_id);
 
         if ($node == null) {
