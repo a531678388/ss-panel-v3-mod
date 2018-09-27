@@ -444,7 +444,7 @@ class LinkController extends BaseController
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         foreach($items as $item) {
             if (substr($node_name,-3,3) != "SSR") {
-                if ($item['remark'] == "香港 - IPLC | Media - SSR") {
+                if ($item['remark'] == "香港 - IPLC | SSR") {
                     $item['remark'] = "香港 - IPLC | Media";
                 }
             }

@@ -490,7 +490,7 @@ class URL
         }
 
         if (substr($node_name,-2,2) != "SS") {
-            if ($node_name == "香港 - IPLC | Media - SSR") {
+            if ($node_name == "香港 - IPLC | SSR") {
                 $node_name = "香港 - IPLC | Media";
 			}
 		
