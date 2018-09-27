@@ -132,6 +132,16 @@ class Shop extends Model
             return 0;
         }
     }
+	
+	 public function node_group()
+    {
+        $content = json_decode($this->attributes['content']);
+        if (isset($content->node_group)) {
+            return $content->node_group;
+        } else {
+            return 0;
+        }
+    }
 
     public function node_speedlimit()
     {
@@ -318,6 +328,9 @@ class Shop extends Model
                 case "speedlimit":
                     $user->node_speedlimit=$value;
                     break;
+				case "node_group":
+				  $user->node_group=$value;
+				  break;
                 case "connector":
                     $user->node_connector=$value;
                     break;

@@ -395,8 +395,9 @@ class UserController extends BaseController
         $node_classes = array();
         $node_latestload = array();
 
-        array_push($node_classes, array('level' => 1, 'desc' => "Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
-        array_push($node_classes, array('level' => 2, 'desc' => "Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
+        array_push($node_classes, array('level' => 1, "isV2Ray" => 0, 'desc' => "SS/SSR - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
+        array_push($node_classes, array('level' => 2, "isV2Ray" => 0, 'desc' => "SS/SSR - Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
+        array_push($node_classes, array('level' => 1, "isV2Ray" => 1, 'desc' => "V2Ray - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
 
         if ($user->is_admin) {
             $ports_count = Node::where('type', 1)->where('sort', 9)->orderBy('name')->count();
@@ -420,7 +421,14 @@ class UserController extends BaseController
           $node_prefix = array();
           foreach ($nodes as $node) {
               if (($node->node_class == $single_classes['level']) && ((($user->node_group == $node->node_group || $node->node_group == 0)) || $user->is_admin) && (!$node->isNodeTrafficOut())) {
-                  if ($node->sort == 9) {
+				  
+				  if ($node->sort == 11 && $single_classes['isV2Ray'] == 0)
+					  continue;
+				  
+				  if ($node->sort != 11 && $single_classes['isV2Ray'] == 1)
+					  continue;
+				  
+                  if ($node->sort == 9 && $single_classes['isV2Ray'] == 0) {
                       $mu_user = User::where('port', '=', $node->server)->first();
                       $mu_user->obfs_param = $this->user->getMuMd5();
                       array_push($node_muport, array('server' => $node,'user' => $mu_user));

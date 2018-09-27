@@ -31,6 +31,11 @@
 									<label class="floating-label" for="price">价格</label>
 									<input class="form-control" id="price" type="number" >
 								</div>
+								
+								<div class="form-group form-group-label">
+									<label class="floating-label" for="node_group">群组</label>
+									<input class="form-control" id="node_group" type="number" value="0">
+								</div>
 
 								<div class="form-group form-group-label">
 									<label class="floating-label" for="auto_renew">自动续订天数（0为不允许自动续订，其他为到了那么多天之后就会自动从用户的账户上划钱抵扣）</label>
@@ -238,6 +243,7 @@
                     name: $("#name").val(),
 					auto_reset_bandwidth: auto_reset_bandwidth,
                     price: $("#price").val(),
+					node_group: $("#node_group").val(),
                     auto_renew: $("#auto_renew").val(),
                     group_limit: $("#group_limit").val(),
                     class_limit_operator: $("#class_limit_operator").val(),
