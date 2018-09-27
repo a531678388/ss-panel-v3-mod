@@ -41,10 +41,10 @@ class TelegramProcess
 								".$apiUrl."/link/".$ssr_sub_token."?mu=0
 								SSR 公共端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=1
-                                Surge / Surfboard 公共端口托管地址：
-                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
-                                Surge 公共端口托管地址（MitM）：
-                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
+								Surge / Surfboard 公共端口托管地址：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
+								Surge 公共端口托管地址（MitM）：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
                     } else if (URL::SSCanConnect($pre_user)) {
@@ -65,12 +65,12 @@ class TelegramProcess
 								".$apiUrl."/link/".$ssr_sub_token."?mu=3
 								Surge / Surfboard 个人端口托管地址：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0&mitm=0
-                                Surge / Surfboard 公共端口托管地址：
-                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
-                                Surge 个人端口托管地址（MitM）：
+								Surge / Surfboard 公共端口托管地址：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
+								Surge 个人端口托管地址（MitM）：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0&mitm=1
-                                Surge 公共端口托管地址（MitM）：
-                                ".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
+								Surge 公共端口托管地址（MitM）：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
                     } else {
@@ -189,17 +189,17 @@ class TelegramProcess
                             $file = $bot->getFile($photo->getFileId());
                             $real_id = substr($file->getFileId(), 0, 36);
                             if (!isset($photo_size_array[$real_id])) {
-                                $photo_size_array[$real_id] = 0;
+								$photo_size_array[$real_id] = 0;
                             }
 
                             if ($photo_size_array[$real_id] < $file->getFileSize()) {
-                                $photo_size_array[$real_id] = $file->getFileSize();
-                                $photo_id_array[$real_id] = $file->getFileId();
-                                if (!isset($photo_id_list_array[$real_id])) {
-                                    $photo_id_list_array[$real_id] = array();
-                                }
+								$photo_size_array[$real_id] = $file->getFileSize();
+								$photo_id_array[$real_id] = $file->getFileId();
+								if (!isset($photo_id_list_array[$real_id])) {
+								    $photo_id_list_array[$real_id] = array();
+								}
 
-                                array_push($photo_id_list_array[$real_id], $file->getFileId());
+								array_push($photo_id_list_array[$real_id], $file->getFileId());
                             }
                         }
 
@@ -208,40 +208,40 @@ class TelegramProcess
                             $qrcode_text = QRcode::decode("https://api.telegram.org/file/bot".Config::get('telegram_token')."/".$file->getFilePath());
 
                             if ($qrcode_text == null) {
-                                foreach ($photo_id_list_array[$key] as $fail_key => $fail_value) {
-                                    $fail_file = $bot->getFile($fail_value);
-                                    $qrcode_text = QRcode::decode("https://api.telegram.org/file/bot".Config::get('telegram_token')."/".$fail_file->getFilePath());
-                                    if ($qrcode_text != null) {
-                                        break;
-                                    }
-                                }
+								foreach ($photo_id_list_array[$key] as $fail_key => $fail_value) {
+								    $fail_file = $bot->getFile($fail_value);
+								    $qrcode_text = QRcode::decode("https://api.telegram.org/file/bot".Config::get('telegram_token')."/".$fail_file->getFilePath());
+								    if ($qrcode_text != null) {
+								        break;
+								    }
+								}
                             }
 
                             if (substr($qrcode_text, 0, 11) == 'mod://bind/' && strlen($qrcode_text) == 27) {
-                                $uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
-                                if ($uid != 0) {
-                                    $user = User::where('id', $uid)->first();
-                                    $user->telegram_id = $message->getFrom()->getId();
-                                    $user->im_type = 4;
-                                    $user->im_value = $message->getFrom()->getUsername();
-                                    $user->save();
-                                    $bot->sendMessage($message->getChat()->getId(), "绑定成功，邮箱：".$user->email);
-                                } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "绑定失败，二维码无效。".substr($qrcode_text, 11));
-                                }
+								$uid = TelegramSessionManager::verify_bind_session(substr($qrcode_text, 11));
+								if ($uid != 0) {
+								    $user = User::where('id', $uid)->first();
+								    $user->telegram_id = $message->getFrom()->getId();
+								    $user->im_type = 4;
+								    $user->im_value = $message->getFrom()->getUsername();
+								    $user->save();
+								    $bot->sendMessage($message->getChat()->getId(), "绑定成功，邮箱：".$user->email);
+								} else {
+								    $bot->sendMessage($message->getChat()->getId(), "绑定失败，二维码无效。".substr($qrcode_text, 11));
+								}
                             }
 
                             if (substr($qrcode_text, 0, 12) == 'mod://login/' && strlen($qrcode_text) == 28) {
-                                if ($user != null) {
-                                    $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
-                                    if ($uid != 0) {
-                                        $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：".$user->email);
-                                    } else {
-                                        $bot->sendMessage($message->getChat()->getId(), "登录验证失败，二维码无效。".substr($qrcode_text, 12));
-                                    }
-                                } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。".substr($qrcode_text, 12));
-                                }
+								if ($user != null) {
+								    $uid = TelegramSessionManager::verify_login_session(substr($qrcode_text, 12), $user->id);
+								    if ($uid != 0) {
+								        $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：".$user->email);
+								    } else {
+								        $bot->sendMessage($message->getChat()->getId(), "登录验证失败，二维码无效。".substr($qrcode_text, 12));
+								    }
+								} else {
+								    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。".substr($qrcode_text, 12));
+								}
                             }
 
                             break;
@@ -249,14 +249,14 @@ class TelegramProcess
                     } else {
                         if (is_numeric($message->getText()) && strlen($message->getText()) == 6) {
                             if ($user != null) {
-                                $uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
-                                if ($uid != 0) {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：".$user->email);
-                                } else {
-                                    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，数字无效。");
-                                }
+								$uid = TelegramSessionManager::verify_login_number($message->getText(), $user->id);
+								if ($uid != 0) {
+								    $bot->sendMessage($message->getChat()->getId(), "登录验证成功。邮箱：".$user->email);
+								} else {
+								    $bot->sendMessage($message->getChat()->getId(), "登录验证失败，数字无效。");
+								}
                             } else {
-                                $bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。");
+								$bot->sendMessage($message->getChat()->getId(), "登录验证失败，您未绑定本站账号。");
                             }
                             break;
                         }
