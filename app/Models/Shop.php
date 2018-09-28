@@ -65,6 +65,10 @@ class Shop extends Model
                 case "reset":
                     $content_text .= "每 ".$value." 天重置一次流量";
                     break;
+                case "node_group":
+                    $content_text .= "修为用户为 ".$value." 组";
+                    break;
+
                 default:
                     continue 2;
             }
@@ -128,16 +132,6 @@ class Shop extends Model
         $content =  json_decode($this->attributes['content']);
         if (isset($content->traffic_package)) {
             return $content->traffic_package;
-        } else {
-            return 0;
-        }
-    }
-	
-	 public function node_group()
-    {
-        $content = json_decode($this->attributes['content']);
-        if (isset($content->node_group)) {
-            return $content->node_group;
         } else {
             return 0;
         }
@@ -218,6 +212,16 @@ class Shop extends Model
         $content =  json_decode($this->attributes['content']);
         if (isset($content->class_expire)) {
             return $content->class_expire;
+        } else {
+            return 0;
+        }
+    }
+
+    public function node_group()
+    {
+        $content = json_decode($this->attributes['content']);
+        if (isset($content->node_group)) {
+            return $content->node_group;
         } else {
             return 0;
         }
@@ -325,13 +329,14 @@ class Shop extends Model
                 case "class":
                     $user->class=$value;
                     $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
+                    break;
                 case "node_speedlimit":
                     $user->node_speedlimit=$value;
                     break;
 				case "node_group":
 				  $user->node_group=$value;
 				  break;
-                case "connector":
+                case "node_connector":
                     $user->node_connector=$value;
                     break;
                 default:

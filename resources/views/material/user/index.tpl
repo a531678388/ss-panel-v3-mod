@@ -161,7 +161,7 @@
 
 											<p><dt>速度限制</dt>
 											{if $user->node_speedlimit!=0}
-											<dd>{$user->node_speedlimit}mbps</dd>
+											<dd>{$user->node_speedlimit} Mbps</dd>
 											{else}
 											<dd>∞</dd>
 											{/if}</p>

@@ -29,7 +29,7 @@
 </div>
 <div class="card-action">
 	<div class="card-action-btn pull-left">
-		<button class="btn btn-flat waves-attach" id="submit" ><span class="icon">check</span>&nbsp;在线充值（按下后等待3秒）</button>
+		<button class="btn btn-flat waves-attach" id="submit" target="_blank"><span class="icon">check</span>&nbsp;在线充值（按下后等待3秒）</button>
 	</div>
 </div>
 <script>
