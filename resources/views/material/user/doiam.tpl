@@ -29,7 +29,7 @@
 </div>
 <div class="card-action">
 	<div class="card-action-btn pull-left">
-		<button class="btn btn-flat waves-attach" id="submit" target="_blank"><span class="icon">check</span>&nbsp;在线充值（按下后等待3秒）</button>
+		<button class="btn btn-flat waves-attach" id="submit"><span class="icon">check</span>&nbsp;在线充值（按下后请等待跳转）</button>
 	</div>
 </div>
 <script>
@@ -65,7 +65,7 @@ window.onload = function(){
 					pid = data.pid;
 					if(type=="wepay"){
 						$("#result").modal();
-						$("#msg").html('<div class="text-center">使用微信扫描二维码支付.<div id="dmy" style="padding-top:  10px;"></div></div>');
+						$("#msg").html('<div class="text-center">使用微信扫描二维码支付<div id="dmy" style="padding-top:  10px;"></div></div>');
 						$("#dmy").qrcode({
 							"text": data.code
 						});
@@ -74,7 +74,7 @@ window.onload = function(){
 						$("#msg").html("正在跳转到支付宝..."+data.code);
 					}else if(type=="qqpay"){
 						$("#result").modal();
-						$("#msg").html('<div class="text-center">使用QQ扫描二维码支付.<div id="dmy"></div></div>');
+						$("#msg").html('<div class="text-center">使用QQ扫描二维码支付<div id="dmy"></div></div>');
 						$("#dmy").qrcode({
 							"text": data.code
 						});
