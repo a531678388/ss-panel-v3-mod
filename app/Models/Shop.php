@@ -325,7 +325,7 @@ class Shop extends Model
                 case "class":
                     $user->class=$value;
                     $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
-                case "speedlimit":
+                case "node_speedlimit":
                     $user->node_speedlimit=$value;
                     break;
 				case "node_group":
