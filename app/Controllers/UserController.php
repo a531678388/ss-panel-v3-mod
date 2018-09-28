@@ -111,7 +111,9 @@ class UserController extends BaseController
         ->assign("v2_url_x", $v2_url_x)
         ->assign("filterUrl", $filterUrl)
         ->assign("rejectUrl", $rejectUrl)
+        
         ->assign("ssr_sub_token", $ssr_sub_token)
+
         ->assign("router_token", $router_token)
         ->assign("router_token_without_mu", $router_token_without_mu)
         ->assign("acl_token", $acl_token)
@@ -121,8 +123,8 @@ class UserController extends BaseController
         ->assign('enable_duoshuo', Config::get('enable_duoshuo'))
         ->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
         ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")
-        ->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl')
-        ->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl');
+        ->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl')
+        ->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
     }
 
 
