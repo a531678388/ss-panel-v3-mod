@@ -123,8 +123,7 @@ class UserController extends BaseController
         ->assign('enable_duoshuo', Config::get('enable_duoshuo'))
         ->assign('duoshuo_shortname', Config::get('duoshuo_shortname'))
         ->assign("user", $this->user)->registerClass("URL", "App\Utils\URL")
-        ->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl')
-        ->assign('baseUrl', Config::get('baseUrl'))->display('user/index.tpl');
+        ->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl');
     }
 
 
