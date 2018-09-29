@@ -144,44 +144,29 @@ class Job
         system("rm ".BASE_PATH."/storage/*.png", $ret);
 
         //auto reset
-        $boughts=Bought::all();
-        foreach ($boughts as $bought) {
-            $user=User::where("id", $bought->userid)->first();
+        $users = User::all();
+        foreach ($users as $user) {
+            $boughts = Bought::where('userid', $user->id)->orderBy("datetime", "desc")->get();
+            foreach ($boughts as $bought) {
+                $shop=Shop::where("id", $bought->shopid)->first();
 
-            if ($user == null) {
-                $bought->delete();
-                continue;
-            }
-
-            $shop=Shop::where("id", $bought->shopid)->first();
-
-            if ($shop == null) {
-                $bought->delete();
-                continue;
-            }
-
-            if ($shop->reset() != 0 && $shop->reset_value() != 0 && $shop->reset_exp() != 0) {
-              if (time() - $shop->reset_exp() * 86400 < $bought->datetime) {
-                if (intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
-                  $user->transfer_enable = Tools::toGB($shop->reset_value());
-                  $user->u = 0;
-                  $user->d = 0;
-                  $user->last_day_t = 0;
-                  $user->save();
-
-                  $subject = Config::get('appName')." - 您的流量被重置了";
-                  $to = $user->email;
-                  $text = "您好，根据您所订购的订单 ID:".$bought->id."，流量已经被重置为".$shop->reset_value().'GB' ;
-                  try {
-                      Mail::send($to, $subject, 'news/warn.tpl', [
-                          "user" => $user,"text" => $text
-                      ], [
-                      ]);
-                  } catch (Exception $e) {
-                      echo $e->getMessage();
-                  }
+                if ($shop == null) {
+                    $bought->delete();
+                    continue;
                 }
-              }
+
+                if($shop->reset() != 0 && $shop->reset_value() != 0) {
+                    if(intval((time() - $bought->datetime) / 86400) % $shop->reset() == 0 && intval((time() - $bought->datetime) / 86400) != 0) {
+                        echo("流量重置-用户id".$user->id."-重置流量".$shop->reset_value()."G\n");
+                        $user->transfer_enable = Tools::toGB($shop->reset_value());
+                        $user->u = 0;
+                        $user->d = 0;
+                        $user->last_day_t = 0;
+                        $user->save();
+                    }
+                    break;
+                }
+
             }
         }
 
