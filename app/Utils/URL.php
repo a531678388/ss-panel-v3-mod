@@ -251,7 +251,7 @@ class URL
     public static function getAllUrl($user, $is_mu, $is_ss = 0, $enter = 0) {
         $items = URL::getAllItems($user, $is_mu, $is_ss);
         $return_url = '';
-        if ($user->transfer_enable >0){
+        if ($user->transfer_enable > 0){
             $return_url .= URL::getUserTraffic($user).($enter == 0 ? ' ' : "\n");
             $return_url .= URL::getUserClassExpiration($user).($enter == 0 ? ' ' : "\n");
         }
