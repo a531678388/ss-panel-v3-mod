@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Services\Auth;
 use App\Models\Node;
-use App\Models\TrafficLog;
 use App\Models\InviteCode;
 use App\Models\CheckInLog;
 use App\Models\Ann;
@@ -1722,17 +1721,6 @@ class UserController extends BaseController
         $res['msg'] = "GG!您的帐号已经从我们的系统中删除.";
         return $this->echoJson($response, $res);
     }
-
-    public function trafficLog($request, $response, $args)
-    {
-        $traffic = TrafficLog::where('user_id', $this->user->id)->where("log_time", ">", (time()-3 * 86400))->orderBy('id', 'desc')->get();
-        return $this->view()
-        ->assign('logs', $traffic)
-        ->display('user/trafficlog.tpl');
-    }
-
-
-
 
     public function detect_index($request, $response, $args)
     {

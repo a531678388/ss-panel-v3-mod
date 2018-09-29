@@ -13,6 +13,7 @@ use App\Models\RadiusRadAcct;
 use App\Models\RadiusNas;
 use App\Services\Config;
 use App\Services\Mail;
+use App\Models\TrafficLog;
 use App\Utils\Tools;
 use App\Utils\Radius;
 use App\Utils\Da;
@@ -48,6 +49,7 @@ class SyncRadius
         
         foreach ($logs as $log) {
             if (isset($tempuserbox[$log->username])) {
+                $traffic = new TrafficLog();
                 $traffic->user_id = $tempuserbox[$log->username];
                 $traffic->u = 0;
                 $traffic->d = 10000;
