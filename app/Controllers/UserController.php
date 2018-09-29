@@ -403,8 +403,8 @@ class UserController extends BaseController
         $node_classes = array();
         $node_latestload = array();
 
-        array_push($node_classes, array('level' => 0, "isV2Ray" => 0, 'desc' => "SS/SSD/SSR - Free", 'nodes' => array(), 'style' => "card-heading-Free_node", 'access' => 0));
-        array_push($node_classes, array('level' => 1, "isV2Ray" => 0, 'desc' => "SS/SSD/SSR - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
+        array_push($node_classes, array('level' => 0, "isV2Ray" => 0, 'desc' => "SS/SSR - Free", 'nodes' => array(), 'style' => "card-heading-Free_node", 'access' => 0));
+        array_push($node_classes, array('level' => 1, "isV2Ray" => 0, 'desc' => "SS/SSR - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
         array_push($node_classes, array('level' => 2, "isV2Ray" => 0, 'desc' => "SS/SSD/SSR - Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
         array_push($node_classes, array('level' => 1, "isV2Ray" => 1, 'desc' => "V2Ray - Beta", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
 

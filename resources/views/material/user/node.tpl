@@ -82,9 +82,11 @@ card-heading {
 							<div class="card-main">
 								<div class="card-inner">
 									<h4>注意!</h4>
-									<p>请勿在任何地方公开节点地址！</p>
-									<p>所有游戏节点默认限速3mbps / 5倍流量计费</p>
-									<p>国内（CN）节点默认为中转模式，如需使用回国模式请手动添加中转规则：起源：CN；目标：不中转；优先级大于 <code>0</code> 即可。</p>
+									<p>请勿在任何地方公开节点信息！</p>
+									<p>Free 节点不提供任何速度以及可用性的保障</p>
+									<p>Media 系列节点已解锁部分流媒体，如：Netflix、hbo、bbc、hulu 等</p>
+									<p>Relay 系列节点一般用于流量中转或国外用户回国使用（默认中转模式，如需回国模式请到“中转规则”设置）</p>
+									<p>Gamer 系列节点默认限速 3Mbps / 5倍流量计费</p>
 									<a href="javascript:void(0);" onClick="urlChange('guide',0,0,0)">如何查看节点的详细信息和二维码方法？请点我</a>
 								</div>
 							</div>
