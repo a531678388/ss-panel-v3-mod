@@ -17,25 +17,26 @@ class DailyMail
     {
         $sts = new Analytics();
         $todayCheckinUser = $sts->getTodayCheckinUser();
+        
         $users = User::all();
         $logs = Ann::orderBy('id', 'desc')->get();
-        $text1="";
+        $ann = "";
         
         foreach ($logs as $log) {
             if (strpos($log->content, "Links") === false) {
-                $text1=$text1.$log->content."<br><br>";
+                $ann.=$log->content."<br><br>";
             }
         }
         $lastday_total = 0;
         
         foreach ($users as $user) {
-            $lastday_total += (($user->u+$user->d)-$user->last_day_t);
+            $lastday_total += (($user->u + $user->d) - $user->last_day_t);
             
             if ($user->sendDailyMail == 1) {
                 echo "Send daily mail to user: ".$user->id;
                 $subject = Config::get('appName')." - 流量报告以及公告";
                 $to = $user->email;
-                $text = "公告:<br><br>".$text1."<br><br>晚安！";
+                $text = "公告：<br><br>".$ann."<br><br>晚安！";
                 
                 
                 try {
