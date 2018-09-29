@@ -13,7 +13,6 @@ use App\Models\Coupon;
 use App\Models\Ip;
 use App\Models\NodeInfoLog;
 use App\Models\NodeOnlineLog;
-use App\Models\TrafficLog;
 use App\Models\DetectLog;
 use App\Models\BlockIp;
 use App\Models\TelegramSession;
@@ -137,7 +136,6 @@ class Job
 
         NodeInfoLog::where("log_time", "<", time() - 86400)->delete();
         NodeOnlineLog::where("log_time", "<", time() - 86400)->delete();
-        TrafficLog::where("log_time", "<", time() - 86400 * 3)->delete();
         DetectLog::where("datetime", "<", time() - 86400)->delete();
         Speedtest::where("datetime", "<", time() - 86400)->delete();
         EmailVerify::where("expire_in", "<", time() - 86400)->delete();

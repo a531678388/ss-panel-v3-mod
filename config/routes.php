@@ -132,7 +132,6 @@ $app->group('/user', function () {
     $this->post('/method', 'App\Controllers\UserController:updateMethod');
     $this->post('/hide', 'App\Controllers\UserController:updateHide');
     $this->get('/sys', 'App\Controllers\UserController:sys');
-    $this->get('/trafficlog', 'App\Controllers\UserController:trafficLog');
     $this->get('/kill', 'App\Controllers\UserController:kill');
     $this->post('/kill', 'App\Controllers\UserController:handleKill');
     $this->get('/logout', 'App\Controllers\UserController:logout');
@@ -180,9 +179,7 @@ $app->group('/password', function () {
 $app->group('/admin', function () {
     $this->get('', 'App\Controllers\AdminController:index');
     $this->get('/', 'App\Controllers\AdminController:index');
-    
-    $this->get('/trafficlog', 'App\Controllers\AdminController:trafficLog');
-    $this->post('/trafficlog/ajax', 'App\Controllers\AdminController:ajax_trafficLog');
+
     // Node Mange
     $this->get('/node', 'App\Controllers\Admin\NodeController:index');
 

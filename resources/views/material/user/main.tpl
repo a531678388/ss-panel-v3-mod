@@ -295,12 +295,6 @@
 									<i class="icon icon-lg">compare_arrows</i>&nbsp;中转规则
 								</a>
 							</li>
-							
-							<li>
-								<a href="/user/trafficlog">
-									<i class="icon icon-lg">traffic</i>&nbsp;流量记录
-								</a>
-							</li>
 						</ul>
 
 
