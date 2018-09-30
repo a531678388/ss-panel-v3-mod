@@ -1,6 +1,6 @@
 	<footer class="ui-footer" style="position:relative">
 		<div class="container">
-			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved. <a href="/staff">致谢</a>
+			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved.
 		</div>
 	</footer>
 
