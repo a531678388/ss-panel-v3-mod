@@ -11,6 +11,7 @@ namespace App\Utils;
 use App\Services\View;
 use App\Services\Auth;
 use App\Models\Node;
+use App\Models\TrafficLog;
 use App\Models\InviteCode;
 use App\Models\CheckInLog;
 use App\Models\Ann;

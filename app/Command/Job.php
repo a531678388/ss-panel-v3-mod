@@ -246,7 +246,7 @@ class Job
         // Detect connect quantity begin
         $users = User::where('node_connector', '>', 0)->get();
 
-        $full_alive_ips = Ip::where("datetime", ">=", time()-60)->orderBy("ip")->get();
+        $full_alive_ips = Ip::where("datetime", ">=", time() - 60)->orderBy("ip")->get();
 
         $alive_ipset = array();
 
