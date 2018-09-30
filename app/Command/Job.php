@@ -232,14 +232,7 @@ class Job
             unlink(BASE_PATH."/storage/qqwry.dat");
             rename(BASE_PATH."/storage/qqwry.dat.bak", BASE_PATH."/storage/qqwry.dat");
         }
-        
-        Job::updatedownload();
     }
-
-    public static function updatedownload()
-	{
-    	system('cd '.BASE_PATH."/public/download/ && git pull https://github.com/lhie1/black-hole-app.git");
-	}
 
     public static function CheckJob()
     {
