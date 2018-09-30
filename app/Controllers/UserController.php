@@ -986,9 +986,6 @@ class UserController extends BaseController
 
         $res['ret'] = 1;
         $res['name'] = $shop->name;
-        if ($user->class != $shop->user_class() && !isset($shop->traffic_package())) {
-            $res['name'] .= "<br>请注意：您正在购买不同等级的套餐，有效期将会重新计算<br>";
-        }
         $res['credit'] = $coupon->credit." %";
         $res['total'] = $shop->price * ((100 - $coupon->credit) / 100)."元";
 
