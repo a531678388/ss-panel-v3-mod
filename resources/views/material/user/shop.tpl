@@ -25,9 +25,9 @@
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
-								<p>套餐不可叠加，新购套餐会覆盖旧商品的到期时间</p>
-								<p>购买新套餐时，如果旧套餐未关闭自动续费，则旧套餐的自动续费依然生效</p>
-								<p>注：Try-out 体验套餐、Bronze 套餐不包含游戏节点、国内节点</p>
+								<p>注意：购买同级别套餐将叠加到期时间</p>
+								<p>注意：购买不同级别套餐将立即中断老套餐并重新计算到期时间</p>
+								<p>注意：Try-out 体验套餐、Bronze 套餐不包含 SS/SSD/SSR - Advanced 节点</p>
 								<p>当前余额：{$user->money} 元</p>
 							</div>
 						</div>
