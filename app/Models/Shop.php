@@ -232,7 +232,7 @@ class Shop extends Model
         $content = json_decode($this->attributes['content'], true);
         
         if (isset($content["group_limit"])) {
-            $group_array = explode(",", $content["group_limit"]);
+            $group_array=explode(",", $content["group_limit"]);
             if (!in_array($user->node_group, $group_array)) {
                 return false;
             }
@@ -241,7 +241,7 @@ class Shop extends Model
         if (isset($content["class_limit_operator"])) {
             switch ($content["class_limit_operator"]) {
                 case "equal":
-                    $class_array = explode(",", $content["class_limit_content"]);
+                    $class_array=explode(",", $content["class_limit_content"]);
                     if (!in_array($user->class, $class_array)) {
                         return false;
                     }
@@ -293,55 +293,55 @@ class Shop extends Model
     public function buy($user, $is_renew = 0)
     {
         $content = json_decode($this->attributes['content'], true);
-        $content_text = "";
+        $content_text="";
 
-        foreach ($content as $key => $value) {
+        foreach ($content as $key=>$value) {
             switch ($key) {
                 case "bandwidth":
                     if ($is_renew == 0) {
                         if (Config::get('enable_bought_reset') == 'true'
                                 && !isset($content["traffic_package"]) && $this->attributes['class'] != $user->class) {
-                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
+                            $user->transfer_enable=$value*1024*1024*1024;
                             $user->u = 0;
                             $user->d = 0;
                             $user->last_day_t = 0;
                         } else {
-                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
+                            $user->transfer_enable=$user->transfer_enable+$value*1024*1024*1024;
                         }
                     } else {
                         if ($this->attributes['auto_reset_bandwidth'] == 1) {
-                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
+                            $user->transfer_enable=$value*1024*1024*1024;
                             $user->u = 0;
                             $user->d = 0;
                             $user->last_day_t = 0;
                         } else {
-                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
+                            $user->transfer_enable=$user->transfer_enable+$value*1024*1024*1024;
                         }
                     }
                     break;
                 case "expire":
-                    if (time() > strtotime($user->expire_in)) {
-                        $user->expire_in = date("Y-m-d H:i:s", time() + $value * 86400);
+                    if (time()>strtotime($user->expire_in)) {
+                        $user->expire_in=date("Y-m-d H:i:s", time()+$value*86400);
                     } else {
-                        $user->expire_in = date("Y-m-d H:i:s", strtotime($user->expire_in) + $value * 86400);
+                        $user->expire_in=date("Y-m-d H:i:s", strtotime($user->expire_in)+$value*86400);
                     }
                     break;
                 case "class":
-                    if ($this->attributes['class'] != $user->class || time() > strtotime($user->expire_in)) {
-                        $user->class_expire = date("Y-m-d H:i:s", time() + $content["class_expire"] * 86400);
-                        $user->class = $value;
+                    if ($this->attributes['class'] != $user->class || time()>strtotime($user->class_expire)) {
+                        $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
+                        $user->class=$value;
                     } else {
-                        $user->class_expire = date("Y-m-d H:i:s", strtotime($user->expire_in) + $content["class_expire"] * 86400);
+                        $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$content["class_expire"]*86400);
                     }
                     break;
                 case "node_speedlimit":
-                    $user->node_speedlimit = $value;
+                    $user->node_speedlimit=$value;
                     break;
 				case "node_group":
-				  $user->node_group = $value;
+				  $user->node_group=$value;
 				  break;
                 case "node_connector":
-                    $user->node_connector = $value;
+                    $user->node_connector=$value;
                     break;
                 default:
             }
