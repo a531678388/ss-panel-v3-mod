@@ -108,21 +108,6 @@
 																	<li>每月重置一次流量</li>
 																	{/if}
 																	</ul></p>
-																	
-																	<h4 style="margin-top: 12px">自动续费</h4>
-																	{if $shop->auto_renew==0}
-																	<p><span class="label label-brand">不能自动续费</span></p>
-																	{else}
-																	<p>在 <span class="label label-brand">{$shop->auto_renew}</span> 天后自动续费（可选）</p>
-																	{/if}
-																	
-																	<h4 style="margin-top: 12px">购买或续费时是否重置流量</h4>
-																	{if $shop->auto_reset_bandwidth==0}
-																	<p><span class="label label-brand">不重置</span></p>
-																	{else}
-																	<p><span class="label label-brand">重置</span></p>
-																	{/if}
-																	
 																	<h4 style="margin-top: 12px">价格</h4>
 																	<p><span class="label label-brand-accent">{$shop->price} 元</span></p>
 																	
@@ -178,7 +163,6 @@
 									<p id="name">商品名称：</p>
 									<p id="credit">优惠额度：</p>
 									<p id="total">总金额：</p>
-									<p id="auto_reset">在到期时自动续费</p>
 									<p>注意：购买同级别套餐将叠加到期时间</p>
 									<p>注意：购买不同级别套餐将立即中断老套餐并重新计算到期时间</p>
 									
@@ -236,16 +220,6 @@ function buy(id,auto,auto_reset) {
 	{
 		document.getElementById('autor').style.display="";
 	}
-	
-	if(auto_reset==0)
-	{
-		document.getElementById('auto_reset').style.display="none";
-	}
-	else
-	{
-		document.getElementById('auto_reset').style.display="";
-	}
-	
 	shop=id;
 	$("#coupon_modal").modal();
 }
