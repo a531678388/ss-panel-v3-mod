@@ -1,22 +1,17 @@
 	<footer class="ui-footer">
 		<div class="container">
-            <a href="https://dlercloud.com/user/code" target="_blank">在线充值</a> |
-            <a href="https://dlercloud.com/user/shop" target="_blank">购买套餐</a> |
-            <a href="https://dlercloud.com/client.html" target="_blank">资源与支持</a> |
-            <a href="https://dlercloud.com/tos.html" target="_blank">条款及保障</a> |
-            <a href="/staff">致谢</a>
-            <br>
-			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved.
+			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved. <a href="/staff">致谢</a>
 		</div>
 	</footer>
 
-	<!-- js -->
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0"></script>
-	<script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.19"></script>
-	<script src="//cdn.jsdelivr.net/gh/DataTables/DataTables@1.10.19/media/js/dataTables.material.min.js"></script>
-	<script src="/theme/material/js/base.js"></script>
-	<script src="/theme/material/js/project.js"></script>
-	
+    <!-- js -->
+    <script src="//cdn.staticfile.org/jquery/2.2.1/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <script src="//static.geetest.com/static/tools/gt.js"></script>
+    
+    <script src="/theme/material/js/base.min.js"></script>
+    <script src="/theme/material/js/project.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
+    
 </body>
 </html>
