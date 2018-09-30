@@ -179,6 +179,8 @@
 									<p id="credit">优惠额度：</p>
 									<p id="total">总金额：</p>
 									<p id="auto_reset">在到期时自动续费</p>
+									<p>注意：购买同级别套餐将叠加到期时间</p>
+									<p>注意：购买不同级别套餐将立即中断老套餐并重新计算到期时间</p>
 									
 									<div class="checkbox switch">
 										<label for="disableothers">

@@ -986,9 +986,6 @@ class UserController extends BaseController
 
         $res['ret'] = 1;
         $res['name'] = $shop->name;
-        if ($user->class != $shop->user_class() && $request->getParam('traffic_package') == 0) {
-            $res['name'] .= "<br>请注意：您当前购买的套餐会立即中断老套餐并重新计算有效期<br>";
-        }
         $res['credit'] = $coupon->credit." %";
         $res['total'] = $shop->price * ((100 - $coupon->credit) / 100)."元";
 
