@@ -148,7 +148,7 @@ class Job
         foreach ($users as $user) {
             $boughts = Bought::where('userid', $user->id)->orderBy("datetime", "desc")->get();
             foreach ($boughts as $bought) {
-                $shop=Shop::where("id", $bought->shopid)->first();
+                $shop = Shop::where("id", $bought->shopid)->first();
 
                 if ($shop == null) {
                     $bought->delete();
@@ -274,7 +274,7 @@ class Job
 
             foreach ($alive_ips as $alive_ip) {
                 if (!isset($ips[$alive_ip->ip]) && !in_array($alive_ip->ip, $disconnected_ips)) {
-                    $ips[$alive_ip->ip]=1;
+                    $ips[$alive_ip->ip] = 1;
                     if ($user->node_connector < count($ips)) {
                         // Block connect begin
                         $isDisconnect = Disconnect::where('id', '=', $alive_ip->ip)->where('userid', '=', $user->id)->first();
