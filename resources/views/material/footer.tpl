@@ -1,11 +1,5 @@
 	<footer class="ui-footer">
 		<div class="container">
-            <a href="https://dlercloud.com/user/code" target="_blank">在线充值</a> |
-            <a href="https://dlercloud.com/user/shop" target="_blank">购买套餐</a> |
-            <a href="https://dlercloud.com/client.html" target="_blank">资源与支持</a> |
-            <a href="https://dlercloud.com/tos.html" target="_blank">条款及保障</a> |
-            <a href="/staff">致谢</a>
-            <br>
 			Copyright 2015 - {date("Y")} © <a href="https://dlercloud.com" target="_blank">{$config['appName']}</a>, Inc. All rights reserved.
 		</div>
 	</footer>
