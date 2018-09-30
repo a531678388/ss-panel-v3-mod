@@ -89,7 +89,7 @@ class Shop extends Model
 
     public function group_limit()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->group_limit)) {
             return $content->group_limit;
         } else {
@@ -99,7 +99,7 @@ class Shop extends Model
 
     public function class_limit_operator()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->class_limit_operator)) {
             return $content->class_limit_operator;
         } else {
@@ -109,7 +109,7 @@ class Shop extends Model
 
     public function class_limit_content()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->class_limit_content)) {
             return $content->class_limit_content;
         } else {
@@ -119,7 +119,7 @@ class Shop extends Model
 
     public function bandwidth()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->bandwidth)) {
             return $content->bandwidth;
         } else {
@@ -129,7 +129,7 @@ class Shop extends Model
 
     public function traffic_package()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->traffic_package)) {
             return $content->traffic_package;
         } else {
@@ -139,7 +139,7 @@ class Shop extends Model
 
     public function node_speedlimit()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->node_speedlimit)) {
             return $content->node_speedlimit;
         } else {
@@ -149,7 +149,7 @@ class Shop extends Model
 
     public function node_connector()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->node_connector)) {
             return $content->node_connector;
         } else {
@@ -159,7 +159,7 @@ class Shop extends Model
 
     public function expire()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->expire)) {
             return $content->expire;
         } else {
@@ -169,7 +169,7 @@ class Shop extends Model
 
     public function reset()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->reset)) {
             return $content->reset;
         } else {
@@ -179,7 +179,7 @@ class Shop extends Model
 
     public function reset_value()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->reset_value)) {
             return $content->reset_value;
         } else {
@@ -189,7 +189,7 @@ class Shop extends Model
 
     public function reset_exp()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->reset_exp)) {
             return $content->reset_exp;
         } else {
@@ -199,7 +199,7 @@ class Shop extends Model
 
     public function user_class()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->class)) {
             return $content->class;
         } else {
@@ -209,7 +209,7 @@ class Shop extends Model
 
     public function class_expire()
     {
-        $content =  json_decode($this->attributes['content']);
+        $content = json_decode($this->attributes['content']);
         if (isset($content->class_expire)) {
             return $content->class_expire;
         } else {
@@ -232,7 +232,7 @@ class Shop extends Model
         $content = json_decode($this->attributes['content'], true);
         
         if (isset($content["group_limit"])) {
-            $group_array=explode(",", $content["group_limit"]);
+            $group_array = explode(",", $content["group_limit"]);
             if (!in_array($user->node_group, $group_array)) {
                 return false;
             }
@@ -241,7 +241,7 @@ class Shop extends Model
         if (isset($content["class_limit_operator"])) {
             switch ($content["class_limit_operator"]) {
                 case "equal":
-                    $class_array=explode(",", $content["class_limit_content"]);
+                    $class_array = explode(",", $content["class_limit_content"]);
                     if (!in_array($user->class, $class_array)) {
                         return false;
                     }
@@ -293,51 +293,55 @@ class Shop extends Model
     public function buy($user, $is_renew = 0)
     {
         $content = json_decode($this->attributes['content'], true);
-        $content_text="";
+        $content_text = "";
 
-        foreach ($content as $key=>$value) {
+        foreach ($content as $key => $value) {
             switch ($key) {
                 case "bandwidth":
                     if ($is_renew == 0) {
                         if (Config::get('enable_bought_reset') == 'true'
-                                && !isset($content["traffic_package"])) {
-                            $user->transfer_enable=$value*1024*1024*1024;
+                                && !isset($content["traffic_package"]) && $this->attributes['class'] != $user->class) {
+                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
                             $user->u = 0;
                             $user->d = 0;
                             $user->last_day_t = 0;
                         } else {
-                            $user->transfer_enable=$user->transfer_enable+$value*1024*1024*1024;
+                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
                         }
                     } else {
                         if ($this->attributes['auto_reset_bandwidth'] == 1) {
-                            $user->transfer_enable=$value*1024*1024*1024;
+                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
                             $user->u = 0;
                             $user->d = 0;
                             $user->last_day_t = 0;
                         } else {
-                            $user->transfer_enable=$user->transfer_enable+$value*1024*1024*1024;
+                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
                         }
                     }
                     break;
                 case "expire":
-                    if (time()>strtotime($user->expire_in)) {
-                        $user->expire_in=date("Y-m-d H:i:s", time()+$value*86400);
+                    if (time() > strtotime($user->expire_in)) {
+                        $user->expire_in = date("Y-m-d H:i:s", time() + $value * 86400);
                     } else {
-                        $user->expire_in=date("Y-m-d H:i:s", strtotime($user->expire_in)+$value*86400);
+                        $user->expire_in = date("Y-m-d H:i:s", strtotime($user->expire_in) + $value * 86400);
                     }
                     break;
                 case "class":
-                    $user->class=$value;
-                    $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
+                    if ($this->attributes['class'] != $user->class) {
+                        $user->class_expire = date("Y-m-d H:i:s", time() + $content["class_expire"] * 86400);
+                        $user->class = $value;
+                    } else {
+                        $user->class_expire = date("Y-m-d H:i:s", $user->class_expire + $content["class_expire"] * 86400);
+                    }
                     break;
                 case "node_speedlimit":
-                    $user->node_speedlimit=$value;
+                    $user->node_speedlimit = $value;
                     break;
 				case "node_group":
-				  $user->node_group=$value;
+				  $user->node_group = $value;
 				  break;
                 case "node_connector":
-                    $user->node_connector=$value;
+                    $user->node_connector = $value;
                     break;
                 default:
             }
