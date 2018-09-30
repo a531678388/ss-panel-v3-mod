@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</div>
-					{if $user->class!=0}
+
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -64,7 +64,7 @@
 							</div>
 						</div>
 					</div>
-
+					{if $user->class!=0}
 					<div class="col-lg-12 col-md-12">
 						<div class="card margin-bottom-no">
 							<div class="card-main">
