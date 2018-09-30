@@ -24,9 +24,14 @@ class DailyMail
                 $text1 = $text1.$log->content."<br><br>";
             }
         }
+
+        $lastday_total = 0;
+
+        foreach ($users as $user) {
+            $lastday_total += (($user->u + $user->d) - $user->last_day_t);
+        }
         
         $sts = new Analytics();
-        $lastday_total = $sts->getTodayTrafficUsage();
 
         Telegram::Send("各位老爷少奶奶，我来为大家报告一下系统今天的运行状况哈~".
             PHP_EOL.
