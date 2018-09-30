@@ -327,12 +327,11 @@ class Shop extends Model
                     }
                     break;
                 case "class":
-                    if ($this->attributes['class'] != $user->class || time()>strtotime($user->class_expire)) {
-                        $user->class_expire=date("Y-m-d H:i:s", time()+$content["class_expire"]*86400);
-                        $user->class=$value;
-                    } else {
-                        $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$content["class_expire"]*86400);
+                    if ($user->class==0||$user->class!=$value) {
+                        $user->class_expire=date("Y-m-d H:i:s", time());
                     }
+                    $user->class_expire=date("Y-m-d H:i:s", strtotime($user->class_expire)+$content["class_expire"]*86400);
+                    $user->class=$value;
                     break;
                 case "node_speedlimit":
                     $user->node_speedlimit=$value;
