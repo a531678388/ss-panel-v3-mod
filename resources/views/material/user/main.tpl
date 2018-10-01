@@ -363,12 +363,6 @@
 									<i class="icon icon-lg">library_books</i>&nbsp;规则项目
 								</a>
 							</li>
-
-							<li>
-								<a href="/staff" target="_blank">
-									<i class="icon icon-lg">library_books</i>&nbsp;致谢
-								</a>
-							</li>
 						</ul>
 						
 						{if $user->isAdmin()}
