@@ -298,25 +298,14 @@ class Shop extends Model
         foreach ($content as $key => $value) {
             switch ($key) {
                 case "bandwidth":
-                    if ($is_renew == 0) {
-                        if (Config::get('enable_bought_reset') == 'true'
-                                && !isset($content["traffic_package"]) && $this->attributes['class'] != $user->class) {
-                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
-                            $user->u = 0;
-                            $user->d = 0;
-                            $user->last_day_t = 0;
-                        } else {
-                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
-                        }
-                    } else {
-                        if ($this->attributes['auto_reset_bandwidth'] == 1) {
-                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
-                            $user->u = 0;
-                            $user->d = 0;
-                            $user->last_day_t = 0;
-                        } else {
-                            $user->transfer_enable = $user->transfer_enable + $value * 1024 * 1024 * 1024;
-                        }
+                    if (Config::get('enable_bought_reset') == 'true'
+                            && !isset($content["traffic_package"]) && $this->attributes['class'] != $user->class) {
+                        $user->transfer_enable = $value * 1024 * 1024 * 1024;
+                        $user->u = 0;
+                        $user->d = 0;
+                        $user->last_day_t = 0;
+                        $user->auto_reset_day = 1;
+                        $user->auto_reset_bandwidth = $value;
                     }
                     break;
                 case "expire":
