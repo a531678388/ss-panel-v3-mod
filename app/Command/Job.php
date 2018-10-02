@@ -144,7 +144,7 @@ class Job
         system("rm ".BASE_PATH."/storage/*.png", $ret);
 
         //auto reset
-        $users = User::all();
+        $users = User::where('auto_reset_day', '=', 0)->get();
         foreach ($users as $user) {
             $boughts = Bought::where('userid', $user->id)->orderBy("datetime", "desc")->get();
             foreach ($boughts as $bought) {
@@ -172,7 +172,7 @@ class Job
         }
 
 
-        $users = User::all();
+        $users = User::where('auto_reset_day', '=', 1)->get();
         foreach ($users as $user) {
             $user->last_day_t = ($user->u + $user->d);
             $user->save();
@@ -187,7 +187,7 @@ class Job
 
                 $subject = Config::get('appName')." - 您的流量被重置了";
                 $to = $user->email;
-                $text = "您好，根据管理员的设置，流量已经被重置为".$user->auto_reset_bandwidth.'GB' ;
+                $text = "您好，流量已经被重置为".$user->auto_reset_bandwidth.'GB' ;
                 try {
                     Mail::send($to, $subject, 'news/warn.tpl', [
                         "user" => $user,"text" => $text
