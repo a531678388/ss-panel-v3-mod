@@ -310,7 +310,7 @@ class Shop extends Model
                         }
                     } else {
                         if ($this->attributes['auto_reset_bandwidth'] == 1) {
-                            $user->transfer_enable = $value * 1024*1024*1024;
+                            $user->transfer_enable = $value * 1024 * 1024 * 1024;
                             $user->u = 0;
                             $user->d = 0;
                             $user->last_day_t = 0;
