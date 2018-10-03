@@ -299,7 +299,7 @@ class Shop extends Model
             switch ($key) {
                 case "bandwidth":
                     if (Config::get('enable_bought_reset') == 'true'
-                            && !isset($content["traffic_package"]) && $this->attributes['class'] != $user->class) {
+                            && !isset($content["traffic_package"]) && $content['class'] != $user->class) {
                         $user->transfer_enable = $value * 1024 * 1024 * 1024;
                         $user->u = 0;
                         $user->d = 0;
