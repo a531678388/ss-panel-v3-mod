@@ -146,6 +146,8 @@ class Job
         //auto reset
         $users = User::where('auto_reset_day', '=', 0)->get();
         foreach ($users as $user) {
+            $user->last_day_t = ($user->u + $user->d);
+            $user->save();
             $boughts = Bought::where('userid', $user->id)->orderBy("datetime", "desc")->get();
             foreach ($boughts as $bought) {
                 $shop = Shop::where("id", $bought->shopid)->first();
