@@ -89,7 +89,6 @@ class UserController extends BaseController
         $showplans = Bought::where("userid", $this->user->id)->orderBy("id", "desc")->paginate(1, ['*'], 'page', $pageNum);
         $showplans->setPath('/user');
 
-
         $uid = time() . rand(1, 10000);
         if (Config::get('enable_geetest_checkin') == 'true') {
             $GtSdk = Geetest::get($uid);
@@ -97,8 +96,8 @@ class UserController extends BaseController
             $GtSdk = null;
         }
 
-
         $Ann = Ann::orderBy('date', 'desc')->first();
+
 
 
         return $this->view()
@@ -127,7 +126,6 @@ class UserController extends BaseController
         ->assign('apiUrl', Config::get('apiUrl'))->display('user/index.tpl');
         ->assign('showplans',$showplans)
     }
-
 
 
     public function lookingglass($request, $response, $args)
