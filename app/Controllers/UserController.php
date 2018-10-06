@@ -405,7 +405,7 @@ class UserController extends BaseController
         $node_latestload = array();
 
         array_push($node_classes, array('level' => 1, "isV2Ray" => 0, 'desc' => "SS/SSR - Basis", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
-        array_push($node_classes, array('level' => 2, "isV2Ray" => 0, 'desc' => "SS/SSD/SSR - Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
+        array_push($node_classes, array('level' => 2, "isV2Ray" => 0, 'desc' => "SS/SSR - Advanced", 'nodes' => array(), 'style' => "card-heading-Advanced_node", 'access' => 0));
         array_push($node_classes, array('level' => 1, "isV2Ray" => 1, 'desc' => "V2Ray - Beta", 'nodes' => array(), 'style' => "card-heading-Basis_node", 'access' => 0));
 
         if ($user->is_admin) {
