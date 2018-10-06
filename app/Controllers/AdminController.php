@@ -144,7 +144,7 @@ class AdminController extends UserController
     public function coupon($request, $response, $args)
     {
         $table_config['total_column'] = array("id" => "ID", "code" => "优惠码",
-                          "onetime" => "一次性", "expire" => "过期时间", "shop" => "限定商品ID",
+                          "onetime" => "循环折扣", "expire" => "过期时间", "shop" => "限定商品ID",
                           "credit" => "额度", "times" => "单账号使用次数", "number" => "数量", "used" => "已用数量");
         $table_config['default_show_column'] = array();
         foreach ($table_config['total_column'] as $column => $value) {
@@ -224,7 +224,7 @@ class AdminController extends UserController
         $datatables->query('Select id,code,onetime,expire,shop,credit,times,number,(select COUNT(*) from bought where coupon = code) as used from coupon');
 
         $datatables->edit('onetime', function ($data) {
-            return $data['onetime'] == 1 ? '是' : '否';
+            return $data['onetime'] == 1 ? '否' : '是';
         });
 
         $datatables->edit('expire', function ($data) {

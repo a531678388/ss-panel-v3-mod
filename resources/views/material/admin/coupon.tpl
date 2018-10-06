@@ -59,7 +59,7 @@
 								<div class="form-group form-group-label">
 									<div class="checkbox switch">
 										<label for="onetime">
-											<input class="access-hide" id="onetime" type="checkbox"><span class="switch-toggle"></span>一次性的,只在用户当次购买时有效
+											<input class="access-hide" id="onetime" type="checkbox"><span class="switch-toggle"></span>循环折扣
 										</label>
 									</div>
 								</div>
@@ -129,11 +129,11 @@ $(document).ready(function () {
 
 				if(document.getElementById('onetime').checked)
 				{
-						var onetime=1;
+						var onetime = 0;
 				}
 				else
 				{
-						var onetime=0;
+						var onetime = 1;
 				}
 
 	      $.ajax({
