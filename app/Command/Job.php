@@ -72,7 +72,7 @@ class Job
         echo $ret;
         system("zip -r /tmp/ssmodbackup.zip /tmp/ssmodbackup/* -P ".Config::get('auto_backup_passwd'), $ret);
 
-        $subject = Config::get('appName')."-备份成功";        
+        $subject = Config::get('appName')."-备份成功";
         $text = "您好，系统已经为您自动备份，请查看附件，用您设定的密码解压。" ;
         try {
             Mail::send($to, $subject, 'news/backup.tpl', [
@@ -146,8 +146,6 @@ class Job
         //auto reset
         $users = User::where('auto_reset_day', '=', 0)->get();
         foreach ($users as $user) {
-            $user->last_day_t = ($user->u + $user->d);
-            $user->save();
             $boughts = Bought::where('userid', $user->id)->orderBy("datetime", "desc")->get();
             foreach ($boughts as $bought) {
                 $shop = Shop::where("id", $bought->shopid)->first();
@@ -173,13 +171,15 @@ class Job
             }
         }
 
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->last_day_t = ($user->u+$user->d);
+            $user->save();
+        }
+
 
         $users = User::where('auto_reset_day', '=', 1)->get();
         foreach ($users as $user) {
-            $user->last_day_t = ($user->u + $user->d);
-            $user->save();
-
-
             if (date("d") == $user->auto_reset_day) {
                 $user->u = 0;
                 $user->d = 0;
@@ -491,7 +491,7 @@ class Job
                                 }
                             }
                             break;
-                                
+
                         case 'cloudflare':
                             // define header
                             $headers = [
