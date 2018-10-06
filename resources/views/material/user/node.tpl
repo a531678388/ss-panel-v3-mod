@@ -81,8 +81,7 @@ card-heading {
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-									<h4>注意!</h4>
-									<p>请勿在任何地方公开节点信息！</p>
+									<h4>注意！请勿在任何地方公开节点信息！</h4>
 									<p>Free 节点不提供任何速度以及可用性的保障</p>
 									<p>Media 系列节点已解锁部分流媒体，如：Netflix、hbo、bbc、hulu 等</p>
 									<p>Relay 系列节点一般用于流量中转或国外用户回国使用（默认中转模式，如需回国模式请到“中转规则”设置）</p>
