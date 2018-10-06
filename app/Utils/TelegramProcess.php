@@ -41,10 +41,12 @@ class TelegramProcess
 								".$apiUrl."/link/".$ssr_sub_token."?mu=0
 								SSR 公共端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=1
-								Surge / Surfboard 公共端口托管地址：
+								Surge 2&3 / Surfboard 公共端口托管地址：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
-								Surge 公共端口托管地址（MitM）：
+								Surge 2&3 公共端口托管地址（MitM）：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
+								V2Ray 公共端口订阅地址：
+								".$apiUrl."/link/".$ssr_sub_token."?mu=2
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
                     } else if (URL::SSCanConnect($pre_user)) {
@@ -63,14 +65,20 @@ class TelegramProcess
 								".$apiUrl."/link/".$ssr_sub_token."?mu=1
 								SSD 个人端口订阅地址：
 								".$apiUrl."/link/".$ssr_sub_token."?mu=3
-								Surge / Surfboard 个人端口托管地址：
+								Surge 2&3 / Surfboard 个人端口托管地址：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0&mitm=0
-								Surge / Surfboard 公共端口托管地址：
+								Surge 2&3 / Surfboard 公共端口托管地址：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=0
-								Surge 个人端口托管地址（MitM）：
+								Surge 2&3 个人端口托管地址（MitM）：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0&mitm=1
-								Surge 公共端口托管地址（MitM）：
+								Surge 2&3 公共端口托管地址（MitM）：
 								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1
+								Surge 3 个人端口托管地址（MitM）：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=0&mitm=1&new=1
+								Surge 3 公共端口托管地址（MitM）：
+								".$apiUrl."/link/".$ios_token."?is_ss=1&is_mu=1&mitm=1&new=1
+								V2Ray 公共端口订阅地址：
+								".$apiUrl."/link/".$ssr_sub_token."?mu=2
 
 								客户端配置指导请进入网站查看，加密/协议/混淆 可以在用户中心的资料编辑页面修改。";
                     } else {
